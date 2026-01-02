@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="StatsTrackerV2.Pages.MatchPage"
+             Title="MatchPage">
+    <!-- "<HorizontalStackLayout
+        Margin="20">
+        <Image x:Name="MainImage"
+            Source="inputfield.png"
+            Aspect="Fill"
+            MinimumWidthRequest="500"
+            Rotation="90"/>
+
+        <BoxView BackgroundColor="Transparent">
+            <BoxView.GestureRecognizers>
+                <TapGestureRecognizer Tapped="OnCanvasTapped" />
+            </BoxView.GestureRecognizers>
+        </BoxView>
+    </HorizontalStackLayout> -->
+
+    <Grid Padding="12"
+      ColumnSpacing="12"
+      RowSpacing="12"
+      RowDefinitions="Auto,*"
+      ColumnDefinitions="*,300">
+
+        <Label Grid.Row="0" Grid.ColumnSpan="2"
+           Text="Glen Emmets Vs Dundalk Gaels"
+           FontSize="18" />
+
+        <!-- IMAGE AREA (fills remaining space) -->
+        <AbsoluteLayout x:Name="Canvas"
+                    Grid.Row="1" Grid.Column="0"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Fill">
+
+            <Image x:Name="MainImage"
+               Source="inputfieldhorizontal.png"
+               Aspect="AspectFill"
+               AbsoluteLayout.LayoutBounds="0,0,1,1"
+               AbsoluteLayout.LayoutFlags="All"/>
+
+            <BoxView x:Name="TapSurface"
+                 AbsoluteLayout.LayoutBounds="0,0,1,1"
+                 AbsoluteLayout.LayoutFlags="All"
+                 BackgroundColor="Transparent">
+                <BoxView.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnTapped" />
+                </BoxView.GestureRecognizers>
+            </BoxView>
+
+        </AbsoluteLayout>
+
+        <!-- BUTTONS (scroll if they don't fit vertically) -->
+        <ScrollView Grid.Row="1" Grid.Column="1">
+            <VerticalStackLayout Spacing="8">
+                <Button Text="Undo" />
+                <Button Text="Clear" />
+                <Button Text="Save" />
+                <Button Text="Other" />
+                <Button Text="Other" />
+            </VerticalStackLayout>
+        </ScrollView>
+
+    </Grid>
+
+
+</ContentPage>

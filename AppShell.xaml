@@ -26,6 +26,12 @@
         ContentTemplate="{DataTemplate pages:ManageMetaPage}"
         Route="manage" />
 
+    <ShellContent
+        Title="Match Page"
+        Icon="{StaticResource IconClean}"
+        ContentTemplate="{DataTemplate pages:MatchPage}"
+        Route="match" />
+
     <Shell.FlyoutFooter>
         <Grid Padding="15">
             <sf:SfSegmentedControl x:Name="ThemeSegmentedControl" 
