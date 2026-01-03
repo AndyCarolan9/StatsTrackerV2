@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using StatsTrackerV2.Models;
 using Syncfusion.Maui.Toolkit.Hosting;
 
 namespace StatsTrackerV2
@@ -52,6 +53,8 @@ namespace StatsTrackerV2
             builder.Services.AddSingleton<MainPageModel>();
             builder.Services.AddSingleton<ProjectListPageModel>();
             builder.Services.AddSingleton<ManageMetaPageModel>();
+            builder.Services.AddSingleton<Match>();
+            builder.Services.AddSingleton<MatchPageModel>();
 
             builder.Services.AddTransientWithShellRoute<ProjectDetailPage, ProjectDetailPageModel>("project");
             builder.Services.AddTransientWithShellRoute<TaskDetailPage, TaskDetailPageModel>("task");

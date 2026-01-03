@@ -1,23 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pageModels="clr-namespace:StatsTrackerV2.PageModels"
+             xmlns:models="clr-namespace:StatsTrackerV2.Models"
              x:Class="StatsTrackerV2.Pages.MatchPage"
+             x:DataType="pageModels:MatchPageModel"
              Title="MatchPage">
-    <!-- "<HorizontalStackLayout
-        Margin="20">
-        <Image x:Name="MainImage"
-            Source="inputfield.png"
-            Aspect="Fill"
-            MinimumWidthRequest="500"
-            Rotation="90"/>
-
-        <BoxView BackgroundColor="Transparent">
-            <BoxView.GestureRecognizers>
-                <TapGestureRecognizer Tapped="OnCanvasTapped" />
-            </BoxView.GestureRecognizers>
-        </BoxView>
-    </HorizontalStackLayout> -->
-
+    
     <Grid Padding="12"
       ColumnSpacing="12"
       RowSpacing="12"
@@ -25,8 +14,14 @@
       ColumnDefinitions="*,300">
 
         <Label Grid.Row="0" Grid.ColumnSpan="2"
-           Text="Glen Emmets Vs Dundalk Gaels"
-           FontSize="18" />
+            Text="{Binding Match.FullName}"
+            FontSize="18"
+            IsVisible="{Binding IsMatchTitleShown}"/>
+
+        <HorizontalStackLayout Grid.Row="0" Grid.ColumnSpan="2" IsVisible="{Binding IsCreateOpenButtonsShown}" Spacing="10">
+            <Button Text="Open Match" />
+            <Button Text="Create Match" Command="{Binding CreateMatchCommand}"/>
+        </HorizontalStackLayout>
 
         <!-- IMAGE AREA (fills remaining space) -->
         <AbsoluteLayout x:Name="Canvas"
