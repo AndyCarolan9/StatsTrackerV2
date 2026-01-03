@@ -14,12 +14,12 @@
       ColumnDefinitions="*,300">
 
         <Label Grid.Row="0" Grid.ColumnSpan="2"
-            Text="{Binding Match.FullName}"
+            Text="{Binding Match.MatchDisplayName}"
             FontSize="18"
             IsVisible="{Binding IsMatchTitleShown}"/>
 
         <HorizontalStackLayout Grid.Row="0" Grid.ColumnSpan="2" IsVisible="{Binding IsCreateOpenButtonsShown}" Spacing="10">
-            <Button Text="Open Match" />
+            <Button Text="Open Match" Command="{Binding OpenMatchCommand}"/>
             <Button Text="Create Match" Command="{Binding CreateMatchCommand}"/>
         </HorizontalStackLayout>
 

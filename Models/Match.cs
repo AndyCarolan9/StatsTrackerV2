@@ -65,9 +65,31 @@ namespace StatsTrackerV2.Models
 
         public List<MatchEvent> MatchEvents { get; set; }
 
-        public Team HomeTeam { get; set; }
+        public Team HomeTeam 
+        { 
+            get; 
+            set
+            {
+                field = value;
+                if (AwayTeam != null)
+                {
+                    MatchDisplayName = $"{HomeTeam.TeamName} V {AwayTeam.TeamName}";
+                }
+            }
+        }
 
-        public Team AwayTeam { get; set; }
+        public Team AwayTeam 
+        { 
+            get; 
+            set
+            {
+                field = value;
+                if (HomeTeam != null)
+                {
+                    MatchDisplayName = $"{HomeTeam.TeamName} V {AwayTeam.TeamName}";
+                }
+            }
+        }
 
         #endregion
 
