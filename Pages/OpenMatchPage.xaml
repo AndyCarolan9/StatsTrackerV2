@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pageModels="clr-namespace:StatsTrackerV2.PageModels"
+             xmlns:models="clr-namespace:StatsTrackerV2.Models"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="StatsTrackerV2.Pages.OpenMatchPage"
+             x:Name="OpenMatch"
+             x:DataType="pageModels:OpenMatchPageModel"
+             Title="Open Match">
+
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior
+            x:Name="AppearingBehavior"
+            BindingContext="{Binding Path=BindingContext, Source={x:Reference OpenMatch}, x:DataType=ContentPage}"
+            EventName="Appearing"
+            Command="{Binding AppearingCommand}" />
+    </ContentPage.Behaviors>
+
+    <Grid>
+        <CollectionView ItemsSource="{Binding Matches}"
+                        Margin="{StaticResource LayoutPadding}"
+                        x:Name="MatchesCollectionView"
+                        SelectionMode="Single"
+                        SelectedItem="{Binding SelectedEntry}">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="7.5" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:FileEntry">
+                    <Border SemanticProperties.Description="{Binding FileName, StringFormat='{0}'}">
+                        <VerticalStackLayout Padding="10">
+                            <Label Text="{Binding FileName}" FontSize="24" />
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

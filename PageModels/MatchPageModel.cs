@@ -1,4 +1,4 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using StatsTrackerV2.Models;
 
@@ -35,15 +35,7 @@ namespace StatsTrackerV2.PageModels
         [RelayCommand]
         async Task OpenMatch() 
         {
-            string filePath = Path.Combine(FileSystem.AppDataDirectory, "Test.JSON");
-            Match? match = JSONHelper.LoadFromJsonFile<Match>(filePath);
-            if(match is not null)
-            {
-                Match = match;
-                //Match.MatchDisplayName = $"{Match.HomeTeam.TeamName} V {Match.AwayTeam.TeamName}";
-                IsCreateOpenButtonsShown = false;
-                IsMatchTitleShown = true;
-            }
+            await Shell.Current.GoToAsync($"openMatch");
         }
     }
 }
