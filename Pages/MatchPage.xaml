@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:pageModels="clr-namespace:StatsTrackerV2.PageModels"
              xmlns:models="clr-namespace:StatsTrackerV2.Models"
              x:Class="StatsTrackerV2.Pages.MatchPage"
+             x:Name="Match"
              x:DataType="pageModels:MatchPageModel"
-             Title="MatchPage">
-    
+             Title="Match Page">
+
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior
+        x:Name="AppearingBehavior"
+        BindingContext="{Binding Path=BindingContext, Source={x:Reference Match}, x:DataType=ContentPage}"
+        EventName="Appearing"
+        Command="{Binding AppearingCommand}" />
+    </ContentPage.Behaviors>
+
     <Grid Padding="12"
       ColumnSpacing="12"
       RowSpacing="12"

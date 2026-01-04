@@ -23,6 +23,8 @@ namespace StatsTrackerV2.Models
         [ObservableProperty]
         public string _matchDisplayName;
 
+        public bool _isHydrated = false;
+
         #endregion
 
         #region Constructors
@@ -94,6 +96,16 @@ namespace StatsTrackerV2.Models
         #endregion
 
         #region Methods
+        public void HydrateObject(Match match)
+        {
+            AppVersion = match.AppVersion;
+            MatchName = match.MatchName;
+            MatchEvents = match.MatchEvents;
+            HomeTeam = match.HomeTeam;
+            AwayTeam = match.AwayTeam;
+            _isHydrated = true;
+        }
+
         public Dictionary<string, long> GetBlackCardedPlayers()
         {
             return _blackCardedPlayers;

@@ -66,5 +66,18 @@ namespace StatsTrackerV2.PageModels
                 Console.WriteLine(ex.ToString());
             }
         }
+
+        [RelayCommand]
+        private async Task? SelectMatch(FileEntry entry)
+        {
+            string filePath = Path.Combine(entry.Path);
+            Match? match = JSONHelper.LoadFromJsonFile<Match>(filePath);
+            if (match is not null)
+            {
+                _match.HydrateObject(match);
+            }
+
+            await Shell.Current.GoToAsync("..");
+        }
     }
 }

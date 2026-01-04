@@ -10,26 +10,28 @@ namespace StatsTrackerV2.PageModels
         private Match _match;
 
         [ObservableProperty]
-        private bool _isCreateOpenButtonsShown;
+        public bool _isCreateOpenButtonsShown;
 
         [ObservableProperty]
-        private bool _isMatchTitleShown;
+        public bool _isMatchTitleShown;
 
         public MatchPageModel(Match match)
         {
             _match = match;
-            IsCreateOpenButtonsShown = true;
-            IsMatchTitleShown = false;
+        }
+
+        [RelayCommand]
+        private async Task Appearing()
+        {
+            IsMatchTitleShown = Match._isHydrated;
+            IsCreateOpenButtonsShown = !Match._isHydrated;
         }
 
         [RelayCommand]
         async Task CreateMatch()
         {
-            //Match.HomeTeam = "Glen Emmets";
-            //Match.AwayTeam = "Dundalk Gaels";
-
-            IsCreateOpenButtonsShown = false;
-            IsMatchTitleShown = true;
+            //IsCreateOpenButtonsShown = false;
+            //IsMatchTitleShown = true;
         }
 
         [RelayCommand]
