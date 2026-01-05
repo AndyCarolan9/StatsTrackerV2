@@ -33,7 +33,20 @@ namespace StatsTrackerV2.PageModels
                         continue;
                     }
 
-                    string[] pathComponents = file.Split("\\");
+                    string[] pathComponents;
+
+                    DevicePlatform platform = DeviceInfo.Platform;
+
+                    if (platform == DevicePlatform.Android)
+                    {
+                        pathComponents = file.Split("/");
+                    }
+                    else
+                    {
+                        pathComponents = file.Split("\\");
+                    }
+
+
                     if(pathComponents.Length == 0)
                     {
                         continue; 

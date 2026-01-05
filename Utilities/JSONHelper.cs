@@ -76,6 +76,7 @@ namespace StatsTrackerV2.Utilities
             if (File.Exists(destinationPath))
             {
                 await AppShell.DisplayToastAsync("File Already Exists");
+                return destinationPath;
             }
 
             try
