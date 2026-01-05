@@ -40,7 +40,7 @@
                     VerticalOptions="Fill">
 
             <Image x:Name="MainImage"
-               Source="inputfieldhorizontal.png"
+               Source="inputfieldhorizontalnewrules.png"
                Aspect="AspectFill"
                AbsoluteLayout.LayoutBounds="0,0,1,1"
                AbsoluteLayout.LayoutFlags="All"/>

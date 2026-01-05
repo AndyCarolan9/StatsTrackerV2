@@ -30,8 +30,7 @@ namespace StatsTrackerV2.PageModels
         [RelayCommand]
         async Task CreateMatch()
         {
-            //IsCreateOpenButtonsShown = false;
-            //IsMatchTitleShown = true;
+            await Shell.Current.GoToAsync($"createMatch");
         }
 
         [RelayCommand]

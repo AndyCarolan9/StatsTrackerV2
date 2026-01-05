@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pageModels="clr-namespace:StatsTrackerV2.PageModels"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="StatsTrackerV2.Pages.CreateMatchPage"
+             x:Name="CreateMatch"
+             x:DataType="pageModels:CreateMatchPageModel"
+             Title="Create Match">
+
+    <Grid Padding="12"
+        ColumnSpacing="12"
+        RowSpacing="12"
+        RowDefinitions="Auto,*"
+        ColumnDefinitions="*,300">
+
+        <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="10">
+            <Button Text="Home Team"/>
+            <Button ImageSource="{StaticResource IconDropDownRight}"/>
+        </HorizontalStackLayout>
+
+        <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="10" HorizontalOptions="End">
+            <Button ImageSource="{StaticResource IconDropDownLeft}"/>
+            <Button Text="Away Team"/>
+        </HorizontalStackLayout>
+
+        <AbsoluteLayout x:Name="Canvas"
+                Grid.Row="1" Grid.Column="0"
+                HorizontalOptions="Fill"
+                VerticalOptions="Fill">
+
+            <Image x:Name="MainImage"
+                Source="inputfieldhorizontalnewrules.png"
+                Aspect="AspectFill"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                AbsoluteLayout.LayoutFlags="All"/>
+
+            <BoxView x:Name="TapSurface"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                AbsoluteLayout.LayoutFlags="All"
+                BackgroundColor="Transparent">
+            </BoxView>
+
+        </AbsoluteLayout>
+
+        <ScrollView Grid.Row="1" Grid.Column="1">
+            <VerticalStackLayout Spacing="8">
+                <Button Text="Add Team" />
+                <Button Text="Edit Team" />
+                <Button Text="Confirm" BackgroundColor="ForestGreen"/>
+                <Button Text="Cancel" BackgroundColor="IndianRed"/>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>
