@@ -50,9 +50,46 @@ namespace StatsTrackerV2.Utilities
             }
         }
 
-        /*public static string GetFilePath(string fileName)
+        public static async Task<string?> ImportMatchJson()
         {
-            return Application.StartupPath + "\\" + fileName;
-        }*/
+            var jsonFileType = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
+                {
+                    { DevicePlatform.WinUI, new[] { ".json" } },
+                    { DevicePlatform.Android, new[] { "application/json" } },
+                    { DevicePlatform.iOS, new[] { "public.json" } },
+                    { DevicePlatform.MacCatalyst, new[] { "public.json" } },// UTType values
+                });
+
+            FileBase? result = await FilePicker.Default.PickAsync(new PickOptions
+            {
+                PickerTitle = "Select a Match JSON file",
+                FileTypes = jsonFileType
+            });
+
+            if (result == null)
+            {
+                return null;
+            }
+
+            string destinationPath = Path.Combine(FileSystem.AppDataDirectory, result.FileName);
+
+            if (File.Exists(destinationPath))
+            {
+                await AppShell.DisplayToastAsync("File Already Exists");
+            }
+
+            try
+            {
+                using var sourceStream = await result.OpenReadAsync();
+                using var destinationStream = File.Create(destinationPath);
+                await sourceStream.CopyToAsync(destinationStream);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return destinationPath;
+        }
     }
 }

@@ -68,7 +68,7 @@ namespace StatsTrackerV2.PageModels
         }
 
         [RelayCommand]
-        private async Task? SelectMatch(FileEntry entry)
+        private async Task SelectMatch(FileEntry entry)
         {
             string filePath = Path.Combine(entry.Path);
             Match? match = JSONHelper.LoadFromJsonFile<Match>(filePath);
@@ -78,6 +78,18 @@ namespace StatsTrackerV2.PageModels
             }
 
             await Shell.Current.GoToAsync("..");
+        }
+
+        [RelayCommand]
+        private async Task ImportMatch()
+        {
+            string? jsonPath = await JSONHelper.ImportMatchJson();
+
+            if (jsonPath is not null)
+            {
+                FileEntry entry = new FileEntry("", jsonPath);
+                await SelectMatch(entry);
+            }
         }
     }
 }
