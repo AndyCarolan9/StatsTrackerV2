@@ -8,6 +8,14 @@
              x:DataType="pageModels:CreateMatchPageModel"
              Title="Create Match">
 
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior
+            x:Name="AppearingBehavior"
+            BindingContext="{Binding Path=BindingContext, Source={x:Reference CreateMatch}, x:DataType=ContentPage}"
+            EventName="Appearing"
+            Command="{Binding AppearingCommand}" />
+    </ContentPage.Behaviors>
+
     <Grid Padding="12"
         ColumnSpacing="12"
         RowSpacing="12"
@@ -15,13 +23,17 @@
         ColumnDefinitions="*,300">
 
         <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="10">
-            <Button Text="Home Team"/>
+            <Picker Title="Home Team" 
+                    ItemsSource="{Binding TeamNames}" 
+                    SelectedItem="{Binding SelectedHomeTeam}" />
             <Button ImageSource="{StaticResource IconDropDownRight}"/>
         </HorizontalStackLayout>
 
         <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="10" HorizontalOptions="End">
             <Button ImageSource="{StaticResource IconDropDownLeft}"/>
-            <Button Text="Away Team"/>
+            <Picker Title="Away Team" 
+                    ItemsSource="{Binding TeamNames}" 
+                    SelectedItem="{Binding SelectedAwayTeam}"/>
         </HorizontalStackLayout>
 
         <AbsoluteLayout x:Name="Canvas"
@@ -34,12 +46,6 @@
                 Aspect="AspectFill"
                 AbsoluteLayout.LayoutBounds="0,0,1,1"
                 AbsoluteLayout.LayoutFlags="All"/>
-
-            <BoxView x:Name="TapSurface"
-                AbsoluteLayout.LayoutBounds="0,0,1,1"
-                AbsoluteLayout.LayoutFlags="All"
-                BackgroundColor="Transparent">
-            </BoxView>
 
         </AbsoluteLayout>
 
