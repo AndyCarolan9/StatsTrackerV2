@@ -83,6 +83,12 @@ namespace StatsTrackerV2.PageModels
             }
         }
 
+        [RelayCommand]
+        private async Task AddTeam()
+        {
+            await Shell.Current.GoToAsync($"teamList");
+        }
+
         private void OnSelectedHomeTeamChanged()
         {
             HomeTeamPlayers.Clear();

@@ -72,6 +72,9 @@
 	  <Compile Update="Pages\OpenMatchPage.xaml.cs">
 	    <DependentUpon>OpenMatchPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Pages\TeamListPage.xaml.cs">
+	    <DependentUpon>TeamListPage.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -82,6 +85,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\OpenMatchPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\TeamListPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

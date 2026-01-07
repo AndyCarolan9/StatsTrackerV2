@@ -51,7 +51,7 @@
 
         <ScrollView Grid.Row="1" Grid.Column="1">
             <VerticalStackLayout Spacing="8">
-                <Button Text="Add Team" />
+                <Button Text="Add Team" Command="{Binding AddTeamCommand}"/>
                 <Button Text="Edit Team" />
                 <Button Text="Confirm" BackgroundColor="ForestGreen"/>
                 <Button Text="Cancel" BackgroundColor="IndianRed"/>

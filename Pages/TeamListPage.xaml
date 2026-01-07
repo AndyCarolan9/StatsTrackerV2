@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pageModels="clr-namespace:StatsTrackerV2.PageModels"
+             xmlns:models="clr-namespace:StatsTrackerV2.Models"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:sf="clr-namespace:Syncfusion.Maui.Toolkit.TextInputLayout;assembly=Syncfusion.Maui.Toolkit"
+             x:Class="StatsTrackerV2.Pages.TeamListPage"
+             x:DataType="pageModels:TeamListPageModel"
+             x:Name="TeamList"
+             Title="Team List">
+
+    <Grid Padding="12"
+        ColumnSpacing="12"
+        RowSpacing="12"
+        RowDefinitions="Auto,Auto"
+        ColumnDefinitions="300,Auto">
+        <VerticalStackLayout Padding="{StaticResource LayoutPadding}" Spacing="{StaticResource LayoutSpacing}" Grid.Column="0" Grid.RowSpan="2">
+            <sf:SfTextInputLayout Hint="Team Name">
+                <Entry Text="{Binding TeamName}" SemanticProperties.Description="Team Name" />
+            </sf:SfTextInputLayout>
+
+            <Button BackgroundColor="{Binding SelectedColor}" BorderColor="Gray" Command="{Binding OpenColorPickerCommand}" />
+
+            <CollectionView
+                IsVisible="{Binding IsOpen}"
+                ItemsSource="{Binding PickableColors}"
+                SelectionMode="Single"
+                SelectedItem="{Binding SelectedColor, Mode=TwoWay}"
+                HeightRequest="200">
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="Color">
+                        <Grid Padding="10" ColumnDefinitions="Auto,*">
+                            <BoxView
+                                WidthRequest="200"
+                                HeightRequest="20"
+                                Color="{Binding .}"
+                                VerticalOptions="Center"/>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+            <sf:SfTextInputLayout Hint="New Player">
+                <Entry Text="{Binding NewPlayer}" SemanticProperties.Description="New Player" />
+            </sf:SfTextInputLayout>
+            <Button Text="Add Player" Command="{Binding AddNewPlayerCommand}"/>
+            <Button Text="Save Team" Command="{Binding SaveCommand}" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Padding="{StaticResource LayoutPadding}" Spacing="{StaticResource LayoutSpacing}" Grid.Column="1" Grid.RowSpan="2">
+            <Label Text="Players" TextColor="White" FontSize="Header"/>
+            <CollectionView ItemsSource="{Binding Players}" MinimumWidthRequest="200" >
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="x:String">
+                        <HorizontalStackLayout Spacing="5">
+                            <Entry Text="{Binding ., Mode=TwoWay}" Margin="0,0,0,20" MinimumWidthRequest="200" MaximumWidthRequest="200"/>
+                            <Button ImageSource="{StaticResource IconDelete}" 
+                                    Margin="0,0,0,20" 
+                                    BackgroundColor="DarkRed" 
+                                    ToolTipProperties.Text="Delete Player"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type pageModels:TeamListPageModel}}, Path=DeletePlayerCommand, x:DataType=pageModels:TeamListPageModel}"
+                                    CommandParameter="{Binding .}"/>
+                        </HorizontalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </Grid>
+</ContentPage>

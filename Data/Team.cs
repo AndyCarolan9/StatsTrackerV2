@@ -11,7 +11,7 @@
         public Team()
         {
             TeamName = "";
-            TeamColor = new System.Drawing.Color();
+            TeamColor = new Color();
             TeamSheet = new List<string>();
             CurrentTeam = new string[15];
         }
@@ -19,12 +19,12 @@
         public Team(string name)
         {
             TeamName = name;
-            TeamColor = new System.Drawing.Color();
+            TeamColor = new Color();
             TeamSheet = new List<string>();
             CurrentTeam = new string[15];
         }
 
-        public Team(string teamName, System.Drawing.Color teamColor, List<string> teamSheet)
+        public Team(string teamName, Color teamColor, List<string> teamSheet)
         {
             if (teamSheet.Count < 15)
             {
@@ -67,7 +67,7 @@
         /// </summary>
         public List<string> TeamSheet { get; set; }
 
-        public System.Drawing.Color TeamColor { get; set; }
+        public Color TeamColor { get; set; }
 
         /// <summary>
         /// The current 15 on the field.
@@ -135,7 +135,7 @@
 
         public bool IsTeamValid()
         {
-            return !string.IsNullOrEmpty(TeamName) && !TeamColor.IsEmpty;
+            return !string.IsNullOrEmpty(TeamName) && !TeamColor.IsDefault();
         }
         #endregion
     }
