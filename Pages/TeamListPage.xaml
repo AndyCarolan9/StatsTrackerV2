@@ -51,11 +51,11 @@
 
         <VerticalStackLayout Padding="{StaticResource LayoutPadding}" Spacing="{StaticResource LayoutSpacing}" Grid.Column="1" Grid.RowSpan="2">
             <Label Text="Players" TextColor="White" FontSize="Header"/>
-            <CollectionView ItemsSource="{Binding Players}" MinimumWidthRequest="200" >
+            <CollectionView ItemsSource="{Binding Players}" MinimumWidthRequest="400" MaximumHeightRequest="775" VerticalScrollBarVisibility="Always">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="x:String">
                         <HorizontalStackLayout Spacing="5">
-                            <Entry Text="{Binding ., Mode=TwoWay}" Margin="0,0,0,20" MinimumWidthRequest="200" MaximumWidthRequest="200"/>
+                            <Entry Text="{Binding ., Mode=TwoWay}" Margin="0,0,0,20" MinimumWidthRequest="300" MaximumWidthRequest="300"/>
                             <Button ImageSource="{StaticResource IconDelete}" 
                                     Margin="0,0,0,20" 
                                     BackgroundColor="DarkRed" 

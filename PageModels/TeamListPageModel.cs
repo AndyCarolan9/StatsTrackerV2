@@ -7,7 +7,7 @@ namespace StatsTrackerV2.PageModels
 {
     public partial class TeamListPageModel : ObservableObject, IQueryAttributable
     {
-        private Team? _team;
+        private Team[] _teams = [];
 
         [ObservableProperty]
         private string _teamName = string.Empty;
@@ -58,11 +58,21 @@ namespace StatsTrackerV2.PageModels
                 Colors.Brown,
             };
 
-            Players = new()
+            try
             {
-                "Andy",
-                "Alex"
-            };
+                Team[]? teams = JSONHelper.LoadFromJsonFile<Team[]>(Constants.TeamsJSONPath);
+                if (teams == null)
+                {
+                    _teams = new Team[0];
+                    return;
+                }
+
+                _teams = teams;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
 
         [RelayCommand]
@@ -107,40 +117,34 @@ namespace StatsTrackerV2.PageModels
                 return;
             }
 
-            _team = new Team();
-            _team.TeamName = TeamName;
-            _team.TeamColor = SelectedColor;
+            Team team = new Team();
+            team.TeamName = TeamName;
+            team.TeamColor = SelectedColor;
             string[] PlayersToAdd = Players.ToArray();
             Array.Sort(PlayersToAdd);
-            _team.TeamSheet.AddRange(PlayersToAdd);
+            team.TeamSheet.AddRange(PlayersToAdd);
 
             try
             {
                 bool bWasTeamAdded = false;
-                Team[]? teams = JSONHelper.LoadFromJsonFile<Team[]>(Constants.TeamsJSONPath);
-                if (teams == null)
-                {
-                    teams = [_team];
-                    bWasTeamAdded = true;
-                }
-
                 if(!bWasTeamAdded)
                 {
-                    for (int index = 0; index < teams.Count(); index++)
+                    for (int index = 0; index < _teams.Count(); index++)
                     {
-                        if (teams[index].TeamName == TeamName)
+                        if (_teams[index].TeamName == TeamName)
                         {
-                            teams[index] = _team;
+                            _teams[index] = team;
                         }
                     }
                 }
                 
                 if(!bWasTeamAdded)
                 {
-                    teams.Append(_team);
+                    _teams.Append(team);
                 }
 
-                JSONHelper.SaveToJsonFile(Constants.TeamsJSONPath, teams);
+                JSONHelper.SaveToJsonFile(Constants.TeamsJSONPath, _teams);
+                await Shell.Current.GoToAsync("..");
             }
             catch (Exception ex)
             {
@@ -150,7 +154,20 @@ namespace StatsTrackerV2.PageModels
 
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
-            //throw new NotImplementedException();
+            if (query.ContainsKey("teamName"))
+            {
+                string? teamName = Convert.ToString(query["teamName"]);
+                if (teamName != null)
+                {
+                    Team? foundTeam = _teams.FirstOrDefault(x => x.TeamName == teamName);
+                    if (foundTeam != null)
+                    {
+                        TeamName = foundTeam.TeamName;
+                        SelectedColor = foundTeam.TeamColor;
+                        Players = new(foundTeam.TeamSheet);
+                    }
+                }
+            }
         }
     }
 }

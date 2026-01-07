@@ -43,6 +43,9 @@ namespace StatsTrackerV2.PageModels
         }
 
         [ObservableProperty]
+        private string _teamToEdit = string.Empty;
+
+        [ObservableProperty]
         private ObservableCollection<string> _teamNames = [];
 
         [ObservableProperty]
@@ -87,6 +90,18 @@ namespace StatsTrackerV2.PageModels
         private async Task AddTeam()
         {
             await Shell.Current.GoToAsync($"teamList");
+        }
+
+        [RelayCommand]
+        private async Task EditTeam()
+        {
+            Team? selectedTeam = _teams.Find(team => team.TeamName.Equals(TeamToEdit));
+            if (selectedTeam == null)
+            {
+                return;
+            }
+
+            await Shell.Current.GoToAsync($"teamList?teamName={selectedTeam.TeamName}");
         }
 
         private void OnSelectedHomeTeamChanged()
