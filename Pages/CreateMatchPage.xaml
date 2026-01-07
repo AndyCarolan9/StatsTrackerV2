@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pageModels="clr-namespace:StatsTrackerV2.PageModels"
+             xmlns:models="clr-namespace:StatsTrackerV2.Models"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="StatsTrackerV2.Pages.CreateMatchPage"
              x:Name="CreateMatch"
@@ -20,36 +21,159 @@
         ColumnSpacing="12"
         RowSpacing="12"
         RowDefinitions="Auto,*"
-        ColumnDefinitions="*,300">
+        ColumnDefinitions="*,*,300">
 
         <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="10">
             <Picker Title="Home Team" 
                     ItemsSource="{Binding TeamNames}" 
                     SelectedItem="{Binding SelectedHomeTeam}" />
-            <Button ImageSource="{StaticResource IconDropDownRight}"/>
         </HorizontalStackLayout>
 
-        <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="10" HorizontalOptions="End">
-            <Button ImageSource="{StaticResource IconDropDownLeft}"/>
+        <HorizontalStackLayout Grid.Row="0" Grid.Column="1" Spacing="10" HorizontalOptions="End">
             <Picker Title="Away Team" 
                     ItemsSource="{Binding TeamNames}" 
                     SelectedItem="{Binding SelectedAwayTeam}"/>
         </HorizontalStackLayout>
 
-        <AbsoluteLayout x:Name="Canvas"
-                Grid.Row="1" Grid.Column="0"
-                HorizontalOptions="Fill"
-                VerticalOptions="Fill">
+        <Grid ColumnDefinitions="*,*"
+              RowDefinitions="75, *"
+              ColumnSpacing="10"
+              Grid.Column="0"
+              Grid.Row="1">
 
-            <Image x:Name="MainImage"
-                Source="inputfieldhorizontalnewrules.png"
-                Aspect="AspectFill"
-                AbsoluteLayout.LayoutBounds="0,0,1,1"
-                AbsoluteLayout.LayoutFlags="All"/>
+            <!-- Home Available Players -->
+            <Label Text="Available Players" Grid.Column="0" Grid.Row="0" FontSize="Large"/>
+            <CollectionView
+                x:Name="HomeAvailableView"
+                Grid.Column="0"
+                Grid.Row="1"
+                ItemsSource="{Binding HomeAvailablePlayers}"
+                SelectionMode="None"
+                BackgroundColor="{StaticResource DarkOnLightBackground}">
 
-        </AbsoluteLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Player">
+                        <Border Padding="5"
+                            Margin="5">
 
-        <ScrollView Grid.Row="1" Grid.Column="1">
+                            <Label Text="{Binding Name}" HorizontalOptions="Center"/>
+
+                            <Border.GestureRecognizers>
+                                <DragGestureRecognizer
+                                    DragStarting="OnAvailableDragStarting" />
+                            </Border.GestureRecognizers>
+
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.GestureRecognizers>
+                    <DropGestureRecognizer Drop="OnHomeDropToAvailable" />
+                </CollectionView.GestureRecognizers>
+            </CollectionView>
+
+            <!-- Home Starting Team -->
+            <Label Text="Starting Team" Grid.Column="1" Grid.Row="0" FontSize="Large" />
+            <CollectionView
+                x:Name="HomeStartingView"
+                Grid.Column="1"
+                Grid.Row="1"
+                ItemsSource="{Binding HomeStartingTeam}"
+                SelectionMode="None"
+                BackgroundColor="{StaticResource LightOnDarkBackground}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Player">
+                        <Border Padding="10"
+                            Margin="5"
+                            BackgroundColor="LightGreen">
+                            <HorizontalStackLayout HorizontalOptions="Center">
+                                <Label Text="{Binding Index}" />
+                                <Label Text=":" />
+                                <Label Text="{Binding Name}" />
+                            </HorizontalStackLayout>
+                            <Border.GestureRecognizers>
+                                <DragGestureRecognizer
+                                    DragStarting="OnStartingDragStarting" />
+                                <DropGestureRecognizer BindingContext="{Binding .}" Drop="OnHomeReorderDrop" />
+                            </Border.GestureRecognizers>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.GestureRecognizers>
+                    <DropGestureRecognizer Drop="OnHomeDropToStarting" />
+                </CollectionView.GestureRecognizers>
+            </CollectionView>
+        </Grid>
+
+        <Grid ColumnDefinitions="*,*"
+                RowDefinitions="75, *"
+                ColumnSpacing="10"
+                Grid.Column="1"
+                Grid.Row="1">
+
+            <!-- Away Available Players -->
+            <Label Text="Available Players" Grid.Column="0" Grid.Row="0" FontSize="Large"/>
+            <CollectionView
+                x:Name="AwayAvailableView"
+                Grid.Column="0"
+                Grid.Row="1"
+                ItemsSource="{Binding AwayAvailablePlayers}"
+                SelectionMode="None"
+                BackgroundColor="{StaticResource DarkOnLightBackground}">
+
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Player">
+                        <Border Padding="5"
+                            Margin="5">
+
+                            <Label Text="{Binding Name}" HorizontalOptions="Center"/>
+
+                            <Border.GestureRecognizers>
+                                <DragGestureRecognizer
+                                    DragStarting="OnAvailableDragStarting" />
+                            </Border.GestureRecognizers>
+
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.GestureRecognizers>
+                    <DropGestureRecognizer Drop="OnAwayDropToAvailable" />
+                </CollectionView.GestureRecognizers>
+            </CollectionView>
+
+            <!-- Away Starting Team -->
+            <Label Text="Starting Team" Grid.Column="1" Grid.Row="0" FontSize="Large" />
+            <CollectionView
+                x:Name="AwayStartingView"
+                Grid.Column="1"
+                Grid.Row="1"
+                ItemsSource="{Binding AwayStartingTeam}"
+                SelectionMode="None"
+                BackgroundColor="{StaticResource LightOnDarkBackground}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Player">
+                        <Border Padding="10"
+                            Margin="5"
+                            BackgroundColor="LightGreen">
+                            <HorizontalStackLayout HorizontalOptions="Center">
+                                <Label Text="{Binding Index}" />
+                                <Label Text=":" />
+                                <Label Text="{Binding Name}" />
+                            </HorizontalStackLayout>
+                            <Border.GestureRecognizers>
+                                <DragGestureRecognizer
+                                    DragStarting="OnStartingDragStarting" />
+                                <DropGestureRecognizer BindingContext="{Binding .}" Drop="OnAwayReorderDrop" />
+                            </Border.GestureRecognizers>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.GestureRecognizers>
+                    <DropGestureRecognizer Drop="OnAwayDropToStarting" />
+                </CollectionView.GestureRecognizers>
+            </CollectionView>
+        </Grid>
+
+        <ScrollView Grid.Row="1" Grid.Column="2">
             <VerticalStackLayout Spacing="8">
                 <Button Text="Add Team" Command="{Binding AddTeamCommand}"/>
                 <HorizontalStackLayout Spacing="8">
