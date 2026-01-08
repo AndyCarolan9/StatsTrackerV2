@@ -1,4 +1,6 @@
-﻿namespace StatsTrackerV2.Data.Events
+﻿using StatsTrackerV2.Models;
+
+namespace StatsTrackerV2.Data.Events
 {
     public class KickOutEvent : MatchEvent
     {

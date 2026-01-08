@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using StatsTrackerV2.Models;
+using System.Text.Json.Serialization;
 
 namespace StatsTrackerV2.Data.Events
 {

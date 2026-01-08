@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using StatsTrackerV2.Data.Events;
 using StatsTrackerV2.Data.Events.Arguments;
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 
 namespace StatsTrackerV2.Models
 {
@@ -21,9 +22,19 @@ namespace StatsTrackerV2.Models
         private bool _isPlayStarted = false;
 
         [ObservableProperty]
-        public string _matchDisplayName;
+        public string _matchDisplayName = "";
 
-        public bool _isHydrated = false;
+        [ObservableProperty]
+        public string _homeTeamScore = "0-00";
+
+        [ObservableProperty]
+        public string _AwayTeamScore = "0-00";
+
+        [ObservableProperty]
+        public bool _isMatchHydrated;
+
+        [ObservableProperty]
+        public bool _isDefaultMatch = true;
 
         #endregion
 
@@ -46,7 +57,6 @@ namespace StatsTrackerV2.Models
             _matchTimer = new Stopwatch();
             HomeTeam = homeTeam;
             AwayTeam = awayTeam;
-            MatchDisplayName = $"{HomeTeam.TeamName} V {AwayTeam.TeamName}";
         }
 
         public Match(Team homeTeam, Team awayTeam, string matchName, List<MatchEvent> matchEvents)
@@ -56,7 +66,6 @@ namespace StatsTrackerV2.Models
             MatchName = matchName;
             MatchEvents = matchEvents;
             _matchTimer = new Stopwatch();
-            MatchDisplayName = $"{HomeTeam.TeamName} V {AwayTeam.TeamName}";
         }
         #endregion
 
@@ -65,31 +74,28 @@ namespace StatsTrackerV2.Models
 
         public string MatchName { get; set; }
 
-        public List<MatchEvent> MatchEvents { get; set; }
+        [ObservableProperty]
+        public List<MatchEvent> _matchEvents;
 
-        public Team HomeTeam 
-        { 
-            get; 
-            set
+        [ObservableProperty]
+        public Team _homeTeam;
+
+        [ObservableProperty]
+        public Team _awayTeam;
+
+        partial void OnHomeTeamChanged(Team value)
+        {
+            if (AwayTeam != null)
             {
-                field = value;
-                if (AwayTeam != null)
-                {
-                    MatchDisplayName = $"{HomeTeam.TeamName} V {AwayTeam.TeamName}";
-                }
+                MatchDisplayName = $"{value.TeamName} V {AwayTeam.TeamName}";
             }
         }
-
-        public Team AwayTeam 
-        { 
-            get; 
-            set
+        
+        partial void OnAwayTeamChanged(Team value)
+        {      
+            if (HomeTeam != null)
             {
-                field = value;
-                if (HomeTeam != null)
-                {
-                    MatchDisplayName = $"{HomeTeam.TeamName} V {AwayTeam.TeamName}";
-                }
+                MatchDisplayName = $"{HomeTeam.TeamName} V {value.TeamName}";
             }
         }
 
@@ -103,7 +109,8 @@ namespace StatsTrackerV2.Models
             MatchEvents = match.MatchEvents;
             HomeTeam = match.HomeTeam;
             AwayTeam = match.AwayTeam;
-            _isHydrated = true;
+            IsMatchHydrated = true;
+            IsDefaultMatch = false;
         }
 
         public Dictionary<string, long> GetBlackCardedPlayers()

@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using StatsTrackerV2.Data;
+using StatsTrackerV2.Models;
 using System.Collections.ObjectModel;
 
 namespace StatsTrackerV2.PageModels

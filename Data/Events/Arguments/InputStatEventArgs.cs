@@ -1,4 +1,6 @@
-﻿namespace StatsTrackerV2.Data.Events.Arguments
+﻿using StatsTrackerV2.Models;
+
+namespace StatsTrackerV2.Data.Events.Arguments
 {
     public class InputStatEventArgs
     {

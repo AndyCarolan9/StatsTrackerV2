@@ -1,10 +1,12 @@
-﻿namespace StatsTrackerV2.Data
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+
+namespace StatsTrackerV2.Models
 {
     /// <summary>
     /// Class used to represent a team in a match.
     /// Teams contain a name, color and team sheet.
     /// </summary>
-    public class Team
+    public partial class Team : ObservableObject
     {
         #region Constructors
 
@@ -60,14 +62,17 @@
 
         #region Properties
 
-        public string TeamName { get; set; }
+        [ObservableProperty]
+        public string _teamName;
 
         /// <summary>
         /// The list of all players in this team which play this match.
         /// </summary>
-        public List<string> TeamSheet { get; set; }
+        [ObservableProperty]
+        public List<string> _teamSheet;
 
-        public Color TeamColor { get; set; }
+        [ObservableProperty]
+        public Color _teamColor;
 
         /// <summary>
         /// The current 15 on the field.
