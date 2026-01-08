@@ -266,5 +266,35 @@ namespace StatsTrackerV2.PageModels
                 AwayAvailablePlayers.Add(new Player { Name = player });
             }
         }
+
+        [RelayCommand]
+        private async Task ConfirmClicked()
+        {
+            _homeTeam.CurrentTeam = GetStartingTeam(HomeStartingTeam);
+            _awayTeam.CurrentTeam = GetStartingTeam(AwayStartingTeam);
+            _match.HydrateObject(new Match(_homeTeam, _awayTeam));
+
+            await Shell.Current.GoToAsync("..");
+        }
+
+        private string[] GetStartingTeam(ObservableCollection<Player> team)
+        {
+            string[] players = new string[15];
+
+            for (int i = 0; i < 15; i++)
+            {
+                if(i < team.Count)
+                {
+                    players[i] = team[i].Name;
+                }
+                else
+                {
+                    players[i] = (i + 1).ToString();
+                }
+                
+            }
+
+            return players;
+        }
     }
 }

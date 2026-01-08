@@ -184,8 +184,7 @@
                             MaximumWidthRequest="175"/>
                     <Button Text="Edit Team" Command="{Binding EditTeamCommand}"/>
                 </HorizontalStackLayout>
-                <Button Text="Confirm" BackgroundColor="ForestGreen"/>
-                <Button Text="Cancel" BackgroundColor="IndianRed"/>
+                <Button Text="Confirm" BackgroundColor="ForestGreen" Command="{Binding ConfirmClickedCommand}"/>
             </VerticalStackLayout>
         </ScrollView>
     </Grid>
