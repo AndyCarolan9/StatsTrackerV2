@@ -71,7 +71,7 @@
             <Button Text="Throw In" />
         </VerticalStackLayout>
 
-        <VerticalStackLayout Grid.Row="1" Grid.Column="1" Spacing="15">
+        <VerticalStackLayout Grid.Row="1" Grid.Column="1" Spacing="15" BackgroundColor="{Binding Match.AwayTeam.TeamColor}">
             <Label Text="Attacking" />
             <HorizontalStackLayout Spacing="10">
                 <Button Text="Point Shot" />
