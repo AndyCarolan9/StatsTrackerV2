@@ -3,6 +3,7 @@ using StatsTrackerV2.Data.Events;
 using StatsTrackerV2.Data.Events.Arguments;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
+using System.Timers;
 
 namespace StatsTrackerV2.Models
 {
@@ -22,33 +23,36 @@ namespace StatsTrackerV2.Models
         private bool _isPlayStarted = false;
 
         [ObservableProperty]
-        [JsonIgnore]
+        [property: JsonIgnore]
         public string _matchDisplayName = "";
 
         [ObservableProperty]
-        [JsonIgnore]
+        [property: JsonIgnore]
         public string _homeTeamScore = "0-00";
 
         [ObservableProperty]
-        [JsonIgnore]
+        [property: JsonIgnore]
         public string _AwayTeamScore = "0-00";
 
         [ObservableProperty]
-        [JsonIgnore]
+        [property: JsonIgnore]
         public bool _isMatchHydrated;
 
         [ObservableProperty]
-        [JsonIgnore]
+        [property: JsonIgnore]
         public bool _isDefaultMatch = true;
 
         [ObservableProperty]
-        [JsonIgnore]
+        [property: JsonIgnore]
         public string _halfDisplayText = "1st Half";
 
         [ObservableProperty]
-        [JsonIgnore]
+        [property: JsonIgnore]
         public string _displayTime = "00:00";
 
+        private System.Timers.Timer _autoSaveTimer;
+
+        private string _fileName = string.Empty;
         #endregion
 
         #region Constructors
@@ -126,6 +130,32 @@ namespace StatsTrackerV2.Models
             IsDefaultMatch = false;
         }
 
+        public void StartAutoSave()
+        {
+            if(string.IsNullOrEmpty(_fileName))
+            {
+                DateTime now = DateTime.Now;
+                _fileName = $"{HomeTeam.TeamName}_{AwayTeam.TeamName}_{now.Day}_{now.Month}_{now.Year}.json";
+            }
+            SaveMatch(this, new ElapsedEventArgs(DateTime.Now));
+
+            _autoSaveTimer = new System.Timers.Timer();
+            _autoSaveTimer.Interval = 120000;
+            _autoSaveTimer.Elapsed += SaveMatch;
+            _autoSaveTimer.Enabled = true;
+            _autoSaveTimer.Start();
+        }
+
+        public void SaveMatch(object? sender, ElapsedEventArgs eventArgs)
+        {
+            if (string.IsNullOrEmpty(_fileName))
+            {
+                return;
+            }
+
+            JSONHelper.SaveToJsonFile(Path.Combine(Constants.MatchesFolderPath, _fileName), this);
+        }
+
         public Dictionary<string, long> GetBlackCardedPlayers()
         {
             return _blackCardedPlayers;
@@ -197,6 +227,12 @@ namespace StatsTrackerV2.Models
             _matchTimer.Stop();
             _isPlayStarted = false;
             AddEvent(new MatchEvent(new PointF(), "", _matchTimer.ElapsedMilliseconds, EventType.HalfEnd, null, _half));
+
+            if(_half == 2)
+            {
+                // TODO Have a definite finish game state
+                _autoSaveTimer.Stop();
+            }
         }
 
         /// <summary>

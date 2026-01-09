@@ -6,28 +6,35 @@ namespace StatsTrackerV2.Utilities
     {
         public static T? LoadFromJsonFile<T>(string filePath)
         {
-            if (!File.Exists(filePath))
+            try
             {
-                return default;
-            }
-
-            using (StreamReader sr = new StreamReader(filePath))
-            {
-                var options = new JsonSerializerOptions()
+                if (!File.Exists(filePath))
                 {
-                    WriteIndented = true,
-                    Converters = {
+                    return default;
+                }
+
+                using (StreamReader sr = new StreamReader(filePath))
+                {
+                    var options = new JsonSerializerOptions()
+                    {
+                        WriteIndented = true,
+                        Converters = {
                     new ColorJsonConverter()
                 }
-                };
+                    };
 
-                string jsonString = sr.ReadToEnd();
-                T? json = JsonSerializer.Deserialize<T>(jsonString, options);
+                    string jsonString = sr.ReadToEnd();
+                    T? json = JsonSerializer.Deserialize<T>(jsonString, options);
 
-                if (json != null)
-                {
-                    return json;
+                    if (json != null)
+                    {
+                        return json;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
             }
 
             return default;
@@ -35,18 +42,26 @@ namespace StatsTrackerV2.Utilities
 
         public static void SaveToJsonFile<T>(string filePath, T? objectToSave)
         {
-            using (StreamWriter sw = new StreamWriter(filePath))
+            try
             {
-                var options = new JsonSerializerOptions()
+                using (StreamWriter sw = new StreamWriter(filePath))
                 {
-                    WriteIndented = true,
-                    Converters = {
-                    new ColorJsonConverter()
-                }
-                };
+                    var options = new JsonSerializerOptions()
+                    {
+                        WriteIndented = true,
+                        Converters = 
+                        {
+                            new ColorJsonConverter()
+                        }
+                    };
 
-                string jsonString = JsonSerializer.Serialize(objectToSave, options);
-                sw.Write(jsonString);
+                    string jsonString = JsonSerializer.Serialize(objectToSave, options);
+                    sw.Write(jsonString);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
             }
         }
 
@@ -71,7 +86,7 @@ namespace StatsTrackerV2.Utilities
                 return null;
             }
 
-            string destinationPath = Path.Combine(FileSystem.AppDataDirectory, result.FileName);
+            string destinationPath = Path.Combine(Constants.MatchesFolderPath, result.FileName);
 
             if (File.Exists(destinationPath))
             {

@@ -23,7 +23,7 @@ namespace StatsTrackerV2.PageModels
         [RelayCommand]
         private async Task Appearing()
         {
-           string directory = FileSystem.AppDataDirectory;
+           string directory = Constants.MatchesFolderPath;
             try
             {
                 foreach (string file in Directory.EnumerateFiles(directory))

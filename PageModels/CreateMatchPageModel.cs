@@ -190,25 +190,18 @@ namespace StatsTrackerV2.PageModels
         [RelayCommand]
         private async Task Appearing()
         {
-            try
+            Team[]? teams = JSONHelper.LoadFromJsonFile<Team[]>(Constants.TeamsJSONPath);
+            if (teams == null)
             {
-                Team[]? teams = JSONHelper.LoadFromJsonFile<Team[]>(Constants.TeamsJSONPath);
-                if (teams == null)
-                {
-                    return;
-                }
-
-                foreach(Team team in teams)
-                {
-                    TeamNames.Add(team.TeamName);
-                }
-
-                _teams.AddRange(teams);
+                return;
             }
-            catch (Exception ex)
+
+            foreach(Team team in teams)
             {
-                Console.WriteLine(ex);
+                TeamNames.Add(team.TeamName);
             }
+
+            _teams.AddRange(teams);
         }
 
         [RelayCommand]
@@ -273,6 +266,7 @@ namespace StatsTrackerV2.PageModels
             _homeTeam.CurrentTeam = GetStartingTeam(HomeStartingTeam);
             _awayTeam.CurrentTeam = GetStartingTeam(AwayStartingTeam);
             _match.HydrateObject(new Match(_homeTeam, _awayTeam));
+            _match.StartAutoSave();
 
             await Shell.Current.GoToAsync("..");
         }

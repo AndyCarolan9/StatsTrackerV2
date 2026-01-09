@@ -58,21 +58,14 @@ namespace StatsTrackerV2.PageModels
                 Colors.Brown,
             };
 
-            try
+            Team[]? teams = JSONHelper.LoadFromJsonFile<Team[]>(Constants.TeamsJSONPath);
+            if (teams == null)
             {
-                Team[]? teams = JSONHelper.LoadFromJsonFile<Team[]>(Constants.TeamsJSONPath);
-                if (teams == null)
-                {
-                    _teams = new Team[0];
-                    return;
-                }
+                _teams = new Team[0];
+                return;
+            }
 
-                _teams = teams;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
+            _teams = teams;
         }
 
         [RelayCommand]
@@ -124,32 +117,25 @@ namespace StatsTrackerV2.PageModels
             Array.Sort(PlayersToAdd);
             team.TeamSheet.AddRange(PlayersToAdd);
 
-            try
+            bool bWasTeamAdded = false;
+            if(!bWasTeamAdded)
             {
-                bool bWasTeamAdded = false;
-                if(!bWasTeamAdded)
+                for (int index = 0; index < _teams.Count(); index++)
                 {
-                    for (int index = 0; index < _teams.Count(); index++)
+                    if (_teams[index].TeamName == TeamName)
                     {
-                        if (_teams[index].TeamName == TeamName)
-                        {
-                            _teams[index] = team;
-                        }
+                        _teams[index] = team;
                     }
                 }
-                
-                if(!bWasTeamAdded)
-                {
-                    _teams.Append(team);
-                }
-
-                JSONHelper.SaveToJsonFile(Constants.TeamsJSONPath, _teams);
-                await Shell.Current.GoToAsync("..");
             }
-            catch (Exception ex)
+            
+            if(!bWasTeamAdded)
             {
-                Console.WriteLine(ex);
+                _teams.Append(team);
             }
+
+            JSONHelper.SaveToJsonFile(Constants.TeamsJSONPath, _teams);
+            await Shell.Current.GoToAsync("..");
         }
 
         public void ApplyQueryAttributes(IDictionary<string, object> query)
