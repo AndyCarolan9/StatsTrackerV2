@@ -52,14 +52,14 @@
         </HorizontalStackLayout>
 
         <VerticalStackLayout Grid.Row="1" Grid.Column="0" Spacing="15" BackgroundColor="{Binding Match.HomeTeam.TeamColor}">
-            <Label Text="Attacking" />
+            <Label Text="Attacking" Background="DarkSlateGray"/>
             <HorizontalStackLayout Spacing="10">
                 <Button Text="Point Shot" />
                 <Button Text="Goal Shot" />
                 <Button Text="2 Point Shot" />
             </HorizontalStackLayout>
 
-            <Label Text="Turnovers" />
+            <Label Text="Turnovers" Background="DarkSlateGray"/>
             <HorizontalStackLayout Spacing="10">
                 <Button Text="Turnover Won" />
                 <Button Text="Turnover Lost" />
