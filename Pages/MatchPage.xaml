@@ -20,20 +20,86 @@
     <Grid Padding="12"
       ColumnSpacing="12"
       RowSpacing="12"
-      RowDefinitions="Auto,*"
-      ColumnDefinitions="*,300">
+      RowDefinitions="Auto,*,200"
+      ColumnDefinitions="*,*,500">
 
-        <Label Grid.Row="0" Grid.ColumnSpan="2"
-            Text="{Binding Match.MatchDisplayName}"
-            FontSize="18"
-            IsVisible="{Binding IsMatchTitleShown}"/>
+        <VerticalStackLayout Grid.Row="0" Grid.Column="0" IsVisible="{Binding Match.IsMatchHydrated}" HorizontalOptions="Center" Spacing="10" HeightRequest="150">
+            <HorizontalStackLayout Spacing="20">
+                <Label Text="{Binding Match.HomeTeam.TeamName}" FontSize="Header"/>
+                <Label Text="{Binding Match.HomeTeamScore}" FontSize="Header"/>
+            </HorizontalStackLayout>
 
-        <HorizontalStackLayout Grid.Row="0" Grid.ColumnSpan="2" IsVisible="{Binding IsCreateOpenButtonsShown}" Spacing="10">
+            <HorizontalStackLayout Spacing="10">
+                <Button Text="Cards" />
+                <Button Text="Subs" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Grid.Row="0" Grid.Column="1" IsVisible="{Binding Match.IsMatchHydrated}" HorizontalOptions="Center" Spacing="10" HeightRequest="150">
+            <HorizontalStackLayout Spacing="20">
+                <Label Text="{Binding Match.AwayTeam.TeamName}" FontSize="Header"/>
+                <Label Text="{Binding Match.AwayTeamScore}" FontSize="Header"/>
+            </HorizontalStackLayout>
+            <HorizontalStackLayout Spacing="10">
+                <Button Text="Cards" />
+                <Button Text="Subs" />
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
+
+        <HorizontalStackLayout Grid.Row="0" Grid.Column="0" IsVisible="{Binding Match.IsDefaultMatch}" Spacing="10">
             <Button Text="Open Match" Command="{Binding OpenMatchCommand}"/>
             <Button Text="Create Match" Command="{Binding CreateMatchCommand}"/>
         </HorizontalStackLayout>
 
+        <VerticalStackLayout Grid.Row="1" Grid.Column="0" Spacing="15" BackgroundColor="{Binding Match.HomeTeam.TeamColor}">
+            <Label Text="Attacking" />
+            <HorizontalStackLayout Spacing="10">
+                <Button Text="Point Shot" />
+                <Button Text="Goal Shot" />
+                <Button Text="2 Point Shot" />
+            </HorizontalStackLayout>
+
+            <Label Text="Turnovers" />
+            <HorizontalStackLayout Spacing="10">
+                <Button Text="Turnover Won" />
+                <Button Text="Turnover Lost" />
+            </HorizontalStackLayout>
+
+            <Button Text="Kickout" />
+
+            <Button Text="Free/Penalty Conceded"/>
+            <Button Text="Throw In" />
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Grid.Row="1" Grid.Column="1" Spacing="15">
+            <Label Text="Attacking" />
+            <HorizontalStackLayout Spacing="10">
+                <Button Text="Point Shot" />
+                <Button Text="Goal Shot" />
+                <Button Text="2 Point Shot" />
+            </HorizontalStackLayout>
+
+            <Label Text="Turnovers" />
+            <HorizontalStackLayout Spacing="10">
+                <Button Text="Turnover Won" />
+                <Button Text="Turnover Lost" />
+            </HorizontalStackLayout>
+
+            <Button Text="Kickout" />
+
+            <Button Text="Free/Penalty Conceded"/>
+            <Button Text="Throw In" />
+        </VerticalStackLayout>
+
+        <Grid Grid.Row="0" Grid.Column="2" ColumnDefinitions="250,*" RowDefinitions="*,*" RowSpacing="12" ColumnSpacing="12">
+            <Label Text="{Binding Match.HalfDisplayText}" Grid.Column="0" Grid.Row="0" FontSize="Large" HorizontalTextAlignment="Center"/>
+            <Label Text="{Binding Match.DisplayTime}" Grid.Column="1" Grid.Row="0" FontSize="Large" HorizontalTextAlignment="Center"/>
+            <Button Text="Start/Stop" Grid.Column="0" Grid.Row="1"/>
+            <Button Text="Pause/Play" Grid.Column="1" Grid.Row="1"/>
+        </Grid>
+
         <!-- IMAGE AREA (fills remaining space) -->
+        <!--
         <AbsoluteLayout x:Name="Canvas"
                     Grid.Row="1" Grid.Column="0"
                     HorizontalOptions="Fill"
@@ -55,17 +121,7 @@
             </BoxView>
 
         </AbsoluteLayout>
-
-        <!-- BUTTONS (scroll if they don't fit vertically) -->
-        <ScrollView Grid.Row="1" Grid.Column="1">
-            <VerticalStackLayout Spacing="8">
-                <Button Text="Undo" />
-                <Button Text="Clear" />
-                <Button Text="Save" />
-                <Button Text="Other" />
-                <Button Text="Other" />
-            </VerticalStackLayout>
-        </ScrollView>
+        -->
 
     </Grid>
 

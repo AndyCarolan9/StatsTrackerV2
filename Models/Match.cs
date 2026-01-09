@@ -22,19 +22,32 @@ namespace StatsTrackerV2.Models
         private bool _isPlayStarted = false;
 
         [ObservableProperty]
+        [JsonIgnore]
         public string _matchDisplayName = "";
 
         [ObservableProperty]
+        [JsonIgnore]
         public string _homeTeamScore = "0-00";
 
         [ObservableProperty]
+        [JsonIgnore]
         public string _AwayTeamScore = "0-00";
 
         [ObservableProperty]
+        [JsonIgnore]
         public bool _isMatchHydrated;
 
         [ObservableProperty]
+        [JsonIgnore]
         public bool _isDefaultMatch = true;
+
+        [ObservableProperty]
+        [JsonIgnore]
+        public string _halfDisplayText = "1st Half";
+
+        [ObservableProperty]
+        [JsonIgnore]
+        public string _displayTime = "00:00";
 
         #endregion
 

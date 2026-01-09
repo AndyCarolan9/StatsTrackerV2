@@ -9,12 +9,6 @@ namespace StatsTrackerV2.PageModels
         [ObservableProperty]
         private Match _match;
 
-        [ObservableProperty]
-        public bool _isCreateOpenButtonsShown;
-
-        [ObservableProperty]
-        public bool _isMatchTitleShown;
-
         public MatchPageModel(Match match)
         {
             _match = match;
@@ -23,8 +17,7 @@ namespace StatsTrackerV2.PageModels
         [RelayCommand]
         private async Task Appearing()
         {
-            IsMatchTitleShown = Match._isHydrated;
-            IsCreateOpenButtonsShown = !Match._isHydrated;
+            
         }
 
         [RelayCommand]
