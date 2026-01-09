@@ -31,5 +31,27 @@ namespace StatsTrackerV2.PageModels
         {
             await Shell.Current.GoToAsync($"openMatch");
         }
+
+        [RelayCommand]
+        async Task StartMatch()
+        {
+            if(!Match.IsMatchHydrated)
+            {
+                return;
+            }
+
+            Match.StartHalf();
+        }
+
+        [RelayCommand]
+        async Task PauseMatch()
+        {
+            if(!Match.IsMatchHydrated)
+            {
+                return;
+            }
+
+            Match.PauseTimer();
+        }
     }
 }

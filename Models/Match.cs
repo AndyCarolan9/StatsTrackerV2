@@ -170,6 +170,21 @@ namespace StatsTrackerV2.Models
 
             _matchTimer = Stopwatch.StartNew();
             _half += 1;
+
+            if(Application.Current is not null)
+            {
+                Application.Current.Dispatcher.StartTimer(TimeSpan.FromMilliseconds(100), () =>
+                {
+                    DisplayTime = _matchTimer.Elapsed.ToString(@"mm\:ss");
+                    return _matchTimer.IsRunning;
+                });
+            }
+            
+            if(_half == 2)
+            {
+                HalfDisplayText = "2nd Half";
+            }
+
             _isPlayStarted = true;
             AddEvent(new MatchEvent(new PointF(), "", 0, EventType.HalfStart, null, _half));
         }
@@ -203,6 +218,15 @@ namespace StatsTrackerV2.Models
         private void ResumeTimer()
         {
             _matchTimer.Start();
+
+            if (Application.Current is not null)
+            {
+                Application.Current.Dispatcher.StartTimer(TimeSpan.FromMilliseconds(100), () =>
+                {
+                    DisplayTime = _matchTimer.Elapsed.ToString(@"mm\:ss");
+                    return _matchTimer.IsRunning;
+                });
+            }
         }
 
         public TimeSpan GetElapsedTime()

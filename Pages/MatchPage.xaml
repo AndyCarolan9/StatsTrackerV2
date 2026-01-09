@@ -94,8 +94,8 @@
         <Grid Grid.Row="0" Grid.Column="2" ColumnDefinitions="250,*" RowDefinitions="*,*" RowSpacing="12" ColumnSpacing="12">
             <Label Text="{Binding Match.HalfDisplayText}" Grid.Column="0" Grid.Row="0" FontSize="Large" HorizontalTextAlignment="Center"/>
             <Label Text="{Binding Match.DisplayTime}" Grid.Column="1" Grid.Row="0" FontSize="Large" HorizontalTextAlignment="Center"/>
-            <Button Text="Start/Stop" Grid.Column="0" Grid.Row="1"/>
-            <Button Text="Pause/Play" Grid.Column="1" Grid.Row="1"/>
+            <Button Text="Start/Stop" Command="{Binding StartMatchCommand}" Grid.Column="0" Grid.Row="1"/>
+            <Button Text="Pause/Play" Command="{Binding PauseMatchCommand}" Grid.Column="1" Grid.Row="1"/>
         </Grid>
 
         <!-- IMAGE AREA (fills remaining space) -->
