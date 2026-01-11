@@ -93,7 +93,7 @@ namespace StatsTrackerV2.PageModels
         [RelayCommand]
         async Task AddThrowInWonEvent(string isHomeTeamParam)
         {
-            if (!Match.IsMatchHydrated)
+            if (!Match.IsMatchHydrated || !Match.IsMatchPlaying())
             {
                 return;
             }
@@ -108,7 +108,7 @@ namespace StatsTrackerV2.PageModels
 
         async Task OpenCreateMatchEventPage(string eventType)
         {
-            if (!Match.IsMatchHydrated)
+            if (!Match.IsMatchHydrated || !Match.IsMatchPlaying())
             {
                 return;
             }

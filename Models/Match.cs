@@ -128,6 +128,9 @@ namespace StatsTrackerV2.Models
             AwayTeam = match.AwayTeam;
             IsMatchHydrated = true;
             IsDefaultMatch = false;
+
+            HomeTeamScore = GetScoreStringForTeam(HomeTeam);
+            AwayTeamScore = GetScoreStringForTeam(AwayTeam);
         }
 
         public void StartAutoSave()
@@ -385,6 +388,9 @@ namespace StatsTrackerV2.Models
             {
                 _isHomeTeamInPossession = !_isHomeTeamInPossession;
             }
+
+            HomeTeamScore = GetScoreStringForTeam(HomeTeam);
+            AwayTeamScore = GetScoreStringForTeam(AwayTeam);
         }
 
         private void AddEvent(KickOutEventArgs kickOutEventArgs)
@@ -550,6 +556,17 @@ namespace StatsTrackerV2.Models
             }
 
             return negativeEvents.ToArray();
+        }
+
+        public string GetScoreStringForTeam(Team team)
+        {
+            MatchEvent[] points = GetShotEventsOfType(ShotResultType.Point);
+            MatchEvent[] goals = GetShotEventsOfType(ShotResultType.Goal);
+            MatchEvent[] doublePoints = GetShotEventsOfType(ShotResultType.DoublePoint);
+
+            int totalPoints = points.Count(x => x.TeamName == team.TeamName) + (doublePoints.Count(x => x.TeamName == team.TeamName) * 2);
+
+            return $"{goals.Count(x => x.TeamName == team.TeamName)}-{totalPoints}";
         }
         #endregion
 

@@ -164,17 +164,17 @@ namespace StatsTrackerV2.PageModels
             if (SelectedPlayer.Name == string.Empty)
                 return;
 
-            if (SelectedResultType == string.Empty)
-                return;
-
             if (_eventType.IsShotEvent())
             {
+                if (SelectedResultType == string.Empty)
+                    return;
+
                 if (SelectedActionType == string.Empty)
                     return;
 
                 bool wasActionParsed = Enum.TryParse(SelectedActionType, out ActionType actionType);
 
-                bool wasResultParsed = Enum.TryParse(SelectedResultType, out ShotResultType result);
+                bool wasResultParsed = Enum.TryParse(SelectedResultType.Replace(" ", ""), out ShotResultType result);
                 if (!wasResultParsed)
                     return;
 
@@ -191,6 +191,9 @@ namespace StatsTrackerV2.PageModels
             }
             else if (_eventType.IsTurnoverEvent())
             {
+                if (SelectedResultType == string.Empty)
+                    return;
+
                 bool wasResultParsed = Enum.TryParse(SelectedResultType, out TurnoverType result);
                 if (!wasResultParsed)
                     return;
@@ -206,6 +209,9 @@ namespace StatsTrackerV2.PageModels
             }
             else if(_eventType == EventType.KickOut)
             {
+                if (SelectedResultType == string.Empty)
+                    return;
+
                 bool wasResultParsed = Enum.TryParse(SelectedResultType, out KickOutResultType result);
                 if (!wasResultParsed)
                     return;
@@ -218,6 +224,16 @@ namespace StatsTrackerV2.PageModels
                 kickOutEventArgs.Player = SelectedPlayer.Name;
 
                 _match.AddEvent(kickOutEventArgs);
+            }
+            else
+            {
+                InputStatEventArgs inputStatEventArgs = new InputStatEventArgs();
+                inputStatEventArgs.Location = Location;
+                inputStatEventArgs.EventType = _eventType;
+                inputStatEventArgs.Team = _team;
+                inputStatEventArgs.Player = SelectedPlayer.Name;
+
+                _match.AddEvent(inputStatEventArgs);
             }
 
             await Shell.Current.GoToAsync("..");
