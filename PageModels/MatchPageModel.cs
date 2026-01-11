@@ -57,8 +57,62 @@ namespace StatsTrackerV2.PageModels
         [RelayCommand]
         async Task AddPointShotEvent()
         {
-            _match.SetIsHomeTeamInPossession(true);
-            await Shell.Current.GoToAsync($"createMatchEvent?eventType=PointShot");
+            await OpenCreateMatchEventPage(EventType.PointShot.ToString());
+        }
+
+        [RelayCommand]
+        async Task AddGoalShotEvent()
+        {
+            await OpenCreateMatchEventPage(EventType.GoalShot.ToString());
+        }
+
+        [RelayCommand]
+        async Task Add2PointShotEvent()
+        {
+            await OpenCreateMatchEventPage(EventType.DoublePointShot.ToString());
+        }
+
+        [RelayCommand]
+        async Task AddKickoutEvent()
+        {
+            await OpenCreateMatchEventPage(EventType.KickOut.ToString());
+        }
+
+        [RelayCommand]
+        async Task AddTurnoverWonEvent()
+        {
+            await OpenCreateMatchEventPage(EventType.TurnoverWon.ToString());
+        }
+
+        [RelayCommand]
+        async Task AddTurnoverLostEvent()
+        {
+            await OpenCreateMatchEventPage(EventType.TurnoverLost.ToString());
+        }
+
+        [RelayCommand]
+        async Task AddThrowInWonEvent(string isHomeTeamParam)
+        {
+            if (!Match.IsMatchHydrated)
+            {
+                return;
+            }
+            await Shell.Current.GoToAsync($"createMatchEvent?eventType=ThrowInWon&isHomeTeam={isHomeTeamParam}");
+        }
+
+        [RelayCommand]
+        async Task AddFreeConcededEvent()
+        {
+            await OpenCreateMatchEventPage(EventType.FreeConceded.ToString());
+        }
+
+        async Task OpenCreateMatchEventPage(string eventType)
+        {
+            if (!Match.IsMatchHydrated)
+            {
+                return;
+            }
+            await Shell.Current.GoToAsync($"createMatchEvent?eventType={eventType}");
         }
     }
 }

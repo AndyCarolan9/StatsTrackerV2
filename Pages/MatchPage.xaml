@@ -55,40 +55,40 @@
             <Label Text="Attacking" Background="DarkSlateGray"/>
             <HorizontalStackLayout Spacing="10">
                 <Button Text="Point Shot" Command="{Binding AddPointShotEventCommand}"/>
-                <Button Text="Goal Shot" />
-                <Button Text="2 Point Shot" />
+                <Button Text="Goal Shot" Command="{Binding AddGoalShotEventCommand}"/>
+                <Button Text="2 Point Shot" Command="{Binding Add2PointShotEventCommand}"/>
             </HorizontalStackLayout>
 
             <Label Text="Turnovers" Background="DarkSlateGray"/>
             <HorizontalStackLayout Spacing="10">
-                <Button Text="Turnover Won" />
-                <Button Text="Turnover Lost" />
+                <Button Text="Turnover Won" Command="{Binding AddTurnoverWonEventCommand}"/>
+                <Button Text="Turnover Lost" Command="{Binding AddTurnoverLostEventCommand}"/>
             </HorizontalStackLayout>
 
-            <Button Text="Kickout" />
+            <Button Text="Kickout" Command="{Binding AddKickoutEventCommand}"/>
 
-            <Button Text="Free/Penalty Conceded"/>
-            <Button Text="Throw In" />
+            <Button Text="Free/Penalty Conceded" Command="{Binding AddFreeConcededEventCommand}"/>
+            <Button Text="Throw In" Command="{Binding AddThrowInWonEventCommand}" CommandParameter="true"/>
         </VerticalStackLayout>
 
         <VerticalStackLayout Grid.Row="1" Grid.Column="1" Spacing="15" BackgroundColor="{Binding Match.AwayTeam.TeamColor}">
             <Label Text="Attacking" Background="DarkSlateGray"/>
             <HorizontalStackLayout Spacing="10">
-                <Button Text="Point Shot" />
-                <Button Text="Goal Shot" />
-                <Button Text="2 Point Shot" />
+                <Button Text="Point Shot" Command="{Binding AddPointShotEventCommand}"/>
+                <Button Text="Goal Shot" Command="{Binding AddGoalShotEventCommand}"/>
+                <Button Text="2 Point Shot" Command="{Binding Add2PointShotEventCommand}"/>
             </HorizontalStackLayout>
 
             <Label Text="Turnovers" Background="DarkSlateGray"/>
             <HorizontalStackLayout Spacing="10">
-                <Button Text="Turnover Won" />
-                <Button Text="Turnover Lost" />
+                <Button Text="Turnover Won" Command="{Binding AddTurnoverWonEventCommand}"/>
+                <Button Text="Turnover Lost" Command="{Binding AddTurnoverLostEventCommand}"/>
             </HorizontalStackLayout>
 
-            <Button Text="Kickout" />
+            <Button Text="Kickout" Command="{Binding AddKickoutEventCommand}"/>
 
-            <Button Text="Free/Penalty Conceded"/>
-            <Button Text="Throw In" />
+            <Button Text="Free/Penalty Conceded" Command="{Binding AddFreeConcededEventCommand}"/>
+            <Button Text="Throw In" Command="{Binding AddThrowInWonEventCommand}" CommandParameter="false"/>
         </VerticalStackLayout>
 
         <Grid Grid.Row="0" Grid.Column="2" ColumnDefinitions="250,*" RowDefinitions="*,*" RowSpacing="12" ColumnSpacing="12">
@@ -97,32 +97,6 @@
             <Button Text="Start/Stop" Command="{Binding StartMatchCommand}" Grid.Column="0" Grid.Row="1"/>
             <Button Text="Pause/Play" Command="{Binding PauseMatchCommand}" Grid.Column="1" Grid.Row="1"/>
         </Grid>
-
-        <!-- IMAGE AREA (fills remaining space) -->
-        <!--
-        <AbsoluteLayout x:Name="Canvas"
-                    Grid.Row="1" Grid.Column="0"
-                    HorizontalOptions="Fill"
-                    VerticalOptions="Fill">
-
-            <Image x:Name="MainImage"
-               Source="inputfieldhorizontalnewrules.png"
-               Aspect="AspectFill"
-               AbsoluteLayout.LayoutBounds="0,0,1,1"
-               AbsoluteLayout.LayoutFlags="All"/>
-
-            <BoxView x:Name="TapSurface"
-                 AbsoluteLayout.LayoutBounds="0,0,1,1"
-                 AbsoluteLayout.LayoutFlags="All"
-                 BackgroundColor="Transparent">
-                <BoxView.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="OnTapped" />
-                </BoxView.GestureRecognizers>
-            </BoxView>
-
-        </AbsoluteLayout>
-        -->
-
     </Grid>
 
 

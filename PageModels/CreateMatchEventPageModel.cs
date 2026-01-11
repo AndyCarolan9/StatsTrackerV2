@@ -82,6 +82,20 @@ namespace StatsTrackerV2.PageModels
                 PopulateActionTypes();
                 PopulateResultTypes();
             }
+
+            if(query.ContainsKey("isHomeTeam"))
+            {
+                string? param = Convert.ToString(query["isHomeTeam"]);
+                if (param == null)
+                    return;
+
+                bool isHomeTeam = bool.Parse(param);
+
+                if (isHomeTeam)
+                    _team = _match.HomeTeam;
+                else
+                    _team = _match.AwayTeam;
+            }
         }
 
         private void PopulateActionTypes()
