@@ -31,6 +31,12 @@ namespace StatsTrackerV2.Models
         [ObservableProperty]
         private bool _isPossessionChanged = false;
 
+        [ObservableProperty]
+        public bool _isShotEvent = false;
+
+        [ObservableProperty]
+        private bool _canShowPossessionCheck = false;
+
         public PointF Location 
         { 
             get; 
@@ -62,6 +68,8 @@ namespace StatsTrackerV2.Models
                 {
                     Shell.Current.GoToAsync("..");
                 }
+
+                IsShotEvent = _eventType.IsShotEvent();
 
                 _team = _match.GetTeamForEvent(_eventType);
 
@@ -198,6 +206,19 @@ namespace StatsTrackerV2.Models
             }
 
             await Shell.Current.GoToAsync("..");
+        }
+
+        [RelayCommand]
+        private async Task SelectedResultChanged()
+        {
+            if (!_eventType.IsShotEvent())
+                return;
+
+            bool wasResultParsed = Enum.TryParse(SelectedResultType, out ShotResultType result);
+            if (!wasResultParsed)
+                return;
+
+            CanShowPossessionCheck = result.IsStillInPlay();
         }
     }
 }

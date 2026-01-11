@@ -85,7 +85,8 @@
                 <CollectionView x:Name="ResultList"
                     ItemsSource="{Binding ResultTypes}"
                     SelectionMode="Single"
-                    SelectedItem="{Binding SelectedResultType}">
+                    SelectedItem="{Binding SelectedResultType}"
+                    SelectionChangedCommand="{Binding SelectedResultChangedCommand}">
                     <CollectionView.ItemsLayout>
                         <LinearItemsLayout Orientation="Vertical"
                             ItemSpacing="5"/>
@@ -113,13 +114,14 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-                <Label Text="Shot From:"  FontAttributes="Bold" FontSize="Medium"/>
+                <Label Text="Shot From:"  FontAttributes="Bold" FontSize="Medium" IsVisible="{Binding IsShotEvent}"/>
                 <CollectionView x:Name="ActionList"
                     ItemsSource="{Binding ActionTypes}"
                     SelectionMode="Single"
                     SelectedItem="{Binding SelectedActionType}"
                     VerticalScrollBarVisibility="Default"
-                    MaximumHeightRequest="300">
+                    MaximumHeightRequest="300"
+                    IsVisible="{Binding IsShotEvent}">
                     <CollectionView.ItemsLayout>
                         <LinearItemsLayout Orientation="Vertical"
                             ItemSpacing="5"/>
@@ -154,7 +156,7 @@
             <Button Text="Confirm" Command="{Binding ConfirmClickedCommand}"/>
         </HorizontalStackLayout>
 
-        <HorizontalStackLayout Grid.Column="0" Grid.Row="1" HorizontalOptions="End">
+        <HorizontalStackLayout Grid.Column="0" Grid.Row="1" HorizontalOptions="End" IsVisible="{Binding CanShowPossessionCheck}">
             <CheckBox IsChecked="{Binding IsPossessionChanged}" />
             <Label Text="Has possession changed" VerticalOptions="Center" FontSize="Medium"/>
         </HorizontalStackLayout>

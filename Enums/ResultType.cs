@@ -85,6 +85,20 @@
             }
         }
 
+        public static bool IsStillInPlay(this ShotResultType resultType)
+        {
+            switch(resultType)
+            {
+                case ShotResultType.Short:
+                case ShotResultType.Blocked:
+                case ShotResultType.Saved:
+                case ShotResultType.OffPosts:
+                    return true;
+                default: 
+                    return false;
+            }
+        }
+
         public static string GetEventName(this ShotResultType eventType)
         {
             return string.Concat(eventType.ToString().Select(x => Char.IsUpper(x) || Char.IsNumber(x) ? " " + x : x.ToString())).TrimStart(' ');
