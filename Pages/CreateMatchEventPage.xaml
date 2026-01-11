@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:pageModels="clr-namespace:StatsTrackerV2.PageModels"
+             xmlns:models="clr-namespace:StatsTrackerV2.Models"
+             x:Class="StatsTrackerV2.Pages.CreateMatchEventPage"
+             x:Name="CreateMatchEvent"
+             x:DataType="models:CreateMatchEventPageModel">
+
+    <Grid Padding="12"
+        ColumnSpacing="12"
+        RowSpacing="12"
+        RowDefinitions="*, 50"
+        ColumnDefinitions="*,500">
+        
+        <AbsoluteLayout x:Name="Canvas"
+            Grid.Row="0" Grid.Column="0"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill">
+            <Image x:Name="MainImage"
+                Source="inputfieldhorizontalnewrules.png"
+                Aspect="AspectFit"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                AbsoluteLayout.LayoutFlags="All"/>
+
+            <GraphicsView
+                x:Name="DrawingView"
+                Drawable="{Binding DotDrawable}"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                AbsoluteLayout.LayoutFlags="All" />
+
+            <BoxView x:Name="TapSurface"
+                AbsoluteLayout.LayoutBounds="0,0,1,1"
+                AbsoluteLayout.LayoutFlags="All"
+                BackgroundColor="Transparent">
+
+                <BoxView.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                </BoxView.GestureRecognizers>
+            </BoxView>
+        </AbsoluteLayout>
+
+        <HorizontalStackLayout Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Spacing="15">
+            <VerticalStackLayout MinimumWidthRequest="300">
+                <Label Text="Player:" FontAttributes="Bold" FontSize="Medium"/>
+                <CollectionView x:Name="PlayersList"
+                    ItemsSource="{Binding Players}"
+                    SelectionMode="Single"
+                    SelectedItem="{Binding SelectedPlayer}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical"
+                            ItemSpacing="5"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="models:Player">
+                            <Border Padding="10"
+                                Margin="5">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <VisualState.Setters>
+                                                <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource LightSecondaryBackground},Dark={StaticResource DarkSecondaryBackground}}"/>
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Selected">
+                                            <VisualState.Setters>
+                                                <Setter Property="Background" Value="{StaticResource Gray600}"/>
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <HorizontalStackLayout HorizontalOptions="Center">
+                                    <Label Text="{Binding Index}" />
+                                    <Label Text=":" />
+                                    <Label Text="{Binding Name}" />
+                                </HorizontalStackLayout>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+            <VerticalStackLayout Spacing="15">
+                <Label Text="Event Result:" FontAttributes="Bold" FontSize="Medium"/>
+                <CollectionView x:Name="ResultList"
+                    ItemsSource="{Binding ResultTypes}"
+                    SelectionMode="Single"
+                    SelectedItem="{Binding SelectedResultType}">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical"
+                            ItemSpacing="5"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="x:String">
+                            <Border Padding="10"
+                                Margin="5">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <VisualState.Setters>
+                                                <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource LightSecondaryBackground},Dark={StaticResource DarkSecondaryBackground}}"/>
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Selected">
+                                            <VisualState.Setters>
+                                                <Setter Property="Background" Value="{StaticResource Gray600}"/>
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Label Text="{Binding .}"/>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+                <Label Text="Shot From:"  FontAttributes="Bold" FontSize="Medium"/>
+                <CollectionView x:Name="ActionList"
+                    ItemsSource="{Binding ActionTypes}"
+                    SelectionMode="Single"
+                    SelectedItem="{Binding SelectedActionType}"
+                    VerticalScrollBarVisibility="Default"
+                    MaximumHeightRequest="300">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical"
+                            ItemSpacing="5"/>
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="x:String">
+                            <Border Padding="10"
+                                Margin="5">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <VisualState.Setters>
+                                                <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource LightSecondaryBackground},Dark={StaticResource DarkSecondaryBackground}}"/>
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Selected">
+                                            <VisualState.Setters>
+                                                <Setter Property="Background" Value="{StaticResource Gray600}"/>
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Label Text="{Binding .}"/>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </HorizontalStackLayout>
+        
+        <HorizontalStackLayout Grid.Column="0" Grid.Row="1" Spacing="10">
+            <Button Text="Confirm" Command="{Binding ConfirmClickedCommand}"/>
+        </HorizontalStackLayout>
+
+        <HorizontalStackLayout Grid.Column="0" Grid.Row="1" HorizontalOptions="End">
+            <CheckBox IsChecked="{Binding IsPossessionChanged}" />
+            <Label Text="Has possession changed" VerticalOptions="Center" FontSize="Medium"/>
+        </HorizontalStackLayout>
+    </Grid>
+</ContentPage>

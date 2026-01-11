@@ -54,7 +54,7 @@
         <VerticalStackLayout Grid.Row="1" Grid.Column="0" Spacing="15" BackgroundColor="{Binding Match.HomeTeam.TeamColor}">
             <Label Text="Attacking" Background="DarkSlateGray"/>
             <HorizontalStackLayout Spacing="10">
-                <Button Text="Point Shot" />
+                <Button Text="Point Shot" Command="{Binding AddPointShotEventCommand}"/>
                 <Button Text="Goal Shot" />
                 <Button Text="2 Point Shot" />
             </HorizontalStackLayout>

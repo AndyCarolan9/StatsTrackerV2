@@ -53,5 +53,12 @@ namespace StatsTrackerV2.PageModels
 
             Match.PauseTimer();
         }
+
+        [RelayCommand]
+        async Task AddPointShotEvent()
+        {
+            _match.SetIsHomeTeamInPossession(true);
+            await Shell.Current.GoToAsync($"createMatchEvent?eventType=PointShot");
+        }
     }
 }

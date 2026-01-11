@@ -78,6 +78,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Pages\CreateMatchEventPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\CreateMatchPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

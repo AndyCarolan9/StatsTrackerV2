@@ -61,6 +61,7 @@ namespace StatsTrackerV2
             builder.Services.AddTransientWithShellRoute<OpenMatchPage, OpenMatchPageModel>("openMatch");
             builder.Services.AddTransientWithShellRoute<CreateMatchPage, CreateMatchPageModel>("createMatch");
             builder.Services.AddTransientWithShellRoute<TeamListPage, TeamListPageModel>("teamList");
+            builder.Services.AddTransientWithShellRoute<CreateMatchEventPage, CreateMatchEventPageModel>("createMatchEvent");
 
             return builder.Build();
         }
