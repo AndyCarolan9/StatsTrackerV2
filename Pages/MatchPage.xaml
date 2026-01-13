@@ -33,6 +33,8 @@
                 <Button Text="Cards" />
                 <Button Text="Subs" />
             </HorizontalStackLayout>
+
+            <Label BackgroundColor="{Binding Match.HomeTeam.TeamColor}" />
         </VerticalStackLayout>
 
         <VerticalStackLayout Grid.Row="0" Grid.Column="1" IsVisible="{Binding Match.IsMatchHydrated}" HorizontalOptions="Center" Spacing="10" HeightRequest="150">
@@ -44,6 +46,8 @@
                 <Button Text="Cards" />
                 <Button Text="Subs" />
             </HorizontalStackLayout>
+
+            <Label BackgroundColor="{Binding Match.AwayTeam.TeamColor}"/>
         </VerticalStackLayout>
 
         <HorizontalStackLayout Grid.Row="0" Grid.Column="0" IsVisible="{Binding Match.IsDefaultMatch}" Spacing="10">
@@ -51,7 +55,7 @@
             <Button Text="Create Match" Command="{Binding CreateMatchCommand}"/>
         </HorizontalStackLayout>
 
-        <VerticalStackLayout Grid.Row="1" Grid.Column="0" Spacing="15" BackgroundColor="{Binding Match.HomeTeam.TeamColor}"  IsVisible="{Binding Match.IsThrowInEventCompleted}">
+        <VerticalStackLayout Grid.Row="1" Grid.Column="0" Spacing="15" IsVisible="{Binding Match.IsThrowInEventCompleted}">
             <Label Text="Attacking" Background="DarkSlateGray"/>
             <HorizontalStackLayout Spacing="10">
                 <Button Text="Point Shot" Command="{Binding AddPointShotEventCommand}"/>
@@ -72,7 +76,7 @@
 
         <Button Grid.Row="1" Grid.Column="0" Text="Throw In" Command="{Binding AddThrowInWonEventCommand}" CommandParameter="true" MaximumHeightRequest="50" VerticalOptions="Start" IsVisible="{Binding Match.HideThrowInButton}"/>
 
-        <VerticalStackLayout Grid.Row="1" Grid.Column="1" Spacing="15" BackgroundColor="{Binding Match.AwayTeam.TeamColor}" IsVisible="{Binding Match.IsThrowInEventCompleted}">
+        <VerticalStackLayout Grid.Row="1" Grid.Column="1" Spacing="15" IsVisible="{Binding Match.IsThrowInEventCompleted}">
             <Label Text="Attacking" Background="DarkSlateGray"/>
             <HorizontalStackLayout Spacing="10">
                 <Button Text="Point Shot" Command="{Binding AddPointShotEventCommand}"/>
