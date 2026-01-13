@@ -6,7 +6,7 @@
              xmlns:models="clr-namespace:StatsTrackerV2.Models"
              x:Class="StatsTrackerV2.Pages.CreateMatchEventPage"
              x:Name="CreateMatchEvent"
-             x:DataType="models:CreateMatchEventPageModel">
+             x:DataType="pageModels:CreateMatchEventPageModel">
 
     <Grid Padding="12"
         ColumnSpacing="12"
@@ -81,12 +81,13 @@
                 </CollectionView>
             </VerticalStackLayout>
             <VerticalStackLayout Spacing="15">
-                <Label Text="Event Result:" FontAttributes="Bold" FontSize="Medium"/>
+                <Label Text="Event Result:" FontAttributes="Bold" FontSize="Medium" IsVisible="{Binding ShowResultList}"/>
                 <CollectionView x:Name="ResultList"
                     ItemsSource="{Binding ResultTypes}"
                     SelectionMode="Single"
                     SelectedItem="{Binding SelectedResultType}"
-                    SelectionChangedCommand="{Binding SelectedResultChangedCommand}">
+                    SelectionChangedCommand="{Binding SelectedResultChangedCommand}"
+                    IsVisible="{Binding ShowResultList}">
                     <CollectionView.ItemsLayout>
                         <LinearItemsLayout Orientation="Vertical"
                             ItemSpacing="5"/>

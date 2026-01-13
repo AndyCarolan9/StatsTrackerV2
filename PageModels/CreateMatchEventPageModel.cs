@@ -36,6 +36,9 @@ namespace StatsTrackerV2.PageModels
         public bool _isShotEvent = false;
 
         [ObservableProperty]
+        public bool _showResultList = false;
+
+        [ObservableProperty]
         private bool _canShowPossessionCheck = false;
 
         public PointF Location 
@@ -155,6 +158,11 @@ namespace StatsTrackerV2.PageModels
 
                     ResultTypes.Add(turnoverType.ToString());
                 }
+            }
+
+            if (ResultTypes.Count > 0)
+            {
+                ShowResultList = true;
             }
         }
 
