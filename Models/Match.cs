@@ -50,6 +50,14 @@ namespace StatsTrackerV2.Models
         [property: JsonIgnore]
         public string _displayTime = "00:00";
 
+        [ObservableProperty]
+        [property: JsonIgnore]
+        [NotifyPropertyChangedFor(nameof(HideThrowInButton))]
+        public bool _isThrowInEventCompleted = false;
+
+        [JsonIgnore]
+        public bool HideThrowInButton => !IsThrowInEventCompleted;
+
         private System.Timers.Timer _autoSaveTimer;
 
         private string _fileName = string.Empty;
@@ -230,6 +238,7 @@ namespace StatsTrackerV2.Models
             _matchTimer.Stop();
             _isPlayStarted = false;
             AddEvent(new MatchEvent(new PointF(), "", _matchTimer.ElapsedMilliseconds, EventType.HalfEnd, null, _half));
+            IsThrowInEventCompleted = false;
 
             if(_half == 2)
             {
@@ -351,6 +360,8 @@ namespace StatsTrackerV2.Models
                 {
                     _isHomeTeamInPossession = !_isHomeTeamInPossession;
                 }
+
+                IsThrowInEventCompleted = true;
             }
         }
 
