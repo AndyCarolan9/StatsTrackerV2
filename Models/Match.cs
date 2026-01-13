@@ -1,6 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
-using StatsTrackerV2.Data.Events;
-using StatsTrackerV2.Data.Events.Arguments;
+using StatsTrackerV2.Data.Arguments;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 using System.Timers;
@@ -68,7 +68,7 @@ namespace StatsTrackerV2.Models
         {
             MatchDisplayName = string.Empty;
             MatchName = Guid.NewGuid().ToString();
-            MatchEvents = new List<MatchEvent>();
+            MatchEvents = new ObservableCollection<MatchEvent>();
             _matchTimer = new Stopwatch();
             HomeTeam = new Team();
             AwayTeam = new Team();
@@ -78,13 +78,13 @@ namespace StatsTrackerV2.Models
         {
             AppVersion = "1.0";
             MatchName = Guid.NewGuid().ToString();
-            MatchEvents = new List<MatchEvent>();
+            MatchEvents = new ObservableCollection<MatchEvent>();
             _matchTimer = new Stopwatch();
             HomeTeam = homeTeam;
             AwayTeam = awayTeam;
         }
 
-        public Match(Team homeTeam, Team awayTeam, string matchName, List<MatchEvent> matchEvents)
+        public Match(Team homeTeam, Team awayTeam, string matchName, ObservableCollection<MatchEvent> matchEvents)
         {
             HomeTeam = homeTeam;
             AwayTeam = awayTeam;
@@ -100,7 +100,7 @@ namespace StatsTrackerV2.Models
         public string MatchName { get; set; }
 
         [ObservableProperty]
-        public List<MatchEvent> _matchEvents;
+        public ObservableCollection<MatchEvent> _matchEvents;
 
         [ObservableProperty]
         public Team _homeTeam;
@@ -439,17 +439,17 @@ namespace StatsTrackerV2.Models
 
         public MatchEvent[] GetMatchEventsOfType<T>()
         {
-            return MatchEvents.FindAll(me => me is T).ToArray();
+            return MatchEvents.ToList().FindAll(me => me is T).ToArray();
         }
 
         public MatchEvent[] GetMatchEventsOfType(EventType eventType)
         {
-            return MatchEvents.FindAll(me => me.Type == eventType).ToArray();
+            return MatchEvents.ToList().FindAll(me => me.Type == eventType).ToArray();
         }
 
         public MatchEvent[] GetKickOutEventsOfType(KickOutResultType resultType)
         {
-            return MatchEvents.FindAll(me =>
+            return MatchEvents.ToList().FindAll(me =>
             {
                 if (me is KickOutEvent kickOutEvent)
                 {
@@ -462,7 +462,7 @@ namespace StatsTrackerV2.Models
 
         public MatchEvent[] GetTurnoverEventsOfType(TurnoverType turnoverType)
         {
-            return MatchEvents.FindAll(me =>
+            return MatchEvents.ToList().FindAll(me =>
             {
                 if (me is TurnoverEvent turnoverEvent)
                 {
@@ -475,7 +475,7 @@ namespace StatsTrackerV2.Models
 
         public MatchEvent[] GetShotEventsOfType(ShotResultType resultType)
         {
-            return MatchEvents.FindAll(me =>
+            return MatchEvents.ToList().FindAll(me =>
             {
                 if (me is ShotEvent shotEvent)
                 {
@@ -488,7 +488,7 @@ namespace StatsTrackerV2.Models
 
         public MatchEvent[] GetShotEventOfActionType(ActionType actionType)
         {
-            return MatchEvents.FindAll(me =>
+            return MatchEvents.ToList().FindAll(me =>
             {
                 if (me is ShotEvent shotEvent)
                 {
@@ -616,8 +616,8 @@ namespace StatsTrackerV2.Models
         {
             string returnString = "";
             string[] team = HomeTeam.TeamSheet.ToArray();
-            MatchEvent[] subs = MatchEvents.FindAll(me => me.Type == EventType.Substitution && me.TeamName == HomeTeam.TeamName).ToArray();
-            MatchEvent[] scores = MatchEvents.FindAll(me => me.TeamName == HomeTeam.TeamName && me is ShotEvent).ToArray();
+            MatchEvent[] subs = MatchEvents.ToList().FindAll(me => me.Type == EventType.Substitution && me.TeamName == HomeTeam.TeamName).ToArray();
+            MatchEvent[] scores = MatchEvents.ToList().FindAll(me => me.TeamName == HomeTeam.TeamName && me is ShotEvent).ToArray();
 
             for (int i = 0; i < team.Length; i++)
             {

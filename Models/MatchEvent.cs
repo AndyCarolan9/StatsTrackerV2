@@ -1,7 +1,6 @@
-﻿using StatsTrackerV2.Models;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
-namespace StatsTrackerV2.Data.Events
+namespace StatsTrackerV2.Models
 {
     /// <summary>
     /// Match Event class which is used to define when a relevant statistic is recorded.
@@ -44,6 +43,8 @@ namespace StatsTrackerV2.Data.Events
         public string TeamName { get; set; }
 
         public int HalfIndex { get; set; }
+
+        public string DisplayText => ToString();
 
         #endregion
 

@@ -1,6 +1,4 @@
-﻿using StatsTrackerV2.Models;
-
-namespace StatsTrackerV2.Data.Events
+﻿namespace StatsTrackerV2.Models
 {
     public class TurnoverEvent : MatchEvent
     {
@@ -20,5 +18,14 @@ namespace StatsTrackerV2.Data.Events
         #region Properties
         public TurnoverType TurnoverType { get; set; }
         #endregion
+
+        public override string ToString()
+        {
+            string formattedTime = FormatTime();
+            string eventTypeString = Type.GetEventName();
+            string resultTypeString = TurnoverType.ToString();
+
+            return formattedTime + " " + TeamName + " " + eventTypeString + " via " + resultTypeString + " by " + Player;
+        }
     }
 }

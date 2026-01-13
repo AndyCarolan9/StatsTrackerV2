@@ -103,6 +103,23 @@
             <Button Text="Start/Stop" Command="{Binding StartMatchCommand}" Grid.Column="0" Grid.Row="1"/>
             <Button Text="Pause/Play" Command="{Binding PauseMatchCommand}" Grid.Column="1" Grid.Row="1"/>
         </Grid>
+
+        <CollectionView Grid.Row="1" Grid.Column="2" 
+                        Grid.RowSpan="2" x:Name="EventList"
+                        ItemsSource="{Binding Match.MatchEvents}">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical"
+                                   ItemSpacing="5"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:MatchEvent">
+                    <HorizontalStackLayout>
+                        <Label Text="{Binding DisplayText}" LineBreakMode="WordWrap" MaximumWidthRequest="500"/>
+                    </HorizontalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+                        
     </Grid>
 
 

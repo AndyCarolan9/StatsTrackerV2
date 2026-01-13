@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using StatsTrackerV2.Data.Events.Arguments;
+using StatsTrackerV2.Data.Arguments;
 using StatsTrackerV2.Models;
 using System.Collections.ObjectModel;
 

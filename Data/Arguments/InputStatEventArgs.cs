@@ -1,6 +1,6 @@
 ﻿using StatsTrackerV2.Models;
 
-namespace StatsTrackerV2.Data.Events.Arguments
+namespace StatsTrackerV2.Data.Arguments
 {
     public class InputStatEventArgs
     {
