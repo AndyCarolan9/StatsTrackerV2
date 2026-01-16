@@ -202,7 +202,7 @@ namespace StatsTrackerV2.PageModels
                 if (SelectedResultType == string.Empty)
                     return;
 
-                bool wasResultParsed = Enum.TryParse(SelectedResultType, out TurnoverType result);
+                bool wasResultParsed = Enum.TryParse(SelectedResultType.Replace(" ", ""), out TurnoverType result);
                 if (!wasResultParsed)
                     return;
 
@@ -220,7 +220,7 @@ namespace StatsTrackerV2.PageModels
                 if (SelectedResultType == string.Empty)
                     return;
 
-                bool wasResultParsed = Enum.TryParse(SelectedResultType, out KickOutResultType result);
+                bool wasResultParsed = Enum.TryParse(SelectedResultType.Replace(" ", ""), out KickOutResultType result);
                 if (!wasResultParsed)
                     return;
 
@@ -253,7 +253,7 @@ namespace StatsTrackerV2.PageModels
             if (!_eventType.IsShotEvent())
                 return;
 
-            bool wasResultParsed = Enum.TryParse(SelectedResultType, out ShotResultType result);
+            bool wasResultParsed = Enum.TryParse(SelectedResultType.Replace(" ", ""), out ShotResultType result);
             if (!wasResultParsed)
                 return;
 
