@@ -9,6 +9,8 @@ namespace StatsTrackerV2.Models
 {
     public partial class Match : ObservableObject
     {
+        public event EventHandler OnEventAdded;
+
         #region Fields
 
         private Stopwatch _matchTimer;
@@ -306,6 +308,8 @@ namespace StatsTrackerV2.Models
             {
                 _isHomeTeamInPossession = !_isHomeTeamInPossession;
             }
+
+            OnEventAdded?.Invoke(this, new EventArgs());
         }
 
         public void RemoveEvent(MatchEvent matchEvent)
@@ -402,6 +406,8 @@ namespace StatsTrackerV2.Models
 
             HomeTeamScore = GetScoreStringForTeam(HomeTeam);
             AwayTeamScore = GetScoreStringForTeam(AwayTeam);
+
+            OnEventAdded?.Invoke(this, new EventArgs());
         }
 
         private void AddEvent(KickOutEventArgs kickOutEventArgs)
@@ -414,6 +420,8 @@ namespace StatsTrackerV2.Models
             {
                 _isHomeTeamInPossession = !_isHomeTeamInPossession;
             }
+
+            OnEventAdded?.Invoke(this, new EventArgs());
         }
 
         private void AddEvent(TurnoverEventArgs turnoverEventArgs)
@@ -424,6 +432,8 @@ namespace StatsTrackerV2.Models
             MatchEvents.Add(matchEvent);
 
             _isHomeTeamInPossession = !_isHomeTeamInPossession;
+
+            OnEventAdded?.Invoke(this, new EventArgs());
         }
 
         private void AddEvent(SubstitutionEventArgs substitutionEventArgs)
@@ -578,6 +588,21 @@ namespace StatsTrackerV2.Models
             int totalPoints = points.Count(x => x.TeamName == team.TeamName) + (doublePoints.Count(x => x.TeamName == team.TeamName) * 2);
 
             return $"{goals.Count(x => x.TeamName == team.TeamName)}-{totalPoints}";
+        }
+
+        public int GetNumberOfEventsOfTypeForTeam(EventType type, bool isHomeTeam, int halfIndex)
+        {
+            string teamName = isHomeTeam ? HomeTeam.TeamName : AwayTeam.TeamName;
+
+            return MatchEvents.ToList().FindAll(me =>
+            {
+                if (me.Type == type && me.TeamName == teamName && me.HalfIndex == halfIndex)
+                {
+                    return true;
+                }
+
+                return false;
+            }).Count;
         }
         #endregion
 

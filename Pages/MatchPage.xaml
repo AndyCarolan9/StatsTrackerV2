@@ -4,6 +4,7 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:pageModels="clr-namespace:StatsTrackerV2.PageModels"
              xmlns:models="clr-namespace:StatsTrackerV2.Models"
+             xmlns:sf="clr-namespace:Syncfusion.Maui.Toolkit.Charts;assembly=Syncfusion.Maui.Toolkit"
              x:Class="StatsTrackerV2.Pages.MatchPage"
              x:Name="Match"
              x:DataType="pageModels:MatchPageModel"
@@ -20,7 +21,7 @@
     <Grid Padding="12"
       ColumnSpacing="12"
       RowSpacing="12"
-      RowDefinitions="Auto,*,200"
+      RowDefinitions="Auto,*,400"
       ColumnDefinitions="*,*,500">
 
         <VerticalStackLayout Grid.Row="0" Grid.Column="0" IsVisible="{Binding Match.IsMatchHydrated}" HorizontalOptions="Center" Spacing="10" HeightRequest="150">
@@ -119,7 +120,58 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-                        
+
+        <sf:SfCartesianChart x:Name="HomeTeamChart" IsTransposed="True" Grid.Column="0" Grid.Row="2">
+            <sf:SfCartesianChart.Legend>
+                <sf:ChartLegend IsVisible="True"/>
+            </sf:SfCartesianChart.Legend>
+            <sf:SfCartesianChart.XAxes>
+                <sf:CategoryAxis/>
+            </sf:SfCartesianChart.XAxes>
+
+            <sf:SfCartesianChart.YAxes>
+                <sf:NumericalAxis/>
+            </sf:SfCartesianChart.YAxes>
+
+            <sf:ColumnSeries ItemsSource="{Binding HomeTeamStats}"
+                             XBindingPath="Name"
+                             YBindingPath="FirstHalfValue"
+                             ShowDataLabels="True"
+                             Label="1st Half"/>
+            
+            <sf:ColumnSeries ItemsSource="{Binding HomeTeamStats}"
+                             XBindingPath="Name"
+                             YBindingPath="SecondHalfValue"
+                             ShowDataLabels="True"
+                             Label="2nd Half"/>
+        </sf:SfCartesianChart>
+
+        <sf:SfCartesianChart x:Name="AwayTeamChart" IsTransposed="True" Grid.Column="1" Grid.Row="2">
+            <sf:SfCartesianChart.Legend>
+                <sf:ChartLegend IsVisible="True"/>
+            </sf:SfCartesianChart.Legend>
+            <sf:SfCartesianChart.XAxes>
+                <sf:CategoryAxis/>
+            </sf:SfCartesianChart.XAxes>
+
+            <sf:SfCartesianChart.YAxes>
+                <sf:NumericalAxis/>
+            </sf:SfCartesianChart.YAxes>
+
+            <sf:ColumnSeries ItemsSource="{Binding AwayTeamStats}"
+                             XBindingPath="Name"
+                             YBindingPath="FirstHalfValue"
+                             ShowDataLabels="True"
+                             Label="1st Half"/>
+
+            <sf:ColumnSeries ItemsSource="{Binding AwayTeamStats}"
+                             XBindingPath="Name"
+                             YBindingPath="SecondHalfValue"
+                             ShowDataLabels="True"
+                             Label="2nd Half"/>
+
+        </sf:SfCartesianChart>
+
     </Grid>
 
 
