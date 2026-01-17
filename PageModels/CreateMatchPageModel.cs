@@ -190,6 +190,9 @@ namespace StatsTrackerV2.PageModels
         [RelayCommand]
         private async Task Appearing()
         {
+            _teams.Clear();
+            TeamNames.Clear();
+
             Team[]? teams = JSONHelper.LoadFromJsonFile<Team[]>(Constants.TeamsJSONPath);
             if (teams == null)
             {

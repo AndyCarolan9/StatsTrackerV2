@@ -105,11 +105,6 @@ namespace StatsTrackerV2.PageModels
                 return;
             }
 
-            if(Players.Count == 0)
-            {
-                return;
-            }
-
             Team team = new Team();
             team.TeamName = TeamName;
             team.TeamColor = SelectedColor;
