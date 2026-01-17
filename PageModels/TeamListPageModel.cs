@@ -7,7 +7,7 @@ namespace StatsTrackerV2.PageModels
 {
     public partial class TeamListPageModel : ObservableObject, IQueryAttributable
     {
-        private Team[] _teams = [];
+        private List<Team> _teams = [];
 
         [ObservableProperty]
         private string _teamName = string.Empty;
@@ -61,11 +61,11 @@ namespace StatsTrackerV2.PageModels
             Team[]? teams = JSONHelper.LoadFromJsonFile<Team[]>(Constants.TeamsJSONPath);
             if (teams == null)
             {
-                _teams = new Team[0];
+                _teams = new List<Team>();
                 return;
             }
 
-            _teams = teams;
+            _teams = teams.ToList();
         }
 
         [RelayCommand]
@@ -131,7 +131,7 @@ namespace StatsTrackerV2.PageModels
             
             if(!bWasTeamAdded)
             {
-                _teams.Append(team);
+                _teams.Add(team);
             }
 
             JSONHelper.SaveToJsonFile(Constants.TeamsJSONPath, _teams);

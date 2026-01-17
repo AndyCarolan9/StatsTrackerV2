@@ -44,6 +44,23 @@ namespace StatsTrackerV2.Utilities
         {
             try
             {
+                if (!File.Exists(filePath))
+                {
+                    string? directoryPath = Path.GetDirectoryName(filePath);
+                    if(directoryPath == null)
+                    {
+                        return; 
+                    }
+
+                    if (!Directory.Exists(directoryPath))
+                    {
+                        Directory.CreateDirectory(directoryPath);
+                    }
+
+                    FileStream fs = File.Create(filePath);
+                    fs.Close();
+                }
+
                 using (StreamWriter sw = new StreamWriter(filePath))
                 {
                     var options = new JsonSerializerOptions()
