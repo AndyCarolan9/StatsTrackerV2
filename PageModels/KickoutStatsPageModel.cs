@@ -7,7 +7,7 @@ namespace StatsTrackerV2.PageModels
     {
         private readonly Match _match;
 
-        public DotDrawable DotDrawable { get; } = new();
+        public StatisticDotDrawable DotDrawable { get; } = new();
 
         public KickoutStatsPageModel(Match match)
         {
