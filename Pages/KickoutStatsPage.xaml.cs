@@ -1,0 +1,9 @@
+namespace StatsTrackerV2.Pages;
+
+public partial class KickoutStatsPage : ContentPage
+{
+	public KickoutStatsPage()
+	{
+		InitializeComponent();
+	}
+}

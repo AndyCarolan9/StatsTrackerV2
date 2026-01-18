@@ -84,6 +84,9 @@
 	  <MauiXaml Update="Pages\CreateMatchPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\KickoutStatsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\MatchPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

@@ -55,6 +55,7 @@ namespace StatsTrackerV2
             builder.Services.AddSingleton<ManageMetaPageModel>();
             builder.Services.AddSingleton<Match>();
             builder.Services.AddSingleton<MatchPageModel>();
+            builder.Services.AddSingleton<KickoutStatsPageModel>();
 
             builder.Services.AddTransientWithShellRoute<ProjectDetailPage, ProjectDetailPageModel>("project");
             builder.Services.AddTransientWithShellRoute<TaskDetailPage, TaskDetailPageModel>("task");

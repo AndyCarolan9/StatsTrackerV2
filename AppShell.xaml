@@ -32,6 +32,11 @@
         ContentTemplate="{DataTemplate pages:MatchPage}"
         Route="match" />
 
+    <ShellContent 
+        Title="Kickout Stats"
+        Icon="{StaticResource IconCrest}"
+        ContentTemplate="{DataTemplate pages:KickoutStatsPage}" />
+
     <Shell.FlyoutFooter>
         <Grid Padding="15">
             <sf:SfSegmentedControl x:Name="ThemeSegmentedControl" 
