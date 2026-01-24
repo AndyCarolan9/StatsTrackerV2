@@ -35,7 +35,8 @@
     <ShellContent 
         Title="Kickout Stats"
         Icon="{StaticResource IconCrest}"
-        ContentTemplate="{DataTemplate pages:KickoutStatsPage}" />
+        ContentTemplate="{DataTemplate pages:KickoutStatsPage}"
+        Route="kickout"/>
 
     <Shell.FlyoutFooter>
         <Grid Padding="15">

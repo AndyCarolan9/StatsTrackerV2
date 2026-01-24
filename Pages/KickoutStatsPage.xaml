@@ -1,22 +1,36 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:pageModels="clr-namespace:StatsTrackerV2.PageModels"
              xmlns:models="clr-namespace:StatsTrackerV2.Models"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="StatsTrackerV2.Pages.KickoutStatsPage"
              x:DataType="pageModels:KickoutStatsPageModel"
              x:Name="KickoutStats"
              Title="Kickout Statistics">
-    
+
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior
+            x:Name="AppearingBehavior"
+            BindingContext="{Binding Path=BindingContext, Source={x:Reference KickoutStats}, x:DataType=ContentPage}"
+            EventName="Appearing"
+            Command="{Binding AppearingCommand}" />
+    </ContentPage.Behaviors>
+
     <Grid Padding="12" 
-          RowDefinitions="*, Auto" 
+          RowDefinitions="Auto, *" 
           ColumnDefinitions="*, Auto"
           RowSpacing="12"
           ColumnSpacing="12">
 
+        <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="10">
+            <Picker Title="Selected Team" 
+                ItemsSource="{Binding Teams}" 
+                SelectedItem="{Binding SelectedTeam}" />
+        </HorizontalStackLayout>
+
         <AbsoluteLayout x:Name="Canvas"
-                        Grid.Row="0" Grid.Column="0"
+                        Grid.Row="1" Grid.Column="0"
                         HorizontalOptions="Fill"
                         VerticalOptions="Fill">
             <Image x:Name="MainImage"
