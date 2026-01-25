@@ -43,6 +43,96 @@ namespace StatsTrackerV2.PageModels
 
         private Dictionary<KickOutEvent, Color> _kickoutEvents = new Dictionary<KickOutEvent, Color>();
 
+        #region Filter values
+        public bool Show1stHalfEvents
+        {
+            get;
+            set
+            {
+                field = value;
+                FilterDrawnKickoutEvents();
+                OnPropertyChanged();
+            }
+        } = true;
+
+        public bool Show2ndHalfEvents
+        {
+            get;
+            set
+            {
+                field = value;
+                FilterDrawnKickoutEvents();
+                OnPropertyChanged();
+            }
+        } = true;
+
+        public bool ShowWonClean
+        {
+            get;
+            set
+            {
+                field = value;
+                FilterDrawnKickoutEvents();
+                OnPropertyChanged();
+            }
+        } = true;
+
+        public bool ShowWonMark
+        {
+            get;
+            set
+            {
+                field = value;
+                FilterDrawnKickoutEvents();
+                OnPropertyChanged();
+            }
+        } = true;
+
+        public bool ShowWonBreak
+        {
+            get;
+            set
+            {
+                field = value;
+                FilterDrawnKickoutEvents();
+                OnPropertyChanged();
+            }
+        } = true;
+
+        public bool ShowLostClean
+        {
+            get;
+            set
+            {
+                field = value;
+                FilterDrawnKickoutEvents();
+                OnPropertyChanged();
+            }
+        } = true;
+
+        public bool ShowLostMark
+        {
+            get;
+            set
+            {
+                field = value;
+                FilterDrawnKickoutEvents();
+                OnPropertyChanged();
+            }
+        } = true;
+
+        public bool ShowLostBreak
+        {
+            get;
+            set
+            {
+                field = value;
+                FilterDrawnKickoutEvents();
+                OnPropertyChanged();
+            }
+        } = true;
+        #endregion
+
         public KickoutStatsPageModel(Match match)
         {
             _match = match;
@@ -96,11 +186,49 @@ namespace StatsTrackerV2.PageModels
         private void FilterDrawnKickoutEvents()
         {
             DotDrawable.Statistics.Clear();
+            List<KickOutEvent> EventsToDisplay = new List<KickOutEvent>();
             foreach (var item in _kickoutEvents)
             {
-                DotDrawable.Statistics.Add(new DrawableStatistic(item.Key.Location, item.Value));
+                if(CanShowEvent(item.Key))
+                {
+                    DotDrawable.Statistics.Add(new DrawableStatistic(item.Key.Location, item.Value));
+                }
             }
             KickoutEventsUpdated?.Invoke(this, new EventArgs());
+        }
+
+        private bool CanShowEvent(KickOutEvent kickOutEvent)
+        {
+            bool canShowEvent = false;
+            if(Show1stHalfEvents)
+            {
+                canShowEvent = kickOutEvent.HalfIndex == 1;
+            }
+            else if(Show2ndHalfEvents)
+            {
+                canShowEvent = kickOutEvent.HalfIndex == 2;
+            }
+
+            if (!canShowEvent)
+                return false;
+
+            switch(kickOutEvent.ResultType)
+            {
+                case KickOutResultType.Won:
+                    return ShowWonClean;
+                case KickOutResultType.WonMark:
+                    return ShowWonMark;
+                case KickOutResultType.WonBreak:
+                    return ShowWonBreak;
+                case KickOutResultType.Lost:
+                    return ShowLostClean;
+                case KickOutResultType.LostMark:
+                    return ShowLostMark;
+                case KickOutResultType.LostBreak:
+                    return ShowLostBreak;
+                default:
+                    return false;
+            }
         }
     }
 }

@@ -19,7 +19,7 @@
 
     <Grid Padding="12" 
           RowDefinitions="Auto, *" 
-          ColumnDefinitions="*, 75, Auto"
+          ColumnDefinitions="*, 125, Auto"
           RowSpacing="12"
           ColumnSpacing="12">
 
@@ -45,6 +45,48 @@
                     AbsoluteLayout.LayoutBounds="0,0,1,1"
                     AbsoluteLayout.LayoutFlags="All" />
         </AbsoluteLayout>
+
+        <VerticalStackLayout Grid.Column="1" Grid.Row="1">
+            <HorizontalStackLayout>
+                <CheckBox IsChecked="{Binding Show1stHalfEvents}"/>
+                <Label Text="1st Half" VerticalOptions="Center" ToolTipProperties.Text="Show Kickout events from the 1st half"/>
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout>
+                <CheckBox IsChecked="{Binding Show2ndHalfEvents}"/>
+                <Label Text="2nd Half" VerticalOptions="Center" ToolTipProperties.Text="Show Kickout events from the 2nd half"/>
+            </HorizontalStackLayout>
+            
+            <HorizontalStackLayout>
+                <CheckBox IsChecked="{Binding ShowWonClean}"/>
+                <Label Text="Won Clean" VerticalOptions="Center" ToolTipProperties.Text="Show Kickout events which were won clean (No mark/sideline called and no contact from another player)"/>
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout>
+                <CheckBox IsChecked="{Binding ShowWonMark}"/>
+                <Label Text="Won Mark" VerticalOptions="Center" ToolTipProperties.Text="Show Kickout events which were won and resulted in a placed ball (mark/free)"/>
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout>
+                <CheckBox IsChecked="{Binding ShowWonBreak}"/>
+                <Label Text="Won Break" VerticalOptions="Center" ToolTipProperties.Text="Show Kickout events which were won from a breaking ball"/>
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout>
+                <CheckBox IsChecked="{Binding ShowLostClean}"/>
+                <Label Text="Lost Clean" VerticalOptions="Center" ToolTipProperties.Text="Show Kickout events which were lost clean (No mark/sideline called and no contact from another player)"/>
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout>
+                <CheckBox IsChecked="{Binding ShowLostMark}"/>
+                <Label Text="Lost Mark" VerticalOptions="Center" ToolTipProperties.Text="Show Kickout events which were lost and resulted in a placed ball (mark/free/sideline)"/>
+            </HorizontalStackLayout>
+
+            <HorizontalStackLayout>
+                <CheckBox IsChecked="{Binding ShowLostBreak}"/>
+                <Label Text="Lost Break" VerticalOptions="Center" ToolTipProperties.Text="Show Kickout events which were lost from a breaking ball"/>
+            </HorizontalStackLayout>
+        </VerticalStackLayout>
 
     </Grid>
 </ContentPage>
