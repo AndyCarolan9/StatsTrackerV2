@@ -9,5 +9,11 @@ namespace StatsTrackerV2.Data
         public PointF Location { get; set; }
 
         public Color Color { get; set; }
+
+        public DrawableStatistic(PointF location, Color color)
+        {
+            Location = location;
+            Color = color;
+        }
     }
 }

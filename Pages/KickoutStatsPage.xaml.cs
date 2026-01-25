@@ -6,5 +6,11 @@ public partial class KickoutStatsPage : ContentPage
 	{
 		InitializeComponent();
 		BindingContext = model;
+		model.KickoutEventsUpdated += OnDrawableUpdated;
+	}
+
+	private void OnDrawableUpdated(object? sender, EventArgs e)
+	{
+		DrawingView.Invalidate();
 	}
 }

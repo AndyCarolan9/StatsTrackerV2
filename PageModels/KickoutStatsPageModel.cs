@@ -7,9 +7,10 @@ namespace StatsTrackerV2.PageModels
 {
     public partial class KickoutStatsPageModel : ObservableObject
     {
+        public event EventHandler? KickoutEventsUpdated;
+
         private readonly Match _match;
 
-        
         private string _selectedTeam = string.Empty;
         public string SelectedTeam
         {
@@ -40,6 +41,8 @@ namespace StatsTrackerV2.PageModels
 
         public StatisticDotDrawable DotDrawable { get; } = new();
 
+        private Dictionary<KickOutEvent, Color> _kickoutEvents = new Dictionary<KickOutEvent, Color>();
+
         public KickoutStatsPageModel(Match match)
         {
             _match = match;
@@ -54,11 +57,13 @@ namespace StatsTrackerV2.PageModels
             Teams.Add(_match.HomeTeam.TeamName);
             Teams.Add(_match.AwayTeam.TeamName);
             SelectedTeam = _match.HomeTeam.TeamName;
+            LoadStatsForTeam();
         }
 
         private void LoadStatsForTeam()
         {
-            MatchEvent[] matchEvents = _match.GetMatchEventsOfType(EventType.KickOut);
+            _kickoutEvents.Clear();
+            MatchEvent[] matchEvents = _match.GetMatchEventsOfType(EventType.KickOut).Where(me => me.TeamName == SelectedTeam).ToArray();
             List<KickoutResultColor> resultColors = kickoutResultColors.ToList();
 
             foreach (MatchEvent matchEvent in matchEvents)
@@ -69,8 +74,33 @@ namespace StatsTrackerV2.PageModels
                     continue;
                 }
 
-                
+                _kickoutEvents.Add(kickOutEvent, GetColorForResultType(kickOutEvent));
             }
+
+            FilterDrawnKickoutEvents();
+        }
+
+        private Color GetColorForResultType(KickOutEvent kickOutEvent)
+        {
+            foreach(KickoutResultColor color in kickoutResultColors)
+            {
+                if(color.Type == kickOutEvent.ResultType)
+                {
+                    return color.Color;
+                }
+            }
+
+            return Colors.Black;
+        }
+
+        private void FilterDrawnKickoutEvents()
+        {
+            DotDrawable.Statistics.Clear();
+            foreach (var item in _kickoutEvents)
+            {
+                DotDrawable.Statistics.Add(new DrawableStatistic(item.Key.Location, item.Value));
+            }
+            KickoutEventsUpdated?.Invoke(this, new EventArgs());
         }
     }
 }

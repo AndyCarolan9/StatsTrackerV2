@@ -1,6 +1,6 @@
 ﻿namespace StatsTrackerV2.Data
 {
-    public class StatisticDotDrawable : DotDrawable
+    public class StatisticDotDrawable : IDrawable
     {
         public List<DrawableStatistic> Statistics { get; } = new();
 

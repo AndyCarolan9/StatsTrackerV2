@@ -19,7 +19,7 @@
 
     <Grid Padding="12" 
           RowDefinitions="Auto, *" 
-          ColumnDefinitions="*, Auto"
+          ColumnDefinitions="*, 75, Auto"
           RowSpacing="12"
           ColumnSpacing="12">
 
