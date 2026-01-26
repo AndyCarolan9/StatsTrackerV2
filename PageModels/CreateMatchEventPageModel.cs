@@ -77,11 +77,6 @@ namespace StatsTrackerV2.PageModels
 
                 _team = _match.GetTeamForEvent(_eventType);
 
-                for (int i = 0; i < _team.CurrentTeam.Count(); i++)
-                {
-                    Players.Add(new Player() { Index = (i + 1).ToString(), Name = _team.CurrentTeam[i] });
-                }
-
                 PopulateActionTypes();
                 PopulateResultTypes();
             }
@@ -98,6 +93,11 @@ namespace StatsTrackerV2.PageModels
                     _team = _match.HomeTeam;
                 else
                     _team = _match.AwayTeam;
+            }
+
+            for (int i = 0; i < _team.CurrentTeam.Count(); i++)
+            {
+                Players.Add(new Player() { Index = (i + 1).ToString(), Name = _team.CurrentTeam[i] });
             }
         }
 
@@ -169,15 +169,15 @@ namespace StatsTrackerV2.PageModels
         [RelayCommand]
         private async Task ConfirmClicked()
         {
-            if (SelectedPlayer.Name == string.Empty)
-                return;
-
             if (_eventType.IsShotEvent())
             {
                 if (SelectedResultType == string.Empty)
                     return;
 
                 if (SelectedActionType == string.Empty)
+                    return;
+
+                if (SelectedPlayer.Name == string.Empty)
                     return;
 
                 bool wasActionParsed = Enum.TryParse(SelectedActionType, out ActionType actionType);
@@ -223,6 +223,12 @@ namespace StatsTrackerV2.PageModels
                 bool wasResultParsed = Enum.TryParse(SelectedResultType.Replace(" ", ""), out KickOutResultType result);
                 if (!wasResultParsed)
                     return;
+
+                if(result.IsKickOutWon())
+                {
+                    if (SelectedPlayer.Name == string.Empty)
+                        return;
+                }
 
                 KickOutEventArgs kickOutEventArgs = new KickOutEventArgs();
                 kickOutEventArgs.Location = Location;
