@@ -6,12 +6,12 @@
     public enum ActionType
     {
         Default,
-        Sideline,
-        Penalty,
-        Free,
-        From45,
         Play,
+        Free,
+        Penalty,
+        From45,
         Mark,
+        Sideline,
     }
 
     static class ActionTypeExtensions

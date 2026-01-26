@@ -8,9 +8,9 @@
         Default,
         Won,
         WonMark,
+        WonBreak,
         Lost,
         LostMark,
-        WonBreak,
         LostBreak
     }
 
@@ -20,10 +20,10 @@
     public enum ShotResultType
     {
         Default,
-        Wide,
         Point,
-        Goal,
         DoublePoint,
+        Goal,
+        Wide,
         Blocked,
         Saved,
         OutFor45,
