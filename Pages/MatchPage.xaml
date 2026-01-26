@@ -57,43 +57,43 @@
         </HorizontalStackLayout>
 
         <VerticalStackLayout Grid.Row="1" Grid.Column="0" Spacing="15" IsVisible="{Binding Match.IsThrowInEventCompleted}">
-            <Label Text="Attacking" Background="DarkSlateGray"/>
-            <HorizontalStackLayout Spacing="10">
+            <Label Text="Attacking" Background="DarkSlateGray" IsVisible="{Binding IsHomeTeamInPossession}"/>
+            <HorizontalStackLayout Spacing="10" IsVisible="{Binding IsHomeTeamInPossession}">
                 <Button Text="Point Shot" Command="{Binding AddPointShotEventCommand}"/>
                 <Button Text="Goal Shot" Command="{Binding AddGoalShotEventCommand}"/>
                 <Button Text="2 Point Shot" Command="{Binding Add2PointShotEventCommand}"/>
             </HorizontalStackLayout>
 
-            <Label Text="Turnovers" Background="DarkSlateGray"/>
+            <Label Text="Turnovers" Background="DarkSlateGray" IsVisible="{Binding DisplayTurnoverText}"/>
             <HorizontalStackLayout Spacing="10">
-                <Button Text="Turnover Won" Command="{Binding AddTurnoverWonEventCommand}"/>
-                <Button Text="Turnover Lost" Command="{Binding AddTurnoverLostEventCommand}"/>
+                <Button Text="Turnover Won" Command="{Binding AddTurnoverWonEventCommand}" IsVisible="{Binding IsAwayTeamInPossession}"/>
+                <Button Text="Turnover Lost" Command="{Binding AddTurnoverLostEventCommand}" IsVisible="{Binding IsHomeTeamInPossession}"/>
             </HorizontalStackLayout>
 
-            <Button Text="Kickout" Command="{Binding AddKickoutEventCommand}"/>
+            <Button Text="Kickout" Command="{Binding AddKickoutEventCommand}" IsVisible="{Binding IsHomeTeamKickout}"/>
 
-            <Button Text="Free/Penalty Conceded" Command="{Binding AddFreeConcededEventCommand}"/>
+            <Button Text="Free/Penalty Conceded" Command="{Binding AddFreeConcededEventCommand}" IsVisible="{Binding IsAwayTeamInPossession}"/>
         </VerticalStackLayout>
 
         <Button Grid.Row="1" Grid.Column="0" Text="Throw In" Command="{Binding AddThrowInWonEventCommand}" CommandParameter="true" MaximumHeightRequest="50" VerticalOptions="Start" IsVisible="{Binding Match.HideThrowInButton}"/>
 
         <VerticalStackLayout Grid.Row="1" Grid.Column="1" Spacing="15" IsVisible="{Binding Match.IsThrowInEventCompleted}">
-            <Label Text="Attacking" Background="DarkSlateGray"/>
-            <HorizontalStackLayout Spacing="10">
+            <Label Text="Attacking" Background="DarkSlateGray" IsVisible="{Binding IsAwayTeamInPossession}"/>
+            <HorizontalStackLayout Spacing="10" IsVisible="{Binding IsAwayTeamInPossession}">
                 <Button Text="Point Shot" Command="{Binding AddPointShotEventCommand}"/>
                 <Button Text="Goal Shot" Command="{Binding AddGoalShotEventCommand}"/>
                 <Button Text="2 Point Shot" Command="{Binding Add2PointShotEventCommand}"/>
             </HorizontalStackLayout>
 
-            <Label Text="Turnovers" Background="DarkSlateGray"/>
+            <Label Text="Turnovers" Background="DarkSlateGray" IsVisible="{Binding DisplayTurnoverText}"/>
             <HorizontalStackLayout Spacing="10">
-                <Button Text="Turnover Won" Command="{Binding AddTurnoverWonEventCommand}"/>
-                <Button Text="Turnover Lost" Command="{Binding AddTurnoverLostEventCommand}"/>
+                <Button Text="Turnover Won" Command="{Binding AddTurnoverWonEventCommand}" IsVisible="{Binding IsHomeTeamInPossession}"/>
+                <Button Text="Turnover Lost" Command="{Binding AddTurnoverLostEventCommand}" IsVisible="{Binding IsAwayTeamInPossession}"/>
             </HorizontalStackLayout>
 
-            <Button Text="Kickout" Command="{Binding AddKickoutEventCommand}"/>
+            <Button Text="Kickout" Command="{Binding AddKickoutEventCommand}" IsVisible="{Binding IsAwayTeamKickout}"/>
 
-            <Button Text="Free/Penalty Conceded" Command="{Binding AddFreeConcededEventCommand}" IsVisible="{Binding Match.IsThrowInEventCompleted}"/>
+            <Button Text="Free/Penalty Conceded" Command="{Binding AddFreeConcededEventCommand}" IsVisible="{Binding IsHomeTeamInPossession}"/>
         </VerticalStackLayout>
 
         <Button Grid.Row="1" Grid.Column="1" Text="Throw In Won" Command="{Binding AddThrowInWonEventCommand}" CommandParameter="false" MaximumHeightRequest="50" VerticalOptions="Start" IsVisible="{Binding Match.HideThrowInButton}"/>

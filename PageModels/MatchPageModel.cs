@@ -16,6 +16,21 @@ namespace StatsTrackerV2.PageModels
         [ObservableProperty]
         public ObservableCollection<MatchStatistic> _awayTeamStats;
 
+        [ObservableProperty]
+        private bool _isHomeTeamInPossession = false;
+
+        [ObservableProperty]
+        private bool _isAwayTeamInPossession = false;
+
+        [ObservableProperty]
+        private bool _isHomeTeamKickout = false;
+
+        [ObservableProperty]
+        private bool _isAwayTeamKickout = false;
+
+        [ObservableProperty]
+        private bool _displayTurnoverText = true;
+
         public MatchPageModel(Match match)
         {
             Match = match;
@@ -33,6 +48,40 @@ namespace StatsTrackerV2.PageModels
             AwayTeamStats.Add(new MatchStatistic(EventType.PointShot, "Shots", 0, 0));
             AwayTeamStats.Add(new MatchStatistic(EventType.TurnoverWon, "Turnovers Won", 0, 0));
             AwayTeamStats.Add(new MatchStatistic(EventType.TurnoverLost, "Turnovers Lost", 0, 0));
+
+            Match.OnEventAdded += OnMatchEventAdded;
+        }
+
+        private void OnMatchEventAdded(object? sender, EventArgs e)
+        {
+            IsHomeTeamInPossession = Match.IsHomeTeamInPossession();
+            IsAwayTeamInPossession = !IsHomeTeamInPossession;
+            DisplayTurnoverText = true;
+
+            MatchEvent? matchEvent = Match.GetLastMatchEvent();
+            if (matchEvent == null || !matchEvent.Type.IsShotEvent())
+            {
+                IsHomeTeamKickout = false;
+                IsAwayTeamKickout = false;
+                return;
+            }
+
+            ShotEvent? shotEvent = matchEvent as ShotEvent;
+            if(shotEvent == null)
+            {
+                IsHomeTeamKickout = false;
+                IsAwayTeamKickout = false;
+                return;
+            }
+
+            if(shotEvent.ResultType.IsPossessionTurnedOver())
+            {
+                IsHomeTeamKickout = Match.IsHomeTeamInPossession();
+                IsAwayTeamKickout = !IsHomeTeamKickout;
+                IsHomeTeamInPossession = false;
+                IsAwayTeamInPossession = false;
+                DisplayTurnoverText = false;
+            }
         }
 
         [RelayCommand]
