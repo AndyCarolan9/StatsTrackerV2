@@ -367,6 +367,8 @@ namespace StatsTrackerV2.Models
 
                 IsThrowInEventCompleted = true;
             }
+
+            OnEventAdded?.Invoke(this, new EventArgs());
         }
 
         private void AddBlackCardEvent(InputStatEventArgs eventArgs)
