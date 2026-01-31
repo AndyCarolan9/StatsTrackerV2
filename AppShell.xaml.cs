@@ -12,6 +12,19 @@ namespace StatsTrackerV2
             var currentTheme = Application.Current!.RequestedTheme;
             ThemeSegmentedControl.SelectedIndex = currentTheme == AppTheme.Light ? 0 : 1;
         }
+
+        public static async Task DisplayMessage(string message)
+        {
+            if (OperatingSystem.IsWindows())
+            {
+                await DisplaySnackbarAsync(message);
+            }
+            else
+            {
+                await DisplayToastAsync(message);
+            }
+        }
+
         public static async Task DisplaySnackbarAsync(string message)
         {
             CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();

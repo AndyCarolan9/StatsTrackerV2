@@ -21,16 +21,13 @@
     <Grid Padding="12"
       ColumnSpacing="12"
       RowSpacing="12"
-      RowDefinitions="Auto,*,*"
+      RowDefinitions="Auto,3*,6*"
       ColumnDefinitions="*,*,500">
 
-        <VerticalStackLayout Grid.Row="0" Grid.Column="0" IsVisible="{Binding Match.IsMatchHydrated}" HorizontalOptions="Center" Spacing="10" HeightRequest="150">
+        <VerticalStackLayout Grid.Row="0" Grid.Column="0" IsVisible="{Binding Match.IsMatchHydrated}" HorizontalOptions="Center" Spacing="10">
             <HorizontalStackLayout Spacing="20">
                 <Label Text="{Binding Match.HomeTeam.TeamName}" FontSize="Header"/>
                 <Label Text="{Binding Match.HomeTeamScore}" FontSize="Header"/>
-            </HorizontalStackLayout>
-
-            <HorizontalStackLayout Spacing="10">
                 <Button Text="Cards" />
                 <Button Text="Subs" />
             </HorizontalStackLayout>
@@ -38,12 +35,10 @@
             <Label BackgroundColor="{Binding Match.HomeTeam.TeamColor}" />
         </VerticalStackLayout>
 
-        <VerticalStackLayout Grid.Row="0" Grid.Column="1" IsVisible="{Binding Match.IsMatchHydrated}" HorizontalOptions="Center" Spacing="10" HeightRequest="150">
+        <VerticalStackLayout Grid.Row="0" Grid.Column="1" IsVisible="{Binding Match.IsMatchHydrated}" HorizontalOptions="Center" Spacing="10">
             <HorizontalStackLayout Spacing="20">
                 <Label Text="{Binding Match.AwayTeam.TeamName}" FontSize="Header"/>
                 <Label Text="{Binding Match.AwayTeamScore}" FontSize="Header"/>
-            </HorizontalStackLayout>
-            <HorizontalStackLayout Spacing="10">
                 <Button Text="Cards" />
                 <Button Text="Subs" />
             </HorizontalStackLayout>

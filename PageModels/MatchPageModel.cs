@@ -127,46 +127,90 @@ namespace StatsTrackerV2.PageModels
         [RelayCommand]
         async Task AddPointShotEvent()
         {
+            if (!Match.IsMatchPlaying())
+            {
+                await AppShell.DisplayMessage("Match is not playing.");
+                return;
+            }
+
             await OpenCreateMatchEventPage(EventType.PointShot.ToString());
         }
 
         [RelayCommand]
         async Task AddGoalShotEvent()
         {
+            if (!Match.IsMatchPlaying())
+            {
+                await AppShell.DisplayMessage("Match is not playing.");
+                return;
+            }
+
             await OpenCreateMatchEventPage(EventType.GoalShot.ToString());
         }
 
         [RelayCommand]
         async Task Add2PointShotEvent()
         {
+            if (!Match.IsMatchPlaying())
+            {
+                await AppShell.DisplayMessage("Match is not playing.");
+                return;
+            }
+
             await OpenCreateMatchEventPage(EventType.DoublePointShot.ToString());
         }
 
         [RelayCommand]
         async Task AddKickoutEvent()
         {
+            if (!Match.IsMatchPlaying())
+            {
+                await AppShell.DisplayMessage("Match is not playing.");
+                return;
+            }
+
             await OpenCreateMatchEventPage(EventType.KickOut.ToString());
         }
 
         [RelayCommand]
         async Task AddTurnoverWonEvent()
         {
+            if (!Match.IsMatchPlaying())
+            {
+                await AppShell.DisplayMessage("Match is not playing.");
+                return;
+            }
+
             await OpenCreateMatchEventPage(EventType.TurnoverWon.ToString());
         }
 
         [RelayCommand]
         async Task AddTurnoverLostEvent()
         {
+            if (!Match.IsMatchPlaying())
+            {
+                await AppShell.DisplayMessage("Match is not playing.");
+                return;
+            }
+
             await OpenCreateMatchEventPage(EventType.TurnoverLost.ToString());
         }
 
         [RelayCommand]
         async Task AddThrowInWonEvent(string isHomeTeamParam)
         {
-            if (!Match.IsMatchHydrated || !Match.IsMatchPlaying())
+            if (!Match.IsMatchHydrated)
             {
+                await AppShell.DisplayMessage("Match is not valid.");
                 return;
             }
+
+            if(!Match.IsMatchPlaying())
+            {
+                await AppShell.DisplayMessage("Match is not playing.");
+                return;
+            }
+
             await Shell.Current.GoToAsync($"createMatchEvent?eventType=ThrowInWon&isHomeTeam={isHomeTeamParam}");
         }
 

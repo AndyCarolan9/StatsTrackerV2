@@ -12,7 +12,10 @@ namespace StatsTrackerV2
             var builder = MauiApp.CreateBuilder();
             builder
                 .UseMauiApp<App>()
-                .UseMauiCommunityToolkit()
+                .UseMauiCommunityToolkit(options =>
+                {
+                    options.SetShouldEnableSnackbarOnWindows(true);
+                })
                 .ConfigureSyncfusionToolkit()
                 .ConfigureMauiHandlers(handlers =>
                 {
