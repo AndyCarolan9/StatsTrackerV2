@@ -61,6 +61,12 @@ namespace StatsTrackerV2.PageModels
             MatchEvent? matchEvent = Match.GetLastMatchEvent();
             if (matchEvent == null || !matchEvent.Type.IsShotEvent())
             {
+                if (matchEvent != null && (matchEvent.Type == EventType.HalfStart || matchEvent.Type == EventType.HalfEnd))
+                {
+                    IsHomeTeamInPossession = false;
+                    IsAwayTeamInPossession = false;
+                }
+
                 IsHomeTeamKickout = false;
                 IsAwayTeamKickout = false;
                 return;

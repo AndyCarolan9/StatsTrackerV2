@@ -30,6 +30,7 @@
                 <Label Text="{Binding Match.HomeTeamScore}" FontSize="Header"/>
                 <Button Text="Cards" />
                 <Button Text="Subs" />
+                <Image Source="{StaticResource IconBall}" IsVisible="{Binding IsHomeTeamInPossession}"/>
             </HorizontalStackLayout>
 
             <Label BackgroundColor="{Binding Match.HomeTeam.TeamColor}" />
@@ -41,6 +42,7 @@
                 <Label Text="{Binding Match.AwayTeamScore}" FontSize="Header"/>
                 <Button Text="Cards" />
                 <Button Text="Subs" />
+                <Image Source="{StaticResource IconBall}" IsVisible="{Binding IsAwayTeamInPossession}"/>
             </HorizontalStackLayout>
 
             <Label BackgroundColor="{Binding Match.AwayTeam.TeamColor}"/>
