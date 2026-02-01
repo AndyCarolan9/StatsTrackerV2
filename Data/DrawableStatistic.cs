@@ -10,10 +10,13 @@ namespace StatsTrackerV2.Data
 
         public Color Color { get; set; }
 
-        public DrawableStatistic(PointF location, Color color)
+        public bool IsFirstHalf {  get; set; }
+
+        public DrawableStatistic(PointF location, Color color, bool isFirstHalf)
         {
             Location = location;
             Color = color;
+            IsFirstHalf = isFirstHalf;
         }
     }
 }

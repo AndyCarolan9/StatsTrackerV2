@@ -208,7 +208,7 @@ namespace StatsTrackerV2.PageModels
             {
                 if(CanShowEvent(item.Key))
                 {
-                    DotDrawable.Statistics.Add(new DrawableStatistic(item.Key.Location, item.Value));
+                    DotDrawable.Statistics.Add(new DrawableStatistic(item.Key.Location, item.Value, item.Key.HalfIndex == 1));
                 }
             }
             KickoutEventsUpdated?.Invoke(this, new EventArgs());
@@ -221,7 +221,8 @@ namespace StatsTrackerV2.PageModels
             {
                 canShowEvent = kickOutEvent.HalfIndex == 1;
             }
-            else if(Show2ndHalfEvents)
+            
+            if(!canShowEvent && Show2ndHalfEvents)
             {
                 canShowEvent = kickOutEvent.HalfIndex == 2;
             }

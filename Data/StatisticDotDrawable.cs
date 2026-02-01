@@ -15,7 +15,18 @@
                 float y = height * stat.Location.Y;
 
                 canvas.FillColor = stat.Color;
-                canvas.FillCircle(x, y, 6);
+
+                if(stat.IsFirstHalf)
+                {
+                    canvas.FillCircle(x, y, 6);
+                    canvas.DrawCircle(x, y, 6);
+                }
+                else
+                {
+                    canvas.FillRectangle(x - 6, y - 6, 12, 12);
+                    canvas.DrawRectangle(x - 6, y - 6, 12, 12);
+                }
+                    
             }
         }
     }
