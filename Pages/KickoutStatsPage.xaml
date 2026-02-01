@@ -4,6 +4,7 @@
              xmlns:pageModels="clr-namespace:StatsTrackerV2.PageModels"
              xmlns:models="clr-namespace:StatsTrackerV2.Models"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:sf="clr-namespace:Syncfusion.Maui.Toolkit.Charts;assembly=Syncfusion.Maui.Toolkit"
              x:Class="StatsTrackerV2.Pages.KickoutStatsPage"
              x:DataType="pageModels:KickoutStatsPageModel"
              x:Name="KickoutStats"
@@ -17,76 +18,107 @@
             Command="{Binding AppearingCommand}" />
     </ContentPage.Behaviors>
 
-    <Grid Padding="12" 
-          RowDefinitions="Auto, *" 
-          ColumnDefinitions="*, 125, Auto"
-          RowSpacing="12"
-          ColumnSpacing="12">
+    <ScrollView FlowDirection="LeftToRight">
+        <Grid Padding="12" 
+            ColumnDefinitions="Auto, Auto"
+            RowSpacing="12"
+            ColumnSpacing="12">
 
-        <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
             <Picker Title="Selected Team" 
                 ItemsSource="{Binding Teams}" 
-                SelectedItem="{Binding SelectedTeam}" />
-        </HorizontalStackLayout>
+                SelectedItem="{Binding SelectedTeam}"
+                Grid.Row="0" Grid.Column="0"
+                MaximumWidthRequest="250"
+                HorizontalOptions="Start"/>
 
-        <AbsoluteLayout x:Name="Canvas"
-                        Grid.Row="1" Grid.Column="0"
-                        HorizontalOptions="Fill"
-                        VerticalOptions="Fill">
-            <Image x:Name="MainImage"
-                   Source="inputfieldhorizontalnewrules.png"
-                   Aspect="AspectFit"
-                   AbsoluteLayout.LayoutBounds="0,0,1,1"
-                   AbsoluteLayout.LayoutFlags="All"/>
+            <Grid Grid.Row="1" Grid.Column="0">
+                <Image x:Name="MainImage"
+                    Source="inputfieldhorizontalnewrules.png"
+                    Aspect="AspectFit"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"/>
 
-            <GraphicsView
+                <GraphicsView
                     x:Name="DrawingView"
-                    Drawable="{Binding DotDrawable}"
-                    AbsoluteLayout.LayoutBounds="0,0,1,1"
-                    AbsoluteLayout.LayoutFlags="All" />
-        </AbsoluteLayout>
+                    Drawable="{Binding DotDrawable}"/>
+            </Grid>
 
-        <VerticalStackLayout Grid.Column="1" Grid.Row="1">
-            <HorizontalStackLayout>
-                <CheckBox IsChecked="{Binding Show1stHalfEvents}"/>
-                <Label Text="1st Half" VerticalOptions="Center" ToolTipProperties.Text="Show Kickout events from the 1st half"/>
-            </HorizontalStackLayout>
+            <VerticalStackLayout Grid.Column="1" Grid.Row="1">
+                <HorizontalStackLayout>
+                    <CheckBox IsChecked="{Binding Show1stHalfEvents}"/>
+                    <Label Text="1st Half" VerticalOptions="Center" ToolTipProperties.Text="Show Kickout events from the 1st half"/>
+                </HorizontalStackLayout>
 
-            <HorizontalStackLayout>
-                <CheckBox IsChecked="{Binding Show2ndHalfEvents}"/>
-                <Label Text="2nd Half" VerticalOptions="Center" ToolTipProperties.Text="Show Kickout events from the 2nd half"/>
-            </HorizontalStackLayout>
-            
-            <HorizontalStackLayout>
-                <CheckBox IsChecked="{Binding ShowWonClean}"/>
-                <Label Text="Won Clean" VerticalOptions="Center" ToolTipProperties.Text="Show Kickout events which were won clean (No mark/sideline called and no contact from another player)"/>
-            </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <CheckBox IsChecked="{Binding Show2ndHalfEvents}"/>
+                    <Label Text="2nd Half" VerticalOptions="Center" ToolTipProperties.Text="Show Kickout events from the 2nd half"/>
+                </HorizontalStackLayout>
 
-            <HorizontalStackLayout>
-                <CheckBox IsChecked="{Binding ShowWonMark}"/>
-                <Label Text="Won Mark" VerticalOptions="Center" ToolTipProperties.Text="Show Kickout events which were won and resulted in a placed ball (mark/free)"/>
-            </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <CheckBox IsChecked="{Binding ShowWonClean}"/>
+                    <Label Text="Won Clean" VerticalOptions="Center" ToolTipProperties.Text="Show Kickout events which were won clean (No mark/sideline called and no contact from another player)"/>
+                </HorizontalStackLayout>
 
-            <HorizontalStackLayout>
-                <CheckBox IsChecked="{Binding ShowWonBreak}"/>
-                <Label Text="Won Break" VerticalOptions="Center" ToolTipProperties.Text="Show Kickout events which were won from a breaking ball"/>
-            </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <CheckBox IsChecked="{Binding ShowWonMark}"/>
+                    <Label Text="Won Mark" VerticalOptions="Center" ToolTipProperties.Text="Show Kickout events which were won and resulted in a placed ball (mark/free)"/>
+                </HorizontalStackLayout>
 
-            <HorizontalStackLayout>
-                <CheckBox IsChecked="{Binding ShowLostClean}"/>
-                <Label Text="Lost Clean" VerticalOptions="Center" ToolTipProperties.Text="Show Kickout events which were lost clean (No mark/sideline called and no contact from another player)"/>
-            </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <CheckBox IsChecked="{Binding ShowWonBreak}"/>
+                    <Label Text="Won Break" VerticalOptions="Center" ToolTipProperties.Text="Show Kickout events which were won from a breaking ball"/>
+                </HorizontalStackLayout>
 
-            <HorizontalStackLayout>
-                <CheckBox IsChecked="{Binding ShowLostMark}"/>
-                <Label Text="Lost Mark" VerticalOptions="Center" ToolTipProperties.Text="Show Kickout events which were lost and resulted in a placed ball (mark/free/sideline)"/>
-            </HorizontalStackLayout>
+                <HorizontalStackLayout>
+                    <CheckBox IsChecked="{Binding ShowLostClean}"/>
+                    <Label Text="Lost Clean" VerticalOptions="Center" ToolTipProperties.Text="Show Kickout events which were lost clean (No mark/sideline called and no contact from another player)"/>
+                </HorizontalStackLayout>
 
-            <HorizontalStackLayout>
-                <CheckBox IsChecked="{Binding ShowLostBreak}"/>
-                <Label Text="Lost Break" VerticalOptions="Center" ToolTipProperties.Text="Show Kickout events which were lost from a breaking ball"/>
-            </HorizontalStackLayout>
-        </VerticalStackLayout>
+                <HorizontalStackLayout>
+                    <CheckBox IsChecked="{Binding ShowLostMark}"/>
+                    <Label Text="Lost Mark" VerticalOptions="Center" ToolTipProperties.Text="Show Kickout events which were lost and resulted in a placed ball (mark/free/sideline)"/>
+                </HorizontalStackLayout>
 
-    </Grid>
+                <HorizontalStackLayout>
+                    <CheckBox IsChecked="{Binding ShowLostBreak}"/>
+                    <Label Text="Lost Break" VerticalOptions="Center" ToolTipProperties.Text="Show Kickout events which were lost from a breaking ball"/>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+
+            <sf:SfCartesianChart x:Name="KickoutChart" IsTransposed="True" Grid.Column="0" Grid.Row="2">
+                <sf:SfCartesianChart.Legend>
+                    <sf:ChartLegend IsVisible="True"/>
+                </sf:SfCartesianChart.Legend>
+                <sf:SfCartesianChart.XAxes>
+                    <sf:CategoryAxis/>
+                </sf:SfCartesianChart.XAxes>
+
+                <sf:SfCartesianChart.YAxes>
+                    <sf:NumericalAxis/>
+                </sf:SfCartesianChart.YAxes>
+
+                <sf:ColumnSeries ItemsSource="{Binding TeamStats}"
+                                 XBindingPath="Name"
+                                 YBindingPath="FirstHalfValue"
+                                 ShowDataLabels="True"
+                                 Label="1st Half"
+                                 Spacing="0.2"/>
+
+                <sf:ColumnSeries ItemsSource="{Binding TeamStats}"
+                                 XBindingPath="Name"
+                                 YBindingPath="SecondHalfValue"
+                                 ShowDataLabels="True"
+                                 Label="2nd Half"
+                                 Spacing="0.2"/>
+            </sf:SfCartesianChart>
+
+        </Grid>
+    </ScrollView>
+    
 </ContentPage>

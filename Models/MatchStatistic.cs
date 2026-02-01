@@ -6,6 +6,8 @@ namespace StatsTrackerV2.Models
     {
         public EventType EventType { get; set; }
 
+        public KickOutResultType KickOutResultType { get; set; }
+
         [ObservableProperty]
         public string _name;
 
@@ -18,6 +20,15 @@ namespace StatsTrackerV2.Models
         public MatchStatistic(EventType type, string name, int firstHalfValue, int secondHalfValue)
         {
             EventType = type;
+            Name = name;
+            FirstHalfValue = firstHalfValue;
+            SecondHalfValue = secondHalfValue;
+        }
+
+        public MatchStatistic(KickOutResultType resultType, string name, int firstHalfValue, int secondHalfValue) 
+        {
+            EventType = EventType.KickOut;
+            KickOutResultType = resultType;
             Name = name;
             FirstHalfValue = firstHalfValue;
             SecondHalfValue = secondHalfValue;

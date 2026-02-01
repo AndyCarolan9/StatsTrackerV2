@@ -39,6 +39,9 @@ namespace StatsTrackerV2.PageModels
             new KickoutResultColor(KickOutResultType.LostBreak, Colors.IndianRed)
         };
 
+        [ObservableProperty]
+        private ObservableCollection<MatchStatistic> _teamStats = [];
+
         public StatisticDotDrawable DotDrawable { get; } = new();
 
         private Dictionary<KickOutEvent, Color> _kickoutEvents = new Dictionary<KickOutEvent, Color>();
@@ -136,6 +139,13 @@ namespace StatsTrackerV2.PageModels
         public KickoutStatsPageModel(Match match)
         {
             _match = match;
+
+            TeamStats.Add(new MatchStatistic(KickOutResultType.Won, "Won Clean", 0, 0));
+            TeamStats.Add(new MatchStatistic(KickOutResultType.WonMark, "Won Mark", 0, 0));
+            TeamStats.Add(new MatchStatistic(KickOutResultType.WonBreak, "Won Break", 0, 0));
+            TeamStats.Add(new MatchStatistic(KickOutResultType.Lost, "Lost Clean", 0, 0));
+            TeamStats.Add(new MatchStatistic(KickOutResultType.LostMark, "Lost Mark", 0, 0));
+            TeamStats.Add(new MatchStatistic(KickOutResultType.LostBreak, "Lost Break", 0, 0));
         }
 
         [RelayCommand]
@@ -167,7 +177,14 @@ namespace StatsTrackerV2.PageModels
                 _kickoutEvents.Add(kickOutEvent, GetColorForResultType(kickOutEvent));
             }
 
+            foreach (MatchStatistic item in TeamStats)
+            {
+                item.FirstHalfValue = 0;
+                item.SecondHalfValue = 0;
+            }
+
             FilterDrawnKickoutEvents();
+            FillGraph();
         }
 
         private Color GetColorForResultType(KickOutEvent kickOutEvent)
@@ -228,6 +245,54 @@ namespace StatsTrackerV2.PageModels
                     return ShowLostBreak;
                 default:
                     return false;
+            }
+        }
+
+        private void FillGraph()
+        {
+            foreach(var kickoutEvent in _kickoutEvents)
+            {
+                switch(kickoutEvent.Key.ResultType)
+                {
+                    case KickOutResultType.Won:
+                        AddToMatchStat(KickOutResultType.Won, kickoutEvent.Key);
+                        break;
+                    case KickOutResultType.WonMark:
+                        AddToMatchStat(KickOutResultType.WonMark, kickoutEvent.Key);
+                        break;
+                    case KickOutResultType.WonBreak:
+                        AddToMatchStat(KickOutResultType.WonBreak, kickoutEvent.Key);
+                        break;
+                    case KickOutResultType.Lost:
+                        AddToMatchStat(KickOutResultType.Lost, kickoutEvent.Key);
+                        break;
+                    case KickOutResultType.LostMark:
+                        AddToMatchStat(KickOutResultType.LostMark, kickoutEvent.Key);
+                        break;
+                    case KickOutResultType.LostBreak:
+                        AddToMatchStat(KickOutResultType.LostBreak, kickoutEvent.Key);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            TeamStats = new ObservableCollection<MatchStatistic>(TeamStats);
+        }
+
+        private void AddToMatchStat(KickOutResultType resultType, KickOutEvent kickoutEvent)
+        {
+            MatchStatistic? stat = TeamStats.ToList().Find(matchStat => matchStat.KickOutResultType == resultType);
+            if (stat == null)
+                return;
+
+            if (kickoutEvent.HalfIndex == 1)
+            {
+                stat.FirstHalfValue = stat.FirstHalfValue + 1;
+            }
+            else
+            {
+                stat.SecondHalfValue++;
             }
         }
     }
