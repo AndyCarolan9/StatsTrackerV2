@@ -237,7 +237,7 @@ namespace StatsTrackerV2.PageModels
 
         private void UpdateMatchStats()
         {
-            if (!Match.IsMatchHydrated || !Match.IsMatchPlaying())
+            if (!Match.IsMatchHydrated)
             {
                 return;
             }
