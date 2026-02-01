@@ -8,6 +8,7 @@ namespace StatsTrackerV2.PageModels
 {
     public partial class CreateMatchEventPageModel : ObservableObject, IQueryAttributable
     {
+        [ObservableProperty]
         private Match _match;
 
         private Team _team = new Team();
@@ -56,7 +57,7 @@ namespace StatsTrackerV2.PageModels
 
         public CreateMatchEventPageModel(Match match)
         {
-            _match = match;
+            Match = match;
 
             Players = new();
             ActionTypes = new();
@@ -75,7 +76,7 @@ namespace StatsTrackerV2.PageModels
 
                 IsShotEvent = _eventType.IsShotEvent();
 
-                _team = _match.GetTeamForEvent(_eventType);
+                _team = Match.GetTeamForEvent(_eventType);
 
                 PopulateActionTypes();
                 PopulateResultTypes();
@@ -90,9 +91,9 @@ namespace StatsTrackerV2.PageModels
                 bool isHomeTeam = bool.Parse(param);
 
                 if (isHomeTeam)
-                    _team = _match.HomeTeam;
+                    _team = Match.HomeTeam;
                 else
-                    _team = _match.AwayTeam;
+                    _team = Match.AwayTeam;
             }
 
             for (int i = 0; i < _team.CurrentTeam.Count(); i++)
@@ -195,7 +196,7 @@ namespace StatsTrackerV2.PageModels
                 shotEventArgs.ActionType = actionType;
                 shotEventArgs.IsTurnedOver = IsPossessionChanged;
 
-                _match.AddEvent(shotEventArgs);
+                Match.AddEvent(shotEventArgs);
             }
             else if (_eventType.IsTurnoverEvent())
             {
@@ -213,7 +214,7 @@ namespace StatsTrackerV2.PageModels
                 turnoverEventArgs.TurnoverType = result;
                 turnoverEventArgs.Player = SelectedPlayer.Name;
 
-                _match.AddEvent(turnoverEventArgs);
+                Match.AddEvent(turnoverEventArgs);
             }
             else if(_eventType == EventType.KickOut)
             {
@@ -237,7 +238,7 @@ namespace StatsTrackerV2.PageModels
                 kickOutEventArgs.ResultType = result;
                 kickOutEventArgs.Player = SelectedPlayer.Name;
 
-                _match.AddEvent(kickOutEventArgs);
+                Match.AddEvent(kickOutEventArgs);
             }
             else
             {
@@ -247,7 +248,7 @@ namespace StatsTrackerV2.PageModels
                 inputStatEventArgs.Team = _team;
                 inputStatEventArgs.Player = SelectedPlayer.Name;
 
-                _match.AddEvent(inputStatEventArgs);
+                Match.AddEvent(inputStatEventArgs);
             }
 
             await Shell.Current.GoToAsync("..");

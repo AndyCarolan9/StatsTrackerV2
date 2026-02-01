@@ -24,6 +24,20 @@
                 AbsoluteLayout.LayoutBounds="0,0,1,1"
                 AbsoluteLayout.LayoutFlags="All"/>
 
+            <Label Text="{Binding Match.HomeTeam.TeamName}"
+                   TextColor="AntiqueWhite"
+                   FontAttributes="Bold"
+                   FontSize="Large"
+                   AbsoluteLayout.LayoutBounds="0.01,0.1,AutoSize,AutoSize"
+                   AbsoluteLayout.LayoutFlags="PositionProportional"/>
+
+            <Label Text="{Binding Match.AwayTeam.TeamName}"
+                   TextColor="AntiqueWhite"
+                   FontAttributes="Bold"
+                   FontSize="Large"
+                   AbsoluteLayout.LayoutBounds="0.99,0.1,AutoSize,AutoSize"
+                   AbsoluteLayout.LayoutFlags="PositionProportional"/>
+
             <GraphicsView
                 x:Name="DrawingView"
                 Drawable="{Binding DotDrawable}"
