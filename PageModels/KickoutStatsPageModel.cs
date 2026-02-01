@@ -293,7 +293,7 @@ namespace StatsTrackerV2.PageModels
             }
             else
             {
-                stat.SecondHalfValue++;
+                stat.SecondHalfValue = stat.SecondHalfValue + 1;
             }
         }
     }
