@@ -1,5 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using StatsTrackerV2.Model.EventScores;
 using StatsTrackerV2.Models;
 using System.Collections.ObjectModel;
 
@@ -45,6 +46,9 @@ namespace StatsTrackerV2.PageModels
         public StatisticDotDrawable DotDrawable { get; } = new();
 
         private Dictionary<KickOutEvent, Color> _kickoutEvents = new Dictionary<KickOutEvent, Color>();
+
+        [ObservableProperty]
+        private ObservableCollection<EventScore> _eventScores = [];
 
         #region Filter values
         public bool Show1stHalfEvents
@@ -146,6 +150,13 @@ namespace StatsTrackerV2.PageModels
             TeamStats.Add(new MatchStatistic(KickOutResultType.Lost, "Lost Clean", 0, 0));
             TeamStats.Add(new MatchStatistic(KickOutResultType.LostMark, "Lost Mark", 0, 0));
             TeamStats.Add(new MatchStatistic(KickOutResultType.LostBreak, "Lost Break", 0, 0));
+
+            EventScores.Add(new KickoutEventScore(KickOutResultType.Won));
+            EventScores.Add(new KickoutEventScore(KickOutResultType.WonMark));
+            EventScores.Add(new KickoutEventScore(KickOutResultType.WonBreak));
+            EventScores.Add(new KickoutEventScore(KickOutResultType.Lost));
+            EventScores.Add(new KickoutEventScore(KickOutResultType.LostMark));
+            EventScores.Add(new KickoutEventScore(KickOutResultType.LostBreak));
         }
 
         [RelayCommand]
@@ -153,6 +164,8 @@ namespace StatsTrackerV2.PageModels
         {
             if (!_match.IsMatchHydrated)
                 return;
+
+            Teams.Clear();
 
             Teams.Add(_match.HomeTeam.TeamName);
             Teams.Add(_match.AwayTeam.TeamName);
@@ -162,6 +175,7 @@ namespace StatsTrackerV2.PageModels
 
         private void LoadStatsForTeam()
         {
+            UpdateKickoutScores(true);
             _kickoutEvents.Clear();
             MatchEvent[] matchEvents = _match.GetMatchEventsOfType(EventType.KickOut).Where(me => me.TeamName == SelectedTeam).ToArray();
             List<KickoutResultColor> resultColors = kickoutResultColors.ToList();
@@ -185,6 +199,7 @@ namespace StatsTrackerV2.PageModels
 
             FilterDrawnKickoutEvents();
             FillGraph();
+            CalculateScoresFromKickouts();
         }
 
         private Color GetColorForResultType(KickOutEvent kickOutEvent)
@@ -294,6 +309,91 @@ namespace StatsTrackerV2.PageModels
             else
             {
                 stat.SecondHalfValue = stat.SecondHalfValue + 1;
+            }
+        }
+
+        private void CalculateScoresFromKickouts()
+        {
+            foreach (KickOutEvent kickOutEvent in _kickoutEvents.Keys)
+            {
+                MatchEvent? nextEvent = _match.GetNextMatchEvent(kickOutEvent);
+                if(nextEvent == null)
+                {
+                    continue; 
+                }
+
+                if (!nextEvent.Type.IsShotEvent())
+                {
+                    continue;
+                }
+
+                ShotEvent? shotEvent = nextEvent as ShotEvent;
+                if(shotEvent == null)
+                {
+                    continue; 
+                }
+
+                if(!shotEvent.ResultType.IsScore())
+                {
+                    continue;
+                }
+
+                KickoutEventScore? kickoutEventScore = EventScores.ToList().Find(kes =>
+                {
+                    KickoutEventScore? eventScore = kes as KickoutEventScore;
+                    if(eventScore == null)
+                    {
+                        return false;
+                    }
+
+                    return eventScore.ResultType == kickOutEvent.ResultType;
+                }) as KickoutEventScore;
+
+                if(kickoutEventScore == null)
+                {
+                    continue; 
+                }
+
+                if(shotEvent.HalfIndex == 1)
+                {
+                    if(shotEvent.ResultType == ShotResultType.Goal)
+                    {
+                        kickoutEventScore.FirstHalfGoals += 1;
+                    }
+                    else if(shotEvent.ResultType == ShotResultType.DoublePoint)
+                    {
+                        kickoutEventScore.FirstHalfPoints += 2;
+                    }
+                    else
+                    {
+                        kickoutEventScore.FirstHalfPoints += 1;
+                    }
+                }
+                else
+                {
+                    if (shotEvent.ResultType == ShotResultType.Goal)
+                    {
+                        kickoutEventScore.SecondHalfGoals += 1;
+                    }
+                    else if (shotEvent.ResultType == ShotResultType.DoublePoint)
+                    {
+                        kickoutEventScore.SecondHalfPoints += 2;
+                    }
+                    else
+                    {
+                        kickoutEventScore.SecondHalfPoints += 1;
+                    }
+                }
+            }
+
+            UpdateKickoutScores();
+        }
+
+        private void UpdateKickoutScores(bool shouldReset = false)
+        {
+            foreach(EventScore eventScore in EventScores)
+            {
+                eventScore.UpdateScoreValues(shouldReset);
             }
         }
     }

@@ -459,6 +459,23 @@ namespace StatsTrackerV2.Models
             return MatchEvents.ToList().FindAll(me => me.Type == eventType).ToArray();
         }
 
+        /// <summary>
+        /// Finds the next match event after the passed in event.
+        /// </summary>
+        /// <param name="matchEvent">The match event to find the next event for.</param>
+        /// <returns></returns>
+        public MatchEvent? GetNextMatchEvent(MatchEvent matchEvent)
+        {
+            int index = MatchEvents.IndexOf(matchEvent);
+            int newIndex = index + 1;
+            if(newIndex >= MatchEvents.Count)
+            {
+                return null;
+            }
+
+            return MatchEvents[newIndex];
+        }
+
         public MatchEvent[] GetKickOutEventsOfType(KickOutResultType resultType)
         {
             return MatchEvents.ToList().FindAll(me =>
