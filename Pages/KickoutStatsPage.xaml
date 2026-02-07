@@ -21,13 +21,13 @@
 
     <ScrollView>
         <Grid Padding="12" 
-            ColumnDefinitions="Auto, Auto"
+            ColumnDefinitions="*, Auto"
             RowSpacing="12"
             ColumnSpacing="12">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
@@ -48,7 +48,9 @@
 
                 <GraphicsView
                     x:Name="DrawingView"
-                    Drawable="{Binding DotDrawable}"/>
+                    Drawable="{Binding DotDrawable}"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"/>
             </Grid>
 
             <VerticalStackLayout Grid.Column="1" Grid.Row="1" Spacing="10">
@@ -101,7 +103,7 @@
                 </Border>
             </VerticalStackLayout>
 
-            <Border Grid.Column="0" Grid.Row="2">
+            <Border Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2">
                 <chart:SfCartesianChart x:Name="KickoutChart" IsTransposed="True">
                     <chart:SfCartesianChart.Legend>
                         <chart:ChartLegend IsVisible="True" LabelStyle="{StaticResource DefaultLegendLabelStyle}"/>

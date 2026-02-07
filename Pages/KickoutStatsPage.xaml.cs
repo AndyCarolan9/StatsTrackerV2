@@ -7,7 +7,13 @@ public partial class KickoutStatsPage : ContentPage
 		InitializeComponent();
 		BindingContext = model;
 		model.KickoutEventsUpdated += OnDrawableUpdated;
-	}
+
+        MainImage.SizeChanged += (s, e) =>
+        {
+            DrawingView.WidthRequest = MainImage.Width;
+            DrawingView.HeightRequest = MainImage.Height;
+        };
+    }
 
 	private void OnDrawableUpdated(object? sender, EventArgs e)
 	{
