@@ -1,4 +1,4 @@
-using StatsTrackerV2.Model.EventScores;
+using StatsTrackerV2.Models.EventScores;
 using System.Collections.ObjectModel;
 
 namespace StatsTrackerV2.Pages.Controls

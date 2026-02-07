@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using StatsTrackerV2.Model.EventScores;
+using StatsTrackerV2.Models.EventScores;
+using StatsTrackerV2.Models.ResultColors;
 using StatsTrackerV2.Models;
 using System.Collections.ObjectModel;
 
@@ -30,15 +31,8 @@ namespace StatsTrackerV2.PageModels
         [ObservableProperty]
         private ObservableCollection<string> _teams = [];
 
-        public ObservableCollection<KickoutResultColor> kickoutResultColors = new ObservableCollection<KickoutResultColor>
-        {
-            new KickoutResultColor(KickOutResultType.Won, Colors.Green),
-            new KickoutResultColor(KickOutResultType.WonMark, Colors.DarkGreen),
-            new KickoutResultColor(KickOutResultType.WonBreak, Colors.GreenYellow),
-            new KickoutResultColor(KickOutResultType.Lost, Colors.Red),
-            new KickoutResultColor(KickOutResultType.LostMark, Colors.DarkRed),
-            new KickoutResultColor(KickOutResultType.LostBreak, Colors.IndianRed)
-        };
+        [ObservableProperty]
+        public ObservableCollection<EventResultColor> _kickoutResultColors = [];        
 
         [ObservableProperty]
         private ObservableCollection<MatchStatistic> _teamStats = [];
@@ -157,6 +151,13 @@ namespace StatsTrackerV2.PageModels
             EventScores.Add(new KickoutEventScore(KickOutResultType.Lost));
             EventScores.Add(new KickoutEventScore(KickOutResultType.LostMark));
             EventScores.Add(new KickoutEventScore(KickOutResultType.LostBreak));
+
+            KickoutResultColors.Add(new KickoutResultColor(KickOutResultType.Won, Colors.Green));
+            KickoutResultColors.Add(new KickoutResultColor(KickOutResultType.WonMark, Colors.DarkGreen));
+            KickoutResultColors.Add(new KickoutResultColor(KickOutResultType.WonBreak, Colors.GreenYellow));
+            KickoutResultColors.Add(new KickoutResultColor(KickOutResultType.Lost, Colors.Red));
+            KickoutResultColors.Add(new KickoutResultColor(KickOutResultType.LostMark, Colors.DarkRed));
+            KickoutResultColors.Add(new KickoutResultColor(KickOutResultType.LostBreak, Colors.IndianRed));
         }
 
         [RelayCommand]
@@ -178,7 +179,6 @@ namespace StatsTrackerV2.PageModels
             UpdateKickoutScores(true);
             _kickoutEvents.Clear();
             MatchEvent[] matchEvents = _match.GetMatchEventsOfType(EventType.KickOut).Where(me => me.TeamName == SelectedTeam).ToArray();
-            List<KickoutResultColor> resultColors = kickoutResultColors.ToList();
 
             foreach (MatchEvent matchEvent in matchEvents)
             {
@@ -204,9 +204,9 @@ namespace StatsTrackerV2.PageModels
 
         private Color GetColorForResultType(KickOutEvent kickOutEvent)
         {
-            foreach(KickoutResultColor color in kickoutResultColors)
+            foreach(KickoutResultColor color in KickoutResultColors)
             {
-                if(color.Type == kickOutEvent.ResultType)
+                if(color.ResultType == kickOutEvent.ResultType)
                 {
                     return color.Color;
                 }

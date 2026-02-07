@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace StatsTrackerV2.Model.EventScores
+namespace StatsTrackerV2.Models.EventScores
 {
     public partial class EventScore : ObservableObject
     {

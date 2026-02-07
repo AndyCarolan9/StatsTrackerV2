@@ -1,4 +1,4 @@
-﻿namespace StatsTrackerV2.Model.EventScores
+﻿namespace StatsTrackerV2.Models.EventScores
 {
     public partial class KickoutEventScore : EventScore
     {
