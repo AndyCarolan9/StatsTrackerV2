@@ -39,19 +39,10 @@
                 MaximumWidthRequest="250"
                 HorizontalOptions="Start"/>
 
-            <Grid Grid.Row="1" Grid.Column="0">
-                <Image x:Name="MainImage"
-                    Source="inputfieldhorizontalnewrules.png"
-                    Aspect="AspectFit"
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center"/>
-
-                <GraphicsView
-                    x:Name="DrawingView"
-                    Drawable="{Binding DotDrawable}"
-                    HorizontalOptions="Center"
-                    VerticalOptions="Center"/>
-            </Grid>
+            <controls:PitchDisplay x:Name="pitchDisplay" Grid.Row="1" Grid.Column="0"
+                                   StatisticDrawer="{Binding DotDrawable}"
+                                   HomeTeamText="{Binding Match.HomeTeam.TeamName}"
+                                   AwayTeamText="{Binding Match.AwayTeam.TeamName}" />
 
             <VerticalStackLayout Grid.Column="1" Grid.Row="1" Spacing="10">
                 <Border>

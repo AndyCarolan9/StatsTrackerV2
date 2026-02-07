@@ -11,7 +11,8 @@ namespace StatsTrackerV2.PageModels
     {
         public event EventHandler? KickoutEventsUpdated;
 
-        private readonly Match _match;
+        [ObservableProperty]
+        private Match _match;
 
         private string _selectedTeam = string.Empty;
         public string SelectedTeam
@@ -136,7 +137,7 @@ namespace StatsTrackerV2.PageModels
 
         public KickoutStatsPageModel(Match match)
         {
-            _match = match;
+            Match = match;
 
             TeamStats.Add(new MatchStatistic(KickOutResultType.Won, "Won Clean", 0, 0));
             TeamStats.Add(new MatchStatistic(KickOutResultType.WonMark, "Won Mark", 0, 0));
@@ -163,14 +164,14 @@ namespace StatsTrackerV2.PageModels
         [RelayCommand]
         private async Task Appearing()
         {
-            if (!_match.IsMatchHydrated)
+            if (!Match.IsMatchHydrated)
                 return;
 
             Teams.Clear();
 
-            Teams.Add(_match.HomeTeam.TeamName);
-            Teams.Add(_match.AwayTeam.TeamName);
-            SelectedTeam = _match.HomeTeam.TeamName;
+            Teams.Add(Match.HomeTeam.TeamName);
+            Teams.Add(Match.AwayTeam.TeamName);
+            SelectedTeam = Match.HomeTeam.TeamName;
             LoadStatsForTeam();
         }
 
@@ -178,7 +179,7 @@ namespace StatsTrackerV2.PageModels
         {
             UpdateKickoutScores(true);
             _kickoutEvents.Clear();
-            MatchEvent[] matchEvents = _match.GetMatchEventsOfType(EventType.KickOut).Where(me => me.TeamName == SelectedTeam).ToArray();
+            MatchEvent[] matchEvents = Match.GetMatchEventsOfType(EventType.KickOut).Where(me => me.TeamName == SelectedTeam).ToArray();
 
             foreach (MatchEvent matchEvent in matchEvents)
             {
@@ -316,7 +317,7 @@ namespace StatsTrackerV2.PageModels
         {
             foreach (KickOutEvent kickOutEvent in _kickoutEvents.Keys)
             {
-                MatchEvent? nextEvent = _match.GetNextMatchEvent(kickOutEvent);
+                MatchEvent? nextEvent = Match.GetNextMatchEvent(kickOutEvent);
                 if(nextEvent == null)
                 {
                     continue; 
