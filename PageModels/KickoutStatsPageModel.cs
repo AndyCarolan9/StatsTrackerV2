@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 
 namespace StatsTrackerV2.PageModels
 {
-    public partial class KickoutStatsPageModel : ObservableObject
+    public partial class KickoutStatsPageModel : StatsPageModel
     {
         public event EventHandler? KickoutEventsUpdated;
 
@@ -52,7 +52,7 @@ namespace StatsTrackerV2.PageModels
             set
             {
                 field = value;
-                FilterDrawnKickoutEvents();
+                FilterDrawnEvents();
                 OnPropertyChanged();
             }
         } = true;
@@ -63,7 +63,7 @@ namespace StatsTrackerV2.PageModels
             set
             {
                 field = value;
-                FilterDrawnKickoutEvents();
+                FilterDrawnEvents();
                 OnPropertyChanged();
             }
         } = true;
@@ -74,7 +74,7 @@ namespace StatsTrackerV2.PageModels
             set
             {
                 field = value;
-                FilterDrawnKickoutEvents();
+                FilterDrawnEvents();
                 OnPropertyChanged();
             }
         } = true;
@@ -85,7 +85,7 @@ namespace StatsTrackerV2.PageModels
             set
             {
                 field = value;
-                FilterDrawnKickoutEvents();
+                FilterDrawnEvents();
                 OnPropertyChanged();
             }
         } = true;
@@ -96,7 +96,7 @@ namespace StatsTrackerV2.PageModels
             set
             {
                 field = value;
-                FilterDrawnKickoutEvents();
+                FilterDrawnEvents();
                 OnPropertyChanged();
             }
         } = true;
@@ -107,7 +107,7 @@ namespace StatsTrackerV2.PageModels
             set
             {
                 field = value;
-                FilterDrawnKickoutEvents();
+                FilterDrawnEvents();
                 OnPropertyChanged();
             }
         } = true;
@@ -118,7 +118,7 @@ namespace StatsTrackerV2.PageModels
             set
             {
                 field = value;
-                FilterDrawnKickoutEvents();
+                FilterDrawnEvents();
                 OnPropertyChanged();
             }
         } = true;
@@ -129,7 +129,7 @@ namespace StatsTrackerV2.PageModels
             set
             {
                 field = value;
-                FilterDrawnKickoutEvents();
+                FilterDrawnEvents();
                 OnPropertyChanged();
             }
         } = true;
@@ -175,7 +175,7 @@ namespace StatsTrackerV2.PageModels
             LoadStatsForTeam();
         }
 
-        private void LoadStatsForTeam()
+        protected override void LoadStatsForTeam()
         {
             UpdateKickoutScores(true);
             _kickoutEvents.Clear();
@@ -198,9 +198,9 @@ namespace StatsTrackerV2.PageModels
                 item.SecondHalfValue = 0;
             }
 
-            FilterDrawnKickoutEvents();
+            FilterDrawnEvents();
             FillGraph();
-            CalculateScoresFromKickouts();
+            CalculateScoresFromEvent();
         }
 
         private Color GetColorForResultType(KickOutEvent kickOutEvent)
@@ -216,7 +216,7 @@ namespace StatsTrackerV2.PageModels
             return Colors.Black;
         }
 
-        private void FilterDrawnKickoutEvents()
+        protected override void FilterDrawnEvents()
         {
             DotDrawable.Statistics.Clear();
             List<KickOutEvent> EventsToDisplay = new List<KickOutEvent>();
@@ -265,7 +265,7 @@ namespace StatsTrackerV2.PageModels
             }
         }
 
-        private void FillGraph()
+        protected override void FillGraph()
         {
             foreach(var kickoutEvent in _kickoutEvents)
             {
@@ -313,7 +313,7 @@ namespace StatsTrackerV2.PageModels
             }
         }
 
-        private void CalculateScoresFromKickouts()
+        protected override void CalculateScoresFromEvent()
         {
             foreach (KickOutEvent kickOutEvent in _kickoutEvents.Keys)
             {
