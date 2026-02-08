@@ -476,6 +476,42 @@ namespace StatsTrackerV2.Models
             return MatchEvents[newIndex];
         }
 
+        /// <summary>
+        /// Checks if the next event is a shot event. Returns true if the event resulted in a score.
+        /// The shot event is passed as an out parameter.
+        /// </summary>
+        /// <returns>True if scored, false otherwise.</returns>
+        public bool DidScoreFromCurrentEvent(MatchEvent currentEvent, out MatchEvent? scoreEvent)
+        {
+            scoreEvent = null;
+            MatchEvent? nextEvent = GetNextMatchEvent(currentEvent);
+            if (nextEvent != null)
+            {
+                // Check if it's a restart. If true, score did not come as a result of the current event
+                if(nextEvent.Type.IsTurnoverEvent() || nextEvent.Type == EventType.KickOut || nextEvent.Type == EventType.FreeConceded)
+                {
+                    return false;
+                }
+
+                ShotEvent? shotEvent = nextEvent as ShotEvent;
+                if(shotEvent != null)
+                {
+                    if(shotEvent.ResultType.IsScore())
+                    {
+                        scoreEvent = shotEvent;
+                        return true;
+                    }
+                }
+                else
+                {
+                    // Next event wasn't a score. Check event after that.
+                    return DidScoreFromCurrentEvent(nextEvent, out scoreEvent);
+                }
+            }
+
+            return false;
+        }
+
         public MatchEvent[] GetKickOutEventsOfType(KickOutResultType resultType)
         {
             return MatchEvents.ToList().FindAll(me =>

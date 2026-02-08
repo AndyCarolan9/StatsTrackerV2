@@ -317,26 +317,16 @@ namespace StatsTrackerV2.PageModels
         {
             foreach (KickOutEvent kickOutEvent in _kickoutEvents.Keys)
             {
-                MatchEvent? nextEvent = Match.GetNextMatchEvent(kickOutEvent);
-                if(nextEvent == null)
+                bool didScore = Match.DidScoreFromCurrentEvent(kickOutEvent, out MatchEvent? nextEvent);
+                if(!didScore)
                 {
                     continue; 
-                }
-
-                if (!nextEvent.Type.IsShotEvent())
-                {
-                    continue;
                 }
 
                 ShotEvent? shotEvent = nextEvent as ShotEvent;
                 if(shotEvent == null)
                 {
                     continue; 
-                }
-
-                if(!shotEvent.ResultType.IsScore())
-                {
-                    continue;
                 }
 
                 KickoutEventScore? kickoutEventScore = EventScores.ToList().Find(kes =>
