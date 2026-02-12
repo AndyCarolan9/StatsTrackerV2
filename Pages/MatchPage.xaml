@@ -116,16 +116,16 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <sf:SfCartesianChart x:Name="HomeTeamChart" IsTransposed="True" Grid.Column="0" Grid.Row="2">
+        <sf:SfCartesianChart x:Name="HomeTeamChart" Grid.Column="0" Grid.Row="2">
             <sf:SfCartesianChart.Legend>
                 <sf:ChartLegend IsVisible="True"/>
             </sf:SfCartesianChart.Legend>
             <sf:SfCartesianChart.XAxes>
-                <sf:CategoryAxis/>
+                <sf:CategoryAxis LabelStyle="{StaticResource DefaultAxisLabelStyle}"/>
             </sf:SfCartesianChart.XAxes>
 
             <sf:SfCartesianChart.YAxes>
-                <sf:NumericalAxis/>
+                <sf:NumericalAxis LabelStyle="{StaticResource DefaultAxisLabelStyle}" Interval="1"/>
             </sf:SfCartesianChart.YAxes>
 
             <sf:ColumnSeries ItemsSource="{Binding HomeTeamStats}"
@@ -141,16 +141,16 @@
                              Label="2nd Half"/>
         </sf:SfCartesianChart>
 
-        <sf:SfCartesianChart x:Name="AwayTeamChart" IsTransposed="True" Grid.Column="1" Grid.Row="2">
+        <sf:SfCartesianChart x:Name="AwayTeamChart" Grid.Column="1" Grid.Row="2">
             <sf:SfCartesianChart.Legend>
                 <sf:ChartLegend IsVisible="True"/>
             </sf:SfCartesianChart.Legend>
             <sf:SfCartesianChart.XAxes>
-                <sf:CategoryAxis/>
+                <sf:CategoryAxis LabelStyle="{StaticResource DefaultAxisLabelStyle}"/>
             </sf:SfCartesianChart.XAxes>
 
             <sf:SfCartesianChart.YAxes>
-                <sf:NumericalAxis/>
+                <sf:NumericalAxis LabelStyle="{StaticResource DefaultAxisLabelStyle}" Interval="1"/>
             </sf:SfCartesianChart.YAxes>
 
             <sf:ColumnSeries ItemsSource="{Binding AwayTeamStats}"

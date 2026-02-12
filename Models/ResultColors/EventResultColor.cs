@@ -19,6 +19,7 @@
         {
             Type = type;
             Color = color;
+            Name = type.GetEventName();
         }
     }
 }

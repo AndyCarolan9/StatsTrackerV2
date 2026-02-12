@@ -28,6 +28,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <Picker Title="Selected Team" 
@@ -45,11 +46,76 @@
             <VerticalStackLayout Grid.Column="1" Grid.Row="1" Spacing="10">
                 <Border>
                     <VerticalStackLayout Spacing="-5">
-                        <!--Place bools here-->
+                        <HorizontalStackLayout>
+                            <CheckBox IsChecked="{Binding Show1stHalfEvents}"/>
+                            <Label Text="1st Half" VerticalOptions="Center" ToolTipProperties.Text="Show turnover events from the 1st half"/>
+                        </HorizontalStackLayout>
+
+                        <HorizontalStackLayout>
+                            <CheckBox IsChecked="{Binding Show2ndHalfEvents}"/>
+                            <Label Text="2nd Half" VerticalOptions="Center" ToolTipProperties.Text="Show turnover events from the 2nd half"/>
+                        </HorizontalStackLayout>
+
+                        <HorizontalStackLayout>
+                            <CheckBox IsChecked="{Binding ShowWon}"/>
+                            <Label Text="Won Turnovers" VerticalOptions="Center" ToolTipProperties.Text="Show won turnovers"/>
+                        </HorizontalStackLayout>
+
+                        <HorizontalStackLayout>
+                            <CheckBox IsChecked="{Binding ShowLost}"/>
+                            <Label Text="Lost Turnovers" VerticalOptions="Center" ToolTipProperties.Text="Show lost turnovers"/>
+                        </HorizontalStackLayout>
+
+                        <HorizontalStackLayout>
+                            <CheckBox IsChecked="{Binding ShowTackle}"/>
+                            <Label Text="Tackle Turnovers" VerticalOptions="Center" ToolTipProperties.Text="Show turnovers that were the result of a tackle"/>
+                        </HorizontalStackLayout>
+
+                        <HorizontalStackLayout>
+                            <CheckBox IsChecked="{Binding ShowIntercept}"/>
+                            <Label Text="Intercept Turnovers" VerticalOptions="Center" ToolTipProperties.Text="Show turnovers that were the result of a intercept"/>
+                        </HorizontalStackLayout>
+
+                        <HorizontalStackLayout>
+                            <CheckBox IsChecked="{Binding ShowFree}"/>
+                            <Label Text="Frees" VerticalOptions="Center" ToolTipProperties.Text="Show turnovers that were the result of a free"/>
+                        </HorizontalStackLayout>
                     </VerticalStackLayout>
+                </Border>
+
+                <Border>
+                    <controls:LocationMapLegend Items="{Binding TurnoverResultColors}"/>
                 </Border>
             </VerticalStackLayout>
 
+            <Border Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2">
+                <chart:SfCartesianChart x:Name="KickoutChart" IsTransposed="false" EnableSideBySideSeriesPlacement="True">
+                    <chart:SfCartesianChart.Legend>
+                        <chart:ChartLegend IsVisible="True" LabelStyle="{StaticResource DefaultLegendLabelStyle}"/>
+                    </chart:SfCartesianChart.Legend>
+                    <chart:SfCartesianChart.XAxes>
+                        <chart:CategoryAxis LabelStyle="{StaticResource DefaultAxisLabelStyle}"/>
+                    </chart:SfCartesianChart.XAxes>
+
+                    <chart:SfCartesianChart.YAxes>
+                        <chart:NumericalAxis LabelStyle="{StaticResource DefaultAxisLabelStyle}" Interval="1" />
+                    </chart:SfCartesianChart.YAxes>
+
+                    <chart:ColumnSeries ItemsSource="{Binding TeamStats}"
+                        XBindingPath="Name"
+                        YBindingPath="FirstHalfValue"
+                        ShowDataLabels="True"
+                        Label="1st Half"
+                        Spacing="0.1"/>
+
+                    <chart:ColumnSeries ItemsSource="{Binding TeamStats}"
+                        XBindingPath="Name"
+                        YBindingPath="SecondHalfValue"
+                        ShowDataLabels="True"
+                        Label="2nd Half"
+                        Spacing="0.1"/>
+                </chart:SfCartesianChart>
+            </Border>
         </Grid>
     </ScrollView>
 </ContentPage>

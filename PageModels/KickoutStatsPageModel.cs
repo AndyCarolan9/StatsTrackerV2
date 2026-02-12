@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using StatsTrackerV2.Models.EventScores;
 using StatsTrackerV2.Models.ResultColors;
+using StatsTrackerV2.Models.MatchStatistics;
 using StatsTrackerV2.Models;
 using System.Collections.ObjectModel;
 
@@ -36,7 +37,7 @@ namespace StatsTrackerV2.PageModels
         public ObservableCollection<EventResultColor> _kickoutResultColors = [];        
 
         [ObservableProperty]
-        private ObservableCollection<MatchStatistic> _teamStats = [];
+        private ObservableCollection<KickoutMatchStatistic> _teamStats = [];
 
         public StatisticDotDrawable DotDrawable { get; } = new();
 
@@ -139,12 +140,12 @@ namespace StatsTrackerV2.PageModels
         {
             Match = match;
 
-            TeamStats.Add(new MatchStatistic(KickOutResultType.Won, "Won Clean", 0, 0));
-            TeamStats.Add(new MatchStatistic(KickOutResultType.WonMark, "Won Mark", 0, 0));
-            TeamStats.Add(new MatchStatistic(KickOutResultType.WonBreak, "Won Break", 0, 0));
-            TeamStats.Add(new MatchStatistic(KickOutResultType.Lost, "Lost Clean", 0, 0));
-            TeamStats.Add(new MatchStatistic(KickOutResultType.LostMark, "Lost Mark", 0, 0));
-            TeamStats.Add(new MatchStatistic(KickOutResultType.LostBreak, "Lost Break", 0, 0));
+            TeamStats.Add(new KickoutMatchStatistic(KickOutResultType.Won, "Won Clean", 0, 0));
+            TeamStats.Add(new KickoutMatchStatistic(KickOutResultType.WonMark, "Won Mark", 0, 0));
+            TeamStats.Add(new KickoutMatchStatistic(KickOutResultType.WonBreak, "Won Break", 0, 0));
+            TeamStats.Add(new KickoutMatchStatistic(KickOutResultType.Lost, "Lost Clean", 0, 0));
+            TeamStats.Add(new KickoutMatchStatistic(KickOutResultType.LostMark, "Lost Mark", 0, 0));
+            TeamStats.Add(new KickoutMatchStatistic(KickOutResultType.LostBreak, "Lost Break", 0, 0));
 
             EventScores.Add(new KickoutEventScore(KickOutResultType.Won));
             EventScores.Add(new KickoutEventScore(KickOutResultType.WonMark));
@@ -219,7 +220,6 @@ namespace StatsTrackerV2.PageModels
         protected override void FilterDrawnEvents()
         {
             DotDrawable.Statistics.Clear();
-            List<KickOutEvent> EventsToDisplay = new List<KickOutEvent>();
             foreach (var item in _kickoutEvents)
             {
                 if(CanShowEvent(item.Key))
@@ -230,8 +230,12 @@ namespace StatsTrackerV2.PageModels
             KickoutEventsUpdated?.Invoke(this, new EventArgs());
         }
 
-        private bool CanShowEvent(KickOutEvent kickOutEvent)
+        protected override bool CanShowEvent(MatchEvent matchEvent)
         {
+            KickOutEvent? kickOutEvent = matchEvent as KickOutEvent;
+            if(kickOutEvent == null)
+                return false;
+
             bool canShowEvent = false;
             if(Show1stHalfEvents)
             {
@@ -294,7 +298,7 @@ namespace StatsTrackerV2.PageModels
                 }
             }
 
-            TeamStats = new ObservableCollection<MatchStatistic>(TeamStats);
+            TeamStats = new ObservableCollection<KickoutMatchStatistic>(TeamStats);
         }
 
         private void AddToMatchStat(KickOutResultType resultType, KickOutEvent kickoutEvent)
