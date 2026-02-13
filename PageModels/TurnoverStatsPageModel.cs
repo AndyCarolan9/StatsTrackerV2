@@ -306,14 +306,23 @@ namespace StatsTrackerV2.PageModels
                 return false;
             }
 
+            EventType type = turnoverEvent.Type;
+            if(turnoverEvent.TeamName != SelectedTeam)
+            {
+                if (turnoverEvent.Type == EventType.TurnoverWon)
+                    type = EventType.TurnoverLost;
+                else
+                    type = EventType.TurnoverWon;
+            }
+
             if(ShowWon)
             {
-                canShowEvent = turnoverEvent.Type == EventType.TurnoverWon;
+                canShowEvent = type == EventType.TurnoverWon;
             }
 
             if(!canShowEvent && ShowLost)
             {
-                canShowEvent = turnoverEvent.Type == EventType.TurnoverLost;
+                canShowEvent = type == EventType.TurnoverLost;
             }
 
             if (!canShowEvent)
