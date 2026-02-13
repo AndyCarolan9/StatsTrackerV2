@@ -129,13 +129,13 @@ namespace StatsTrackerV2.PageModels
             TurnoverResultColors.Add(new TurnoverResultColor(EventType.TurnoverLost, Colors.Red));
 
             TeamStats.Add(new TurnoverMatchStatistic(EventType.TurnoverWon, "Won Turnovers", 0, 0));
-            TeamStats.Add(new TurnoverMatchStatistic(EventType.TurnoverWon, "Lost Turnovers", 0, 0));
+            TeamStats.Add(new TurnoverMatchStatistic(EventType.TurnoverLost, "Lost Turnovers", 0, 0));
             TeamStats.Add(new TurnoverMatchStatistic(EventType.TurnoverWon, TurnoverType.Intercept, "Won by intercept", 0, 0));
             TeamStats.Add(new TurnoverMatchStatistic(EventType.TurnoverLost, TurnoverType.Intercept, "Lost by intercept", 0, 0));
             TeamStats.Add(new TurnoverMatchStatistic(EventType.TurnoverWon, TurnoverType.Tackle, "Won in tackle", 0, 0));
             TeamStats.Add(new TurnoverMatchStatistic(EventType.TurnoverLost, TurnoverType.Tackle, "Lost in tackle", 0, 0));
-            TeamStats.Add(new TurnoverMatchStatistic(EventType.TurnoverWon, TurnoverType.Free, "Won by a free", 5, 1));
-            TeamStats.Add(new TurnoverMatchStatistic(EventType.TurnoverLost, TurnoverType.Free, "Lost by a free", 10, 5));
+            TeamStats.Add(new TurnoverMatchStatistic(EventType.TurnoverWon, TurnoverType.Free, "Won by a free", 0, 0));
+            TeamStats.Add(new TurnoverMatchStatistic(EventType.TurnoverLost, TurnoverType.Free, "Lost by a free", 0, 0));
         }
 
         [RelayCommand]
@@ -149,7 +149,6 @@ namespace StatsTrackerV2.PageModels
             Teams.Add(Match.HomeTeam.TeamName);
             Teams.Add(Match.AwayTeam.TeamName);
             SelectedTeam = Match.HomeTeam.TeamName;
-
         }
 
         protected override void LoadStatsForTeam()
@@ -167,6 +166,12 @@ namespace StatsTrackerV2.PageModels
                 }
 
                 _turnoverEvents.Add(turnoverEvent);
+            }
+
+            foreach (MatchStatistic item in TeamStats)
+            {
+                item.FirstHalfValue = 0;
+                item.SecondHalfValue = 0;
             }
 
             FilterDrawnEvents();
@@ -212,7 +217,64 @@ namespace StatsTrackerV2.PageModels
 
         protected override void FillGraph()
         {
-            //throw new NotImplementedException();
+            foreach (TurnoverEvent turnoverEvent in _turnoverEvents)
+            {
+                AddToMatchStat(turnoverEvent);
+
+                switch(turnoverEvent.TurnoverType)
+                {
+                    case TurnoverType.Tackle:
+                        AddToMatchStat(turnoverEvent, false);
+                        break;
+                    case TurnoverType.Intercept:
+                        AddToMatchStat(turnoverEvent, false);
+                        break;
+                    case TurnoverType.Free:
+                        AddToMatchStat(turnoverEvent, false);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            TeamStats = new ObservableCollection<TurnoverMatchStatistic>(TeamStats);
+        }
+
+        private void AddToMatchStat(TurnoverEvent turnoverEvent, bool isDefaultTurnoverType = true)
+        {
+            EventType statType = turnoverEvent.Type;
+            if (turnoverEvent.TeamName != SelectedTeam)
+            {
+                if (turnoverEvent.Type == EventType.TurnoverWon)
+                {
+                    statType = EventType.TurnoverLost;
+                }
+                else
+                {
+                    statType = EventType.TurnoverWon;
+                }
+            }
+
+            TurnoverType turnoverType = TurnoverType.Default;
+            if(!isDefaultTurnoverType)
+            {
+                turnoverType = turnoverEvent.TurnoverType;
+            }
+
+            MatchStatistic? matchStat = TeamStats.ToList().Find(stat => stat.EventType == statType && stat.TurnoverType == turnoverType);
+            if (matchStat == null)
+            {
+                return;
+            }
+
+            if (turnoverEvent.HalfIndex == 1)
+            {
+                matchStat.FirstHalfValue = matchStat.FirstHalfValue + 1;
+            }
+            else
+            {
+                matchStat.SecondHalfValue = matchStat.SecondHalfValue + 1;
+            }
         }
 
         protected override void CalculateScoresFromEvent()
