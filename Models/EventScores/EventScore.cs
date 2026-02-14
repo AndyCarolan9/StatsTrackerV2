@@ -31,6 +31,7 @@ namespace StatsTrackerV2.Models.EventScores
             SecondHalfGoals = secondHalfGoals;
             SecondHalfPoints = secondHalfPoints;
             Title = eventType.GetEventName();
+            UpdateScoreValues();
         }
 
         public string GetFirstHalfString()

@@ -29,6 +29,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <Picker Title="Selected Team" 
@@ -116,6 +117,22 @@
                         Spacing="0.1"/>
                 </chart:SfCartesianChart>
             </Border>
+
+            <HorizontalStackLayout Grid.Column="0" Grid.Row="3" Spacing="12">
+                <Border>
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Scored From Turnovers" FontSize="Title"/>
+                        <controls:DataGrid Items="{Binding WonEventScores}"/>
+                    </VerticalStackLayout>
+                </Border>
+
+                <Border>
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Conceded From Turnovers" FontSize="Title"/>
+                        <controls:DataGrid Items="{Binding LostEventScores}"/>
+                    </VerticalStackLayout>
+                </Border>
+            </HorizontalStackLayout>
         </Grid>
     </ScrollView>
 </ContentPage>

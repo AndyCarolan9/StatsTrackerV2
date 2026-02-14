@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using StatsTrackerV2.Models;
+using StatsTrackerV2.Models.EventScores;
 using StatsTrackerV2.Models.MatchStatistics;
 using StatsTrackerV2.Models.ResultColors;
 using System.Collections.ObjectModel;
@@ -121,6 +122,12 @@ namespace StatsTrackerV2.PageModels
         [ObservableProperty]
         private ObservableCollection<TurnoverMatchStatistic> _teamStats = [];
 
+        [ObservableProperty]
+        private ObservableCollection<EventScore> _wonEventScores = [];
+
+        [ObservableProperty]
+        private ObservableCollection<EventScore> _lostEventScores = [];
+
         public TurnoverStatsPageModel(Match match)
         {
             Match = match;
@@ -136,6 +143,14 @@ namespace StatsTrackerV2.PageModels
             TeamStats.Add(new TurnoverMatchStatistic(EventType.TurnoverLost, TurnoverType.Tackle, "Lost in tackle", 0, 0));
             TeamStats.Add(new TurnoverMatchStatistic(EventType.TurnoverWon, TurnoverType.Free, "Won by a free", 0, 0));
             TeamStats.Add(new TurnoverMatchStatistic(EventType.TurnoverLost, TurnoverType.Free, "Lost by a free", 0, 0));
+
+            WonEventScores.Add(new TurnoverEventScore(TurnoverType.Intercept));
+            WonEventScores.Add(new TurnoverEventScore(TurnoverType.Tackle));
+            WonEventScores.Add(new TurnoverEventScore(TurnoverType.Free));
+
+            LostEventScores.Add(new TurnoverEventScore(EventType.TurnoverLost, TurnoverType.Intercept));
+            LostEventScores.Add(new TurnoverEventScore(EventType.TurnoverLost, TurnoverType.Tackle));
+            LostEventScores.Add(new TurnoverEventScore(EventType.TurnoverLost, TurnoverType.Free));
         }
 
         [RelayCommand]
@@ -153,6 +168,7 @@ namespace StatsTrackerV2.PageModels
 
         protected override void LoadStatsForTeam()
         {
+            UpdateTurnoverScores(true);
             _turnoverEvents.Clear();
             List<MatchEvent> matchEvents = Match.GetMatchEventsOfType(EventType.TurnoverWon).ToList();
             matchEvents.AddRange(Match.GetMatchEventsOfType(EventType.TurnoverLost).ToList());
@@ -176,6 +192,7 @@ namespace StatsTrackerV2.PageModels
 
             FilterDrawnEvents();
             FillGraph();
+            CalculateScoresFromEvent();
         }
 
         protected override void FilterDrawnEvents()
@@ -186,23 +203,7 @@ namespace StatsTrackerV2.PageModels
             {
                 if(CanShowEvent(turnover))
                 {
-                    EventType type = EventType.Default;
-                    if (turnover.TeamName == SelectedTeam)
-                    {
-                        type = turnover.Type;
-                    }
-                    else
-                    {
-                        // Invert the type if the event is from the opposition
-                        if (turnover.Type == EventType.TurnoverWon)
-                        {
-                            type = EventType.TurnoverLost;
-                        }
-                        else
-                        {
-                            type = EventType.TurnoverWon;
-                        }
-                    }
+                    EventType type = InvertTurnoverEvent(turnover);
 
                     EventResultColor? resultColor = TurnoverResultColors.FirstOrDefault(x => x.Type == type);
                     if (resultColor != null)
@@ -242,18 +243,7 @@ namespace StatsTrackerV2.PageModels
 
         private void AddToMatchStat(TurnoverEvent turnoverEvent, bool isDefaultTurnoverType = true)
         {
-            EventType statType = turnoverEvent.Type;
-            if (turnoverEvent.TeamName != SelectedTeam)
-            {
-                if (turnoverEvent.Type == EventType.TurnoverWon)
-                {
-                    statType = EventType.TurnoverLost;
-                }
-                else
-                {
-                    statType = EventType.TurnoverWon;
-                }
-            }
+            EventType statType = InvertTurnoverEvent(turnoverEvent);
 
             TurnoverType turnoverType = TurnoverType.Default;
             if(!isDefaultTurnoverType)
@@ -279,7 +269,97 @@ namespace StatsTrackerV2.PageModels
 
         protected override void CalculateScoresFromEvent()
         {
-            //throw new NotImplementedException();
+            foreach (TurnoverEvent turnoverEvent in _turnoverEvents)
+            {
+                bool didScore = Match.DidScoreFromCurrentEvent(turnoverEvent, out MatchEvent? nextEvent);
+                if (!didScore)
+                    continue;
+
+                ShotEvent? shotEvent = nextEvent as ShotEvent;
+                if (shotEvent == null)
+                {
+                    continue;
+                }
+
+                TurnoverEventScore? turnoverEventScore;
+
+                EventType type = InvertTurnoverEvent(turnoverEvent);
+                if (type == EventType.TurnoverWon)
+                {
+                    turnoverEventScore = WonEventScores.ToList().Find(tes =>
+                    {
+                        TurnoverEventScore? eventScore = tes as TurnoverEventScore;
+                        if (eventScore == null)
+                        {
+                            return false;
+                        }
+
+                        return eventScore.TurnoverType == turnoverEvent.TurnoverType;
+                    }) as TurnoverEventScore;
+                }
+                else
+                {
+                    turnoverEventScore = LostEventScores.ToList().Find(tes =>
+                    {
+                        TurnoverEventScore? eventScore = tes as TurnoverEventScore;
+                        if (eventScore == null)
+                        {
+                            return false;
+                        }
+
+                        return eventScore.TurnoverType == turnoverEvent.TurnoverType;
+                    }) as TurnoverEventScore;
+                }
+
+                if (turnoverEventScore == null)
+                    continue;
+
+                if (shotEvent.HalfIndex == 1)
+                {
+                    if (shotEvent.ResultType == ShotResultType.Goal)
+                    {
+                        turnoverEventScore.FirstHalfGoals += 1;
+                    }
+                    else if (shotEvent.ResultType == ShotResultType.DoublePoint)
+                    {
+                        turnoverEventScore.FirstHalfPoints += 2;
+                    }
+                    else
+                    {
+                        turnoverEventScore.FirstHalfPoints += 1;
+                    }
+                }
+                else
+                {
+                    if (shotEvent.ResultType == ShotResultType.Goal)
+                    {
+                        turnoverEventScore.SecondHalfGoals += 1;
+                    }
+                    else if (shotEvent.ResultType == ShotResultType.DoublePoint)
+                    {
+                        turnoverEventScore.SecondHalfPoints += 2;
+                    }
+                    else
+                    {
+                        turnoverEventScore.SecondHalfPoints += 1;
+                    }
+                }
+            }
+
+            UpdateTurnoverScores();
+        }
+
+        private void UpdateTurnoverScores(bool shouldReset = false)
+        {
+            foreach (EventScore eventScore in WonEventScores)
+            {
+                eventScore.UpdateScoreValues(shouldReset);
+            }
+
+            foreach (EventScore eventScore in LostEventScores)
+            {
+                eventScore.UpdateScoreValues(shouldReset);
+            }
         }
 
         protected override bool CanShowEvent(MatchEvent matchEvent)
@@ -306,14 +386,7 @@ namespace StatsTrackerV2.PageModels
                 return false;
             }
 
-            EventType type = turnoverEvent.Type;
-            if(turnoverEvent.TeamName != SelectedTeam)
-            {
-                if (turnoverEvent.Type == EventType.TurnoverWon)
-                    type = EventType.TurnoverLost;
-                else
-                    type = EventType.TurnoverWon;
-            }
+            EventType type = InvertTurnoverEvent(turnoverEvent);
 
             if(ShowWon)
             {
@@ -341,6 +414,24 @@ namespace StatsTrackerV2.PageModels
                 default:
                     return false;
             }
+        }
+
+        private EventType InvertTurnoverEvent(TurnoverEvent turnoverEvent)
+        {
+            EventType statType = turnoverEvent.Type;
+            if (turnoverEvent.TeamName != SelectedTeam)
+            {
+                if (turnoverEvent.Type == EventType.TurnoverWon)
+                {
+                    statType = EventType.TurnoverLost;
+                }
+                else
+                {
+                    statType = EventType.TurnoverWon;
+                }
+            }
+
+            return statType;
         }
     }
 }
