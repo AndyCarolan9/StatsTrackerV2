@@ -60,6 +60,7 @@ namespace StatsTrackerV2
             builder.Services.AddSingleton<MatchPageModel>();
             builder.Services.AddSingleton<KickoutStatsPageModel>();
             builder.Services.AddSingleton<TurnoverStatsPageModel>();
+            builder.Services.AddSingleton<ShotStatsPageModel>();
 
             builder.Services.AddTransientWithShellRoute<ProjectDetailPage, ProjectDetailPageModel>("project");
             builder.Services.AddTransientWithShellRoute<TaskDetailPage, TaskDetailPageModel>("task");

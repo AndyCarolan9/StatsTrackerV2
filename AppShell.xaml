@@ -44,6 +44,12 @@
         ContentTemplate="{DataTemplate pages:TurnoverStatsPage}"
         Route="Turnover" />
 
+    <ShellContent
+        Title="Shooting Stats"
+        Icon="{StaticResource IconCrest}"
+        ContentTemplate="{DataTemplate pages:ShotStatsPage}"
+        Route="Shooting"/>
+
     <Shell.FlyoutFooter>
         <Grid Padding="15">
             <sf:SfSegmentedControl x:Name="ThemeSegmentedControl" 
