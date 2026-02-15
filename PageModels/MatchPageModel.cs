@@ -227,6 +227,18 @@ namespace StatsTrackerV2.PageModels
             await OpenCreateMatchEventPage(EventType.FreeConceded.ToString());
         }
 
+        [RelayCommand]
+        async Task MakeSub(string isHomeTeamParam)
+        {
+            if (!Match.IsMatchHydrated)
+            {
+                await AppShell.DisplayMessage("Match is not valid.");
+                return;
+            }
+
+            await Shell.Current.GoToAsync($"substitution?isHomeTeam={isHomeTeamParam}");
+        }
+
         async Task OpenCreateMatchEventPage(string eventType)
         {
             if (!Match.IsMatchHydrated || !Match.IsMatchPlaying())

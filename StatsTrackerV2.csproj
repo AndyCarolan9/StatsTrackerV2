@@ -105,6 +105,9 @@
 	  <MauiXaml Update="Pages\ShotStatsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\SubstitutionPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\TeamListPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pageModels="clr-namespace:StatsTrackerV2.PageModels"
+             xmlns:models="clr-namespace:StatsTrackerV2.Models"
+             x:Class="StatsTrackerV2.Pages.SubstitutionPage"
+             x:Name="MakeSubstitutionPage"
+             x:DataType="pageModels:SubstitutionPageModel"
+             Title="Substitution Page">
+
+    <Grid Padding="12"
+          ColumnSpacing="12"
+          ColumnDefinitions="*, *, *"
+          RowSpacing="12"
+          RowDefinitions="50, *, 50">
+
+        <Label Text="Current Team" FontAttributes="Bold" FontSize="Medium" Grid.Column="0" Grid.Row="0"/>
+        <CollectionView x:Name="CurrentTeam"
+                        ItemsSource="{Binding CurrentTeam}"
+                        SelectionMode="Single"
+                        SelectedItem="{Binding SelectedPlayerOff}"
+                        VerticalScrollBarVisibility="Always"
+                        Grid.Column="0" Grid.Row="1">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="2"/>
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Player">
+                    <Border Padding="10" Margin="5">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource LightSecondaryBackground},Dark={StaticResource DarkSecondaryBackground}}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="Background" Value="{StaticResource Gray600}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <HorizontalStackLayout HorizontalOptions="Center">
+                            <Label Text="{Binding Index}" />
+                            <Label Text=":" />
+                            <Label Text="{Binding Name}" />
+                        </HorizontalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Label Text="Available Players" FontAttributes="Bold" FontSize="Medium" Grid.Column="1" Grid.Row="0"/>
+        <CollectionView x:Name="AvailableTeam"
+                ItemsSource="{Binding AvailablePlayers}"
+                SelectionMode="Single"
+                SelectedItem="{Binding SelectedPlayerOn}"
+                VerticalScrollBarVisibility="Always"
+                Grid.Column="1" Grid.Row="1">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="2"/>
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:Player">
+                    <Border Padding="10" Margin="5">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource LightSecondaryBackground},Dark={StaticResource DarkSecondaryBackground}}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="Background" Value="{StaticResource Gray600}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <HorizontalStackLayout HorizontalOptions="Center">
+                            <Label Text="{Binding Index}" />
+                            <Label Text=":" />
+                            <Label Text="{Binding Name}" />
+                        </HorizontalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Label Text="Subs Being Made" FontAttributes="Bold" FontSize="Medium" Grid.Column="2" Grid.Row="0"/>
+        <CollectionView x:Name="SubsList"
+                ItemsSource="{Binding SubsList}"
+                SelectionMode="None"
+                VerticalScrollBarVisibility="Always"
+                Grid.Column="2" Grid.Row="1">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="2"/>
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:SubstitutionParameters">
+                    <Border Padding="10" Margin="5">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource LightSecondaryBackground},Dark={StaticResource DarkSecondaryBackground}}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="Background" Value="{StaticResource Gray600}"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <HorizontalStackLayout HorizontalOptions="Center" Spacing="5">
+                            <Label Text="Off:" />
+                            <Label Text="{Binding PlayerOff}" />
+                            <Label Text="On:" />
+                            <Label Text="{Binding PlayerOn}" />
+                        </HorizontalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button Text="Make Sub" Command="{Binding MakeSubCommand}" Grid.Column="1" Grid.Row="2"/>
+        <Button Text="Confirm" Command="{Binding ConfirmCommand}" Grid.Column="2" Grid.Row="2"/>
+
+    </Grid>
+</ContentPage>
