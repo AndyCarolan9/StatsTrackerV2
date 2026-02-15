@@ -221,21 +221,7 @@ namespace StatsTrackerV2.PageModels
             foreach (TurnoverEvent turnoverEvent in _turnoverEvents)
             {
                 AddToMatchStat(turnoverEvent);
-
-                switch(turnoverEvent.TurnoverType)
-                {
-                    case TurnoverType.Tackle:
-                        AddToMatchStat(turnoverEvent, false);
-                        break;
-                    case TurnoverType.Intercept:
-                        AddToMatchStat(turnoverEvent, false);
-                        break;
-                    case TurnoverType.Free:
-                        AddToMatchStat(turnoverEvent, false);
-                        break;
-                    default:
-                        break;
-                }
+                AddToMatchStat(turnoverEvent, false);
             }
 
             TeamStats = new ObservableCollection<TurnoverMatchStatistic>(TeamStats);
