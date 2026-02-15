@@ -58,7 +58,40 @@
                         </HorizontalStackLayout>
                     </VerticalStackLayout>
                 </Border>
+
+                <Border>
+                    <controls:LocationMapLegend Items="{Binding ShotResultColors}"/>
+                </Border>
             </VerticalStackLayout>
+
+            <Border Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2">
+                <chart:SfCartesianChart x:Name="shotChart" IsTransposed="false" EnableSideBySideSeriesPlacement="True">
+                    <chart:SfCartesianChart.Legend>
+                        <chart:ChartLegend IsVisible="True" LabelStyle="{StaticResource DefaultLegendLabelStyle}"/>
+                    </chart:SfCartesianChart.Legend>
+                    <chart:SfCartesianChart.XAxes>
+                        <chart:CategoryAxis LabelStyle="{StaticResource DefaultAxisLabelStyle}"/>
+                    </chart:SfCartesianChart.XAxes>
+
+                    <chart:SfCartesianChart.YAxes>
+                        <chart:NumericalAxis LabelStyle="{StaticResource DefaultAxisLabelStyle}" Interval="1" />
+                    </chart:SfCartesianChart.YAxes>
+
+                    <chart:ColumnSeries ItemsSource="{Binding TeamStats}"
+                            XBindingPath="Name"
+                            YBindingPath="FirstHalfValue"
+                            ShowDataLabels="True"
+                            Label="1st Half"
+                            Spacing="0.1"/>
+
+                    <chart:ColumnSeries ItemsSource="{Binding TeamStats}"
+                            XBindingPath="Name"
+                            YBindingPath="SecondHalfValue"
+                            ShowDataLabels="True"
+                            Label="2nd Half"
+                            Spacing="0.1"/>
+                </chart:SfCartesianChart>
+            </Border>
         </Grid>
     </ScrollView>
 </ContentPage>

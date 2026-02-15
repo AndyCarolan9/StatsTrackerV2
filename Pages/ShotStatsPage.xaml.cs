@@ -11,6 +11,6 @@ public partial class ShotStatsPage : ContentPage
 
 	private void OnDrawableUpdated(object? sender, EventArgs e)
 	{
-
+		pitchDisplay.InvalidateDrawing();
 	}
 }
