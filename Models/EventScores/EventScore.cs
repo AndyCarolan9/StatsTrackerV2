@@ -34,6 +34,17 @@ namespace StatsTrackerV2.Models.EventScores
             UpdateScoreValues();
         }
 
+        public EventScore(EventType eventType, string title, int firstHalfGoals, int firstHalfPoints, int secondHalfGoals, int secondHalfPoints)
+        {
+            EventType = eventType;
+            FirstHalfGoals = firstHalfGoals;
+            FirstHalfPoints = firstHalfPoints;
+            SecondHalfGoals = secondHalfGoals;
+            SecondHalfPoints = secondHalfPoints;
+            Title = title;
+            UpdateScoreValues();
+        }
+
         public string GetFirstHalfString()
         {
             return FirstHalfGoals + "-" + FirstHalfPoints;

@@ -476,6 +476,18 @@ namespace StatsTrackerV2.Models
             return MatchEvents[newIndex];
         }
 
+        private MatchEvent? GetPreviousEvent(MatchEvent matchEvent)
+        {
+            int index = MatchEvents.IndexOf(matchEvent);
+            int newIndex = index - 1;
+            if (newIndex >= MatchEvents.Count || newIndex <= 0)
+            {
+                return null;
+            }
+
+            return MatchEvents[newIndex];
+        }
+
         /// <summary>
         /// Checks if the next event is a shot event. Returns true if the event resulted in a score.
         /// The shot event is passed as an out parameter.
@@ -510,6 +522,25 @@ namespace StatsTrackerV2.Models
             }
 
             return false;
+        }
+
+        public MatchEvent? GetOriginEventForScore(MatchEvent scoreEvent)
+        {
+            MatchEvent? previousEvent = GetPreviousEvent(scoreEvent);
+            if (previousEvent != null)
+            {
+                if (previousEvent.Type.IsTurnoverEvent() 
+                    || previousEvent.Type == EventType.KickOut 
+                    || previousEvent.Type == EventType.FreeConceded
+                    || previousEvent.Type == EventType.ThrowInWon)
+                {
+                    return previousEvent;
+                }
+
+                return GetOriginEventForScore(previousEvent);
+            }
+
+            return null;
         }
 
         public MatchEvent[] GetKickOutEventsOfType(KickOutResultType resultType)

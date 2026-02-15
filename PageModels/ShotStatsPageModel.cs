@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using StatsTrackerV2.Models;
+using StatsTrackerV2.Models.EventScores;
 using StatsTrackerV2.Models.MatchStatistics;
 using StatsTrackerV2.Models.ResultColors;
 using System.Collections.ObjectModel;
@@ -66,6 +67,9 @@ namespace StatsTrackerV2.PageModels
 
         private List<ShotEvent> _shotEvents = [];
 
+        [ObservableProperty]
+        private ObservableCollection<EventScore> eventScores = [];
+
         public ShotStatsPageModel(Match match)
         {
             Match = match;
@@ -91,6 +95,13 @@ namespace StatsTrackerV2.PageModels
             TeamStats.Add(new ShotMatchStatistic(ShotResultType.OutFor45, "Out for 45", 0, 0));
             TeamStats.Add(new ShotMatchStatistic(ShotResultType.Saved, "Saved/Blocked/Off Posts", 0, 0));
             TeamStats.Add(new ShotMatchStatistic(ShotResultType.Short, "Short", 0, 0));
+
+            EventScores.Add(new EventScore(EventType.TurnoverWon, "Turnovers", 0, 0, 0, 0));
+            EventScores.Add(new EventScore(EventType.KickOut, "Own Kickouts", 0, 0, 0, 0));
+            EventScores.Add(new EventScore(EventType.Default, "Opp Kickouts", 0, 0, 0, 0));
+            EventScores.Add(new EventScore(EventType.FreeConceded, "Scoreable/Non-scoreable Frees", 0, 0, 0, 0));
+            EventScores.Add(new EventScore(EventType.ThrowInWon, "Throw in", 0, 0, 0, 0));
+            EventScores.Add(new EventScore(EventType.Shots, 0, 0, 0, 0));
         }
 
         [RelayCommand]
@@ -108,7 +119,84 @@ namespace StatsTrackerV2.PageModels
 
         protected override void CalculateScoresFromEvent()
         {
-            
+            foreach(ShotEvent shotEvent in _shotEvents)
+            {
+                if(!shotEvent.ResultType.IsScore())
+                {
+                    continue;
+                }
+
+                MatchEvent? originEvent = Match.GetOriginEventForScore(shotEvent);
+                if(originEvent == null)
+                {
+                    continue;
+                }
+
+                EventType type = originEvent.Type;
+                if (type.IsTurnoverEvent())
+                {
+                    type = EventType.TurnoverWon;
+                }
+                else if (type.IsShotEvent())
+                {
+                    type = EventType.Shots;
+                }
+                else if (type == EventType.KickOut && originEvent.TeamName != SelectedTeam)
+                {
+                    type = EventType.Default;
+                }
+                else if(type == EventType.KickOut && originEvent.TeamName == SelectedTeam)
+                {
+                    type = EventType.KickOut;
+                }
+
+                EventScore? eventScore = EventScores.ToList().Find(x => x.EventType == type);
+                if(eventScore == null)
+                {
+                    continue; 
+                }
+
+                if (shotEvent.HalfIndex == 1)
+                {
+                    if (shotEvent.ResultType == ShotResultType.Goal)
+                    {
+                        eventScore.FirstHalfGoals += 1;
+                    }
+                    else if (shotEvent.ResultType == ShotResultType.DoublePoint)
+                    {
+                        eventScore.FirstHalfPoints += 2;
+                    }
+                    else
+                    {
+                        eventScore.FirstHalfPoints += 1;
+                    }
+                }
+                else
+                {
+                    if (shotEvent.ResultType == ShotResultType.Goal)
+                    {
+                        eventScore.SecondHalfGoals += 1;
+                    }
+                    else if (shotEvent.ResultType == ShotResultType.DoublePoint)
+                    {
+                        eventScore.SecondHalfPoints += 2;
+                    }
+                    else
+                    {
+                        eventScore.SecondHalfPoints += 1;
+                    }
+                }
+            }
+
+            UpdateEventScores();
+        }
+
+        private void UpdateEventScores(bool shouldReset = false)
+        {
+            foreach (EventScore eventScore in EventScores)
+            {
+                eventScore.UpdateScoreValues(shouldReset);
+            }
         }
 
         protected override bool CanShowEvent(MatchEvent matchEvent)
@@ -201,6 +289,7 @@ namespace StatsTrackerV2.PageModels
 
         protected override void LoadStatsForTeam()
         {
+            UpdateEventScores(true);
             _shotEvents.Clear();
 
             MatchEvent[] matchEvents = Match.GetMatchEventsOfType<ShotEvent>().Where(me => me.TeamName == SelectedTeam).ToArray();
@@ -224,6 +313,7 @@ namespace StatsTrackerV2.PageModels
 
             FilterDrawnEvents();
             FillGraph();
+            CalculateScoresFromEvent();
         }
     }
 }

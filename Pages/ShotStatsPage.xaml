@@ -92,6 +92,16 @@
                             Spacing="0.1"/>
                 </chart:SfCartesianChart>
             </Border>
+
+            <HorizontalStackLayout Grid.Column="0" Grid.Row="3" Spacing="12">
+                <Border>
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Scored from events" FontSize="Title"/>
+                        <controls:DataGrid Items="{Binding EventScores}"/>
+                    </VerticalStackLayout>
+                </Border>
+            </HorizontalStackLayout>
+            
         </Grid>
     </ScrollView>
 </ContentPage>
