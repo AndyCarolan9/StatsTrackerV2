@@ -70,6 +70,9 @@ namespace StatsTrackerV2.PageModels
         [ObservableProperty]
         private ObservableCollection<EventScore> eventScores = [];
 
+        [ObservableProperty]
+        private ObservableCollection<PlayerScore> _playerScores = [];
+
         public ShotStatsPageModel(Match match)
         {
             Match = match;
@@ -314,6 +317,45 @@ namespace StatsTrackerV2.PageModels
             FilterDrawnEvents();
             FillGraph();
             CalculateScoresFromEvent();
+            CalculatePlayerScores();
+        }
+
+        private void CalculatePlayerScores()
+        {
+            PlayerScores.Clear();
+            foreach (ShotEvent shotEvent in _shotEvents)
+            {
+                PlayerScore? playerScore = PlayerScores.FirstOrDefault(x => x.PlayerName == shotEvent.Player);
+                if(playerScore == null)
+                {
+                    playerScore = new PlayerScore(shotEvent.Player);
+                    PlayerScores.Add(playerScore);
+                }
+
+                if (shotEvent.ResultType.IsScore())
+                {
+                    switch (shotEvent.ResultType)
+                    {
+                        case ShotResultType.Point:
+                            playerScore.Points = playerScore.Points + 1;
+                            break;
+                        case ShotResultType.DoublePoint:
+                            playerScore.Points = playerScore.Points + 2;
+                            break;
+                        case ShotResultType.Goal:
+                            playerScore.Goals = playerScore.Goals + 1;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    playerScore.ScoredShots = playerScore.ScoredShots + 1;
+                }
+
+                playerScore.TotalShots = playerScore.TotalShots + 1;
+
+                playerScore.CalculateData();
+            }
         }
     }
 }

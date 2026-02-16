@@ -100,6 +100,13 @@
                         <controls:DataGrid Items="{Binding EventScores}"/>
                     </VerticalStackLayout>
                 </Border>
+
+                <Border>
+                    <VerticalStackLayout Spacing="12">
+                        <Label Text="Scorers List" FontSize="Title"/>
+                        <controls:PlayerScoreDataGrid Items="{Binding PlayerScores}"/>
+                    </VerticalStackLayout>
+                </Border>
             </HorizontalStackLayout>
             
         </Grid>
