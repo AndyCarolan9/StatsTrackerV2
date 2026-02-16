@@ -104,7 +104,7 @@ namespace StatsTrackerV2.PageModels
             EventScores.Add(new EventScore(EventType.Default, "Opp Kickouts", 0, 0, 0, 0));
             EventScores.Add(new EventScore(EventType.FreeConceded, "Scoreable/Non-scoreable Frees", 0, 0, 0, 0));
             EventScores.Add(new EventScore(EventType.ThrowInWon, "Throw in", 0, 0, 0, 0));
-            EventScores.Add(new EventScore(EventType.Shots, 0, 0, 0, 0));
+            EventScores.Add(new EventScore(EventType.Shots, "Rebounds", 0, 0, 0, 0));
         }
 
         [RelayCommand]
