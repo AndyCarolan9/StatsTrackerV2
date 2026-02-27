@@ -148,7 +148,7 @@ namespace StatsTrackerV2.Models
             if(string.IsNullOrEmpty(_fileName))
             {
                 DateTime now = DateTime.Now;
-                _fileName = $"{HomeTeam.TeamName}_{AwayTeam.TeamName}_{now.Day}_{now.Month}_{now.Year}.json";
+                _fileName = $"{HomeTeam.TeamName}_{AwayTeam.TeamName}_{now.ToString("dd_MM_yy_HH_mm")}.json";
             }
             SaveMatch(this, new ElapsedEventArgs(DateTime.Now));
 
