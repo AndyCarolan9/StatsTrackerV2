@@ -246,6 +246,7 @@ namespace StatsTrackerV2.Models
             {
                 // TODO Have a definite finish game state
                 _autoSaveTimer.Stop();
+                SaveMatch(this, new ElapsedEventArgs(DateTime.Now));
             }
         }
 
