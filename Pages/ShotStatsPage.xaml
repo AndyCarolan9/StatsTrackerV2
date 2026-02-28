@@ -30,6 +30,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <Picker Title="SelectedTeam"
@@ -108,7 +109,32 @@
                     </VerticalStackLayout>
                 </Border>
             </HorizontalStackLayout>
-            
+
+            <Border Grid.Column="0" Grid.Row="4">
+                <chart:SfCartesianChart x:Name="scoreTimeline" IsTransposed="False">
+                    <chart:SfCartesianChart.Legend>
+                        <chart:ChartLegend IsVisible="True" LabelStyle="{StaticResource DefaultLegendLabelStyle}"/>
+                    </chart:SfCartesianChart.Legend>
+                    <chart:SfCartesianChart.XAxes>
+                        <chart:DateTimeAxis IntervalType="Minutes" Interval="1"/>
+                    </chart:SfCartesianChart.XAxes>
+                    <chart:SfCartesianChart.YAxes>
+                        <chart:NumericalAxis LabelStyle="{StaticResource DefaultAxisLabelStyle}" Interval="1" />
+                    </chart:SfCartesianChart.YAxes>
+
+                    <chart:LineSeries ItemsSource="{Binding HomeTeamScoreMarkers}"
+                                      XBindingPath="Time"
+                                      YBindingPath="Score"
+                                      Label="{Binding Match.HomeTeam.TeamName}"
+                                      ShowMarkers="True"
+                                      StrokeWidth="4"
+                                      ShowDataLabels="True">
+                        <chart:LineSeries.Fill>
+                            <SolidColorBrush Color="{Binding Match.HomeTeam.TeamColor}" />
+                        </chart:LineSeries.Fill>
+                    </chart:LineSeries>
+                </chart:SfCartesianChart>
+            </Border>
         </Grid>
     </ScrollView>
 </ContentPage>

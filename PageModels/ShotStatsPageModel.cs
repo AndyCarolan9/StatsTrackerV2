@@ -73,6 +73,9 @@ namespace StatsTrackerV2.PageModels
         [ObservableProperty]
         private ObservableCollection<PlayerScore> _playerScores = [];
 
+        [ObservableProperty]
+        private ObservableCollection<ScoreMarker> _homeTeamScoreMarkers = [];
+
         public ShotStatsPageModel(Match match)
         {
             Match = match;
@@ -318,6 +321,7 @@ namespace StatsTrackerV2.PageModels
             FillGraph();
             CalculateScoresFromEvent();
             CalculatePlayerScores();
+            CalculateTeamScoreMarkers();
         }
 
         private void CalculatePlayerScores()
@@ -356,6 +360,15 @@ namespace StatsTrackerV2.PageModels
 
                 playerScore.CalculateData();
             }
+        }
+
+        private void CalculateTeamScoreMarkers()
+        {
+            HomeTeamScoreMarkers.Add(new ScoreMarker(new DateTime(1, 1, 1, 0, 8, 30), 1));
+            HomeTeamScoreMarkers.Add(new ScoreMarker(new DateTime(1, 1, 1, 0, 12, 12), 3));
+            HomeTeamScoreMarkers.Add(new ScoreMarker(new DateTime(1, 1, 1, 0, 18, 58), 6));
+            HomeTeamScoreMarkers.Add(new ScoreMarker(new DateTime(1, 1, 1, 0, 22, 30), 7));
+            HomeTeamScoreMarkers.Add(new ScoreMarker(new DateTime(1, 1, 1, 0, 30, 30), 8));
         }
     }
 }
