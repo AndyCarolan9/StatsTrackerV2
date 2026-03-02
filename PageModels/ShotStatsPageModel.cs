@@ -76,9 +76,13 @@ namespace StatsTrackerV2.PageModels
         [ObservableProperty]
         private ObservableCollection<ScoreMarker> _homeTeamScoreMarkers = [];
 
+        [ObservableProperty]
+        private SolidColorBrush _homeTeamBrush;
+
         public ShotStatsPageModel(Match match)
         {
             Match = match;
+            HomeTeamBrush = new SolidColorBrush(Match.HomeTeam.TeamColor);
 
             ShotResultColors.Add(new ShotResultColor(EventType.Shots, ShotResultType.Point, Colors.White));
             ShotResultColors.Add(new ShotResultColor(EventType.Shots, ShotResultType.DoublePoint, Colors.DarkOrange));
@@ -364,6 +368,7 @@ namespace StatsTrackerV2.PageModels
 
         private void CalculateTeamScoreMarkers()
         {
+            HomeTeamScoreMarkers.Clear();
             HomeTeamScoreMarkers.Add(new ScoreMarker(new DateTime(1, 1, 1, 0, 8, 30), 1));
             HomeTeamScoreMarkers.Add(new ScoreMarker(new DateTime(1, 1, 1, 0, 12, 12), 3));
             HomeTeamScoreMarkers.Add(new ScoreMarker(new DateTime(1, 1, 1, 0, 18, 58), 6));

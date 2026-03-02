@@ -128,10 +128,8 @@
                                       Label="{Binding Match.HomeTeam.TeamName}"
                                       ShowMarkers="True"
                                       StrokeWidth="4"
-                                      ShowDataLabels="True">
-                        <chart:LineSeries.Fill>
-                            <SolidColorBrush Color="{Binding Match.HomeTeam.TeamColor}" />
-                        </chart:LineSeries.Fill>
+                                      ShowDataLabels="True"
+                                      Fill="{Binding HomeTeamBrush}">
                     </chart:LineSeries>
                 </chart:SfCartesianChart>
             </Border>
