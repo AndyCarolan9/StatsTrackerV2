@@ -8,15 +8,15 @@ namespace StatsTrackerV2.Models
     public partial class ScoreMarker : ObservableObject
     {
         [ObservableProperty]
-        public DateTime _time;
+        public double _elapsedSeconds;
 
         [ObservableProperty]
         public int _score;
 
-        public ScoreMarker(DateTime time, int score)
+        public ScoreMarker(double elapsedSeconds, int score)
         {
-            _time = time;
-            _score = score;
+            ElapsedSeconds = elapsedSeconds;
+            Score = score;
         }
     }
 }

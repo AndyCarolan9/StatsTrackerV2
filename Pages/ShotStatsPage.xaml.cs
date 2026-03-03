@@ -13,4 +13,13 @@ public partial class ShotStatsPage : ContentPage
 	{
 		pitchDisplay.InvalidateDrawing();
 	}
+
+    private void NumericalAxis_LabelCreated(object sender, Syncfusion.Maui.Toolkit.Charts.ChartAxisLabelEventArgs e)
+    {
+        if (e.Position is double seconds)
+        {
+            var ts = TimeSpan.FromSeconds(seconds);
+            e.Label = $"{ts.Minutes:D2}:{ts.Seconds:D2}";
+        }
+    }
 }

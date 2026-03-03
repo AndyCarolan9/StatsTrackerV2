@@ -74,15 +74,14 @@ namespace StatsTrackerV2.PageModels
         private ObservableCollection<PlayerScore> _playerScores = [];
 
         [ObservableProperty]
-        private ObservableCollection<ScoreMarker> _homeTeamScoreMarkers = [];
+        private ObservableCollection<ScoreMarker> _teamScoreMarkers = [];
 
         [ObservableProperty]
-        private SolidColorBrush _homeTeamBrush;
+        private SolidColorBrush _teamBrush;
 
         public ShotStatsPageModel(Match match)
         {
             Match = match;
-            HomeTeamBrush = new SolidColorBrush(Match.HomeTeam.TeamColor);
 
             ShotResultColors.Add(new ShotResultColor(EventType.Shots, ShotResultType.Point, Colors.White));
             ShotResultColors.Add(new ShotResultColor(EventType.Shots, ShotResultType.DoublePoint, Colors.DarkOrange));
@@ -302,6 +301,9 @@ namespace StatsTrackerV2.PageModels
             UpdateEventScores(true);
             _shotEvents.Clear();
 
+            Color selectedTeamColor = Match.HomeTeam.TeamName == SelectedTeam ? Match.HomeTeam.TeamColor : Match.AwayTeam.TeamColor;
+            TeamBrush = new SolidColorBrush(selectedTeamColor);
+
             MatchEvent[] matchEvents = Match.GetMatchEventsOfType<ShotEvent>().Where(me => me.TeamName == SelectedTeam).ToArray();
 
             foreach (MatchEvent matchEvent in matchEvents)
@@ -368,12 +370,57 @@ namespace StatsTrackerV2.PageModels
 
         private void CalculateTeamScoreMarkers()
         {
-            HomeTeamScoreMarkers.Clear();
-            HomeTeamScoreMarkers.Add(new ScoreMarker(new DateTime(1, 1, 1, 0, 8, 30), 1));
-            HomeTeamScoreMarkers.Add(new ScoreMarker(new DateTime(1, 1, 1, 0, 12, 12), 3));
-            HomeTeamScoreMarkers.Add(new ScoreMarker(new DateTime(1, 1, 1, 0, 18, 58), 6));
-            HomeTeamScoreMarkers.Add(new ScoreMarker(new DateTime(1, 1, 1, 0, 22, 30), 7));
-            HomeTeamScoreMarkers.Add(new ScoreMarker(new DateTime(1, 1, 1, 0, 30, 30), 8));
+            TeamScoreMarkers.Clear();
+
+            List<MatchEvent> matchEvents = Match.MatchEvents.ToList();
+            matchEvents = matchEvents.FindAll(me =>
+            {
+                if (me.TeamName != SelectedTeam)
+                {
+                    return false;
+                }
+
+                ShotEvent? shotEvent = me as ShotEvent;
+                if (shotEvent == null)
+                {
+                    return false;
+                }
+
+                return shotEvent.ResultType.IsScore();
+            });
+
+            int totalScore = 0;
+            foreach (MatchEvent matchEvent in matchEvents)
+            {
+                ShotEvent? shotEvent = matchEvent as ShotEvent;
+                if (shotEvent == null)
+                {
+                    continue;
+                }
+
+                if (shotEvent.HalfIndex == 2)
+                    continue;
+
+                double elapsedSeconds = TimeSpan.FromMilliseconds(matchEvent.Time).TotalSeconds;
+
+                switch(shotEvent.ResultType)
+                {
+                    case ShotResultType.Point:
+                        totalScore += 1;
+                        break;
+                    case ShotResultType.DoublePoint:
+                        totalScore += 2;
+                        break;
+                    case ShotResultType.Goal:
+                        totalScore += 3;
+                        break;
+                    default:
+                        break;
+                }
+
+
+                TeamScoreMarkers.Add(new ScoreMarker(elapsedSeconds, totalScore));
+            }
         }
     }
 }
