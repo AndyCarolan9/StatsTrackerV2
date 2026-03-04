@@ -118,6 +118,8 @@ namespace StatsTrackerV2.PageModels
                     ActionTypes.Add(action.ToString());
                 }
             }
+
+            SelectedActionType = ActionType.Play.ToString();
         }
 
         private void PopulateResultTypes()
@@ -265,6 +267,7 @@ namespace StatsTrackerV2.PageModels
                 return;
 
             CanShowPossessionCheck = result.IsStillInPlay();
+            IsPossessionChanged = result.IsStillInPlay();
         }
     }
 }
