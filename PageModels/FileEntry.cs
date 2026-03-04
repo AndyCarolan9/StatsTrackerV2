@@ -9,10 +9,13 @@ namespace StatsTrackerV2.Models
 
         public string Path { get; set; }
 
-        public FileEntry(string fileName, string path)
+        public DateTime FileDate { get; set; }
+
+        public FileEntry(string fileName, string path, DateTime fileDate = new DateTime())
         {
             FileName = fileName;
             Path = path;
+            FileDate = fileDate;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Core.Extensions;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using StatsTrackerV2.Models;
 using System.Collections.ObjectModel;
@@ -61,7 +62,7 @@ namespace StatsTrackerV2.PageModels
                     }
 
                     string[] matchDetails = fileComponents[0].Split("_");
-                    if (matchDetails.Length != 5)
+                    if (matchDetails.Length < 5)
                     {
                         continue;
                     }
@@ -71,8 +72,27 @@ namespace StatsTrackerV2.PageModels
 
                     string displayName = $"{homeTeam} V {awayTeam} - {matchDetails[2]}/{matchDetails[3]}/{matchDetails[4]}";
 
-                    Matches.Add(new FileEntry(displayName, file));
+                    int year = Int32.Parse(matchDetails[4]);
+                    if (matchDetails[4].Length == 2)
+                    {
+                        year += 2000;
+                    }
+
+                    DateTime date;
+                    if (matchDetails.Length == 7)
+                    {
+                        date = new DateTime(year, Int32.Parse(matchDetails[3]), Int32.Parse(matchDetails[2]),
+                            Int32.Parse(matchDetails[5]), Int32.Parse(matchDetails[5]), 0);
+                    }
+                    else
+                    {
+                        date = new DateTime(year, Int32.Parse(matchDetails[3]), Int32.Parse(matchDetails[2]));
+                    }
+
+                    Matches.Add(new FileEntry(displayName, file, date));
                 }
+
+                Matches = Matches.OrderByDescending(file => file.FileDate).ToObservableCollection();
             }
             catch (Exception ex)
             {
