@@ -239,6 +239,16 @@ namespace StatsTrackerV2.PageModels
             await Shell.Current.GoToAsync($"substitution?isHomeTeam={isHomeTeamParam}");
         }
 
+        [RelayCommand]
+        async Task ExportData()
+        {
+            await Share.RequestAsync(
+                new ShareTextRequest
+                {
+                    Text = Match.GetTeamAndSubsString()
+                });
+        }
+
         async Task OpenCreateMatchEventPage(string eventType)
         {
             if (!Match.IsMatchHydrated || !Match.IsMatchPlaying())
