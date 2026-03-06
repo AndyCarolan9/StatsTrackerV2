@@ -8,6 +8,7 @@ namespace StatsTrackerV2.Utilities
         {
             try
             {
+
                 if (!File.Exists(filePath))
                 {
                     return default;
@@ -103,26 +104,33 @@ namespace StatsTrackerV2.Utilities
                 return null;
             }
 
-            string destinationPath = Path.Combine(Constants.MatchesFolderPath, result.FileName);
-
-            if (File.Exists(destinationPath))
-            {
-                await AppShell.DisplayToastAsync("File Already Exists");
-                return destinationPath;
-            }
-
             try
             {
-                using var sourceStream = await result.OpenReadAsync();
-                using var destinationStream = File.Create(destinationPath);
+                // Ensure destination folder exists
+                Directory.CreateDirectory(Constants.MatchesFolderPath);
+
+                string fileName = result.FileName ?? $"match_{Guid.NewGuid()}.json";
+                string destinationPath = Path.Combine(Constants.MatchesFolderPath, fileName);
+
+                if (File.Exists(destinationPath))
+                {
+                    await AppShell.DisplayToastAsync("File already exists");
+                    return destinationPath;
+                }
+
+                using Stream sourceStream = await result.OpenReadAsync();
+                using FileStream destinationStream = File.Create(destinationPath);
+
                 await sourceStream.CopyToAsync(destinationStream);
+
+                return destinationPath;
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"Import failed: {ex}");
+                await AppShell.DisplayToastAsync("Import failed");
+                return null;
             }
-
-            return destinationPath;
         }
     }
 }
