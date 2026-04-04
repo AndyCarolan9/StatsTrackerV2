@@ -4,6 +4,7 @@
              xmlns:pageModels="clr-namespace:StatsTrackerV2.PageModels"
              xmlns:models="clr-namespace:StatsTrackerV2.Models"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:controls="clr-namespace:StatsTrackerV2.Pages.Controls"
              x:Class="StatsTrackerV2.Pages.CreateMatchPage"
              x:Name="CreateMatch"
              x:DataType="pageModels:CreateMatchPageModel"
@@ -187,5 +188,7 @@
                 <Button Text="Confirm" BackgroundColor="ForestGreen" Command="{Binding ConfirmClickedCommand}"/>
             </VerticalStackLayout>
         </ScrollView>
+
+        <controls:ExportButton Grid.Row="1" Grid.Column="2" VerticalOptions="End" Command="{Binding ExportTeamsJSONCommand}" />
     </Grid>
 </ContentPage>

@@ -123,7 +123,7 @@ namespace StatsTrackerV2.PageModels
             player.Index = string.Empty;
             HomeStartingTeam.Remove(player);
 
-            for(int i = 0; i < HomeStartingTeam.Count; i++)
+            for (int i = 0; i < HomeStartingTeam.Count; i++)
             {
                 int pos = i + 1;
                 HomeStartingTeam[i].Index = pos.ToString();
@@ -199,7 +199,7 @@ namespace StatsTrackerV2.PageModels
                 return;
             }
 
-            foreach(Team team in teams)
+            foreach (Team team in teams)
             {
                 TeamNames.Add(team.TeamName);
             }
@@ -238,7 +238,7 @@ namespace StatsTrackerV2.PageModels
 
             _homeTeam = selectedTeam;
 
-            foreach(string player in selectedTeam.TeamSheet)
+            foreach (string player in selectedTeam.TeamSheet)
             {
                 HomeAvailablePlayers.Add(new Player { Name = player });
             }
@@ -280,7 +280,7 @@ namespace StatsTrackerV2.PageModels
 
             for (int i = 0; i < 15; i++)
             {
-                if(i < team.Count)
+                if (i < team.Count)
                 {
                     players[i] = team[i].Name;
                 }
@@ -288,10 +288,23 @@ namespace StatsTrackerV2.PageModels
                 {
                     players[i] = (i + 1).ToString();
                 }
-                
+
             }
 
             return players;
+        }
+
+        [RelayCommand]
+        private async Task ExportTeamsJSON()
+        {
+            if(File.Exists(Constants.TeamsJSONPath))
+            {
+                await Share.RequestAsync(new ShareFileRequest
+                {
+                    Title = "Share Teams JSON",
+                    File = new ShareFile(Constants.TeamsJSONPath)
+                });
+            }
         }
     }
 }
