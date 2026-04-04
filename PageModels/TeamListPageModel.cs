@@ -120,6 +120,8 @@ namespace StatsTrackerV2.PageModels
                     if (_teams[index].TeamName == TeamName)
                     {
                         _teams[index] = team;
+                        bWasTeamAdded = true;
+                        break;
                     }
                 }
             }
