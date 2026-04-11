@@ -129,7 +129,12 @@ namespace StatsTrackerV2.Models
         #endregion
 
         #region Methods
-        public void HydrateObject(Match match)
+        public string GetFileName()
+        {
+            return _fileName;
+        }
+
+        public void HydrateObject(Match match, string fileName = "")
         {
             AppVersion = match.AppVersion;
             MatchName = match.MatchName;
@@ -138,6 +143,7 @@ namespace StatsTrackerV2.Models
             AwayTeam = match.AwayTeam;
             IsMatchHydrated = true;
             IsDefaultMatch = false;
+            _fileName = fileName;
 
             HomeTeamScore = GetScoreStringForTeam(HomeTeam);
             AwayTeamScore = GetScoreStringForTeam(AwayTeam);

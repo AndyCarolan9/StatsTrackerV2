@@ -249,6 +249,23 @@ namespace StatsTrackerV2.PageModels
                 });
         }
 
+        [RelayCommand]
+        async Task ExportJSON()
+        {
+            string fileName = Match.GetFileName();
+            if(string.IsNullOrEmpty(fileName))
+            {
+                return;
+            }
+
+            await Share.RequestAsync(
+                new ShareFileRequest
+                {
+                    Title = "Share Match JSON",
+                    File = new ShareFile(Path.Combine(Constants.MatchesFolderPath, fileName))
+                });
+        }
+
         async Task OpenCreateMatchEventPage(string eventType)
         {
             if (!Match.IsMatchHydrated || !Match.IsMatchPlaying())

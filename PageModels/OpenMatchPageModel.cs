@@ -89,7 +89,7 @@ namespace StatsTrackerV2.PageModels
                         date = new DateTime(year, Int32.Parse(matchDetails[3]), Int32.Parse(matchDetails[2]));
                     }
 
-                    Matches.Add(new FileEntry(displayName, file, date));
+                    Matches.Add(new FileEntry(fileName, file, date));
                 }
 
                 Matches = Matches.OrderByDescending(file => file.FileDate).ToObservableCollection();
@@ -107,7 +107,7 @@ namespace StatsTrackerV2.PageModels
             Match? match = JSONHelper.LoadFromJsonFile<Match>(filePath);
             if (match is not null)
             {
-                _match.HydrateObject(match);
+                _match.HydrateObject(match, entry.FileName);
             }
 
             await Shell.Current.GoToAsync("..");

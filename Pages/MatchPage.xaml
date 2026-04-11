@@ -169,6 +169,7 @@
         </sf:SfCartesianChart>
 
         <controls:ExportButton Grid.Row="2" Grid.Column="2" VerticalOptions="End" Command="{Binding ExportDataCommand}" />
+        <controls:ExportButton Grid.Row="2" Grid.Column="2" VerticalOptions="End" HorizontalOptions="Center" ImageSource="{StaticResource IconExportJson}" Command="{Binding ExportJSONCommand}" />
     </Grid>
 
 </ContentPage>
