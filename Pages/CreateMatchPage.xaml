@@ -51,7 +51,9 @@
                 ItemsSource="{Binding HomeAvailablePlayers}"
                 SelectionMode="None"
                 BackgroundColor="{StaticResource DarkOnLightBackground}">
-
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="2.5" />
+                </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Player">
                         <Border Padding="5"
@@ -81,6 +83,9 @@
                 ItemsSource="{Binding HomeStartingTeam}"
                 SelectionMode="None"
                 BackgroundColor="{StaticResource LightOnDarkBackground}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="2.5" />
+                </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Player">
                         <Border Padding="10"
@@ -120,7 +125,9 @@
                 ItemsSource="{Binding AwayAvailablePlayers}"
                 SelectionMode="None"
                 BackgroundColor="{StaticResource DarkOnLightBackground}">
-
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="2.5" />
+                </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Player">
                         <Border Padding="5"
@@ -150,6 +157,9 @@
                 ItemsSource="{Binding AwayStartingTeam}"
                 SelectionMode="None"
                 BackgroundColor="{StaticResource LightOnDarkBackground}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Vertical" ItemSpacing="2.5" />
+                </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:Player">
                         <Border Padding="10"
