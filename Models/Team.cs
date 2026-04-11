@@ -79,9 +79,20 @@ namespace StatsTrackerV2.Models
         /// </summary>
         public string[] CurrentTeam { get; set; }
 
+        /// <summary>
+        /// The starting 15
+        /// </summary>
+        public string[] StartingTeam { get; set; }
+
         #endregion
 
         #region Methods
+        public void SetStartingTeam(string[] startingTeam)
+        {
+            CurrentTeam = startingTeam;
+            StartingTeam = startingTeam;
+        }
+
         /// <summary>
         /// Adds a player to the team sheet.
         /// </summary>

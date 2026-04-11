@@ -727,14 +727,13 @@ namespace StatsTrackerV2.Models
         public string GetTeamAndSubsString()
         {
             string returnString = "";
-            string[] team = HomeTeam.TeamSheet.ToArray();
             MatchEvent[] subs = MatchEvents.ToList().FindAll(me => me.Type == EventType.Substitution && me.TeamName == HomeTeam.TeamName).ToArray();
             MatchEvent[] scores = MatchEvents.ToList().FindAll(me => me.TeamName == HomeTeam.TeamName && me is ShotEvent).ToArray();
 
-            for (int i = 0; i < team.Length; i++)
+            for (int i = 0; i < HomeTeam.StartingTeam.Length; i++)
             {
                 int playerNum = i + 1;
-                returnString += playerNum + " " + team[i] + "\n";
+                returnString += playerNum + " " + HomeTeam.StartingTeam[i] + "\n";
             }
 
             returnString += "\n";

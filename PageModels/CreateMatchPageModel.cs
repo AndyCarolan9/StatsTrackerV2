@@ -266,8 +266,8 @@ namespace StatsTrackerV2.PageModels
         [RelayCommand]
         private async Task ConfirmClicked()
         {
-            _homeTeam.CurrentTeam = GetStartingTeam(HomeStartingTeam);
-            _awayTeam.CurrentTeam = GetStartingTeam(AwayStartingTeam);
+            _homeTeam.SetStartingTeam(GetStartingTeam(HomeStartingTeam));
+            _awayTeam.SetStartingTeam(GetStartingTeam(AwayStartingTeam));
             _match.HydrateObject(new Match(_homeTeam, _awayTeam));
             _match.StartAutoSave();
 
