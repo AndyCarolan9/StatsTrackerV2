@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using StatsTrackerV2.Models;
+using System.Text.Json;
 
 namespace StatsTrackerV2.Utilities
 {
@@ -130,6 +131,59 @@ namespace StatsTrackerV2.Utilities
                 Console.WriteLine($"Import failed: {ex}");
                 await AppShell.DisplayToastAsync("Import failed");
                 return null;
+            }
+        }
+
+        public static async Task ImportTeamsJSON(List<Team> ExistingTeams)
+        {
+            var jsonFileType = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
+                {
+                    { DevicePlatform.WinUI, new[] { ".json" } },
+                    { DevicePlatform.Android, new[] { "application/json" } },
+                    { DevicePlatform.iOS, new[] { "public.json" } },
+                    { DevicePlatform.MacCatalyst, new[] { "public.json" } },// UTType values
+                });
+
+            FileBase? result = await FilePicker.Default.PickAsync(new PickOptions
+            {
+                PickerTitle = "Select a Match JSON file",
+                FileTypes = jsonFileType
+            });
+
+            if (result == null)
+            {
+                return;
+            }
+
+            try
+            {
+                Team[]? teams = LoadFromJsonFile<Team[]>(result.FullPath);
+                if (teams == null)
+                {
+                    await AppShell.DisplayToastAsync("Import failed: selected file did not contain teams.");
+                    return;
+                }
+
+                foreach (Team team in teams)
+                {
+                    Team? existingTeam = ExistingTeams.Find(t => t.TeamName.Equals(team.TeamName));
+                    if (existingTeam != null)
+                    {
+                        existingTeam.TeamSheet = existingTeam.TeamSheet.Concat(team.TeamSheet).Distinct().ToList();
+                    }
+                    else
+                    {
+                        ExistingTeams.Add(team);
+                    }
+                }
+
+                SaveToJsonFile(Constants.TeamsJSONPath, ExistingTeams);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Import failed: {ex}");
+                await AppShell.DisplayToastAsync("Import failed");
+                return;
             }
         }
     }

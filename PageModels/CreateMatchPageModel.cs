@@ -11,9 +11,9 @@ namespace StatsTrackerV2.PageModels
 
         private List<Team> _teams;
 
-        private Team _homeTeam;
+        private Team? _homeTeam;
 
-        private Team _awayTeam;
+        private Team? _awayTeam;
 
         private const int MaxStartingPlayers = 15;
 
@@ -66,8 +66,6 @@ namespace StatsTrackerV2.PageModels
         {
             _match = match;
             _teams = new List<Team>();
-            _homeTeam = new Team();
-            _awayTeam = new Team();
             _selectedHomeTeam = string.Empty;
             _selectedAwayTeam = string.Empty;
 
@@ -114,6 +112,9 @@ namespace StatsTrackerV2.PageModels
 
         public void MoveToHomeAvailablePlayers(Player player)
         {
+            if (_homeTeam == null)
+                return;
+
             if (HomeAvailablePlayers.Contains(player))
                 return;
 
@@ -169,6 +170,9 @@ namespace StatsTrackerV2.PageModels
 
         public void MoveToAwayAvailablePlayers(Player player)
         {
+            if (_awayTeam == null)
+                return;
+
             if (AwayAvailablePlayers.Contains(player))
                 return;
 
@@ -190,21 +194,7 @@ namespace StatsTrackerV2.PageModels
         [RelayCommand]
         private async Task Appearing()
         {
-            _teams.Clear();
-            TeamNames.Clear();
-
-            Team[]? teams = JSONHelper.LoadFromJsonFile<Team[]>(Constants.TeamsJSONPath);
-            if (teams == null)
-            {
-                return;
-            }
-
-            foreach (Team team in teams)
-            {
-                TeamNames.Add(team.TeamName);
-            }
-
-            _teams.AddRange(teams);
+            LoadTeams();
         }
 
         [RelayCommand]
@@ -266,6 +256,8 @@ namespace StatsTrackerV2.PageModels
         [RelayCommand]
         private async Task ConfirmClicked()
         {
+            if(_homeTeam == null || _awayTeam == null) { return; }
+
             _homeTeam.SetStartingTeam(GetStartingTeam(HomeStartingTeam));
             _awayTeam.SetStartingTeam(GetStartingTeam(AwayStartingTeam));
             _match.HydrateObject(new Match(_homeTeam, _awayTeam));
@@ -305,6 +297,39 @@ namespace StatsTrackerV2.PageModels
                     File = new ShareFile(Constants.TeamsJSONPath)
                 });
             }
+        }
+
+        [RelayCommand]
+        private async Task ImportTeamsJSON()
+        {
+            await JSONHelper.ImportTeamsJSON(_teams);
+
+            _homeTeam = null;
+            _awayTeam = null;
+            HomeAvailablePlayers.Clear();
+            HomeStartingTeam.Clear();
+            AwayAvailablePlayers.Clear();
+            AwayStartingTeam.Clear();
+            LoadTeams();
+        }
+
+        private void LoadTeams()
+        {
+            _teams.Clear();
+            TeamNames.Clear();
+
+            Team[]? teams = JSONHelper.LoadFromJsonFile<Team[]>(Constants.TeamsJSONPath);
+            if (teams == null)
+            {
+                return;
+            }
+
+            foreach (Team team in teams)
+            {
+                TeamNames.Add(team.TeamName);
+            }
+
+            _teams.AddRange(teams);
         }
     }
 }

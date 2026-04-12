@@ -199,6 +199,13 @@
             </VerticalStackLayout>
         </ScrollView>
 
-        <controls:ExportButton Grid.Row="1" Grid.Column="2" VerticalOptions="End" Command="{Binding ExportTeamsJSONCommand}" />
+        <controls:FlyoutButton Grid.Row="1" 
+                               Grid.Column="2" 
+                               VerticalOptions="End" 
+                               MainBtnImage="{StaticResource IconUpArrow}"
+                               Option1Image="{StaticResource IconExport}"
+                               Option1Command="{Binding ExportTeamsJSONCommand}"
+                               Option2Image="{StaticResource IconImport}"
+                               Option2Command="{Binding ImportTeamsJSONCommand}"/>
     </Grid>
 </ContentPage>

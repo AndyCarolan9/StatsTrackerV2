@@ -46,7 +46,9 @@ public partial class FlyoutButton : ContentView
 		BindableProperty.Create(
 			nameof(Option1Command),
 			typeof(ICommand),
-			typeof(FlyoutButton));
+			typeof(FlyoutButton),
+			default(ICommand),
+			BindingMode.OneWay);
 
 	public ICommand Option1Command
 	{
@@ -58,7 +60,9 @@ public partial class FlyoutButton : ContentView
         BindableProperty.Create(
             nameof(Option2Command),
             typeof(ICommand),
-            typeof(FlyoutButton));
+            typeof(FlyoutButton),
+            default(ICommand),
+            BindingMode.OneWay);
 
     public ICommand Option2Command
     {
@@ -80,18 +84,14 @@ public partial class FlyoutButton : ContentView
 
 			await Task.WhenAll(
 				Option1.FadeToAsync(1, 200),
-				Option2.FadeToAsync(1, 200),
-				Option1.TranslateToAsync(0, -70, 200),
-				Option2.TranslateToAsync(0, -140, 200)
+				Option2.FadeToAsync(1, 200)
 				);
 		}
 		else
 		{
 			await Task.WhenAll(
 				Option1.FadeToAsync(0, 200),
-				Option2.FadeToAsync(0, 200),
-				Option1.TranslateToAsync(0, 0, 200),
-				Option2.TranslateToAsync(0, 0, 200)
+				Option2.FadeToAsync(0, 200)
 				);
 
             Option1.IsVisible = false;

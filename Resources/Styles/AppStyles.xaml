@@ -139,6 +139,18 @@
                 Color="{AppThemeBinding Light={StaticResource DarkOnLightBackground}, Dark={StaticResource LightOnDarkBackground}}"
                 Size="{StaticResource IconSize}" />
 
+        <FontImageSource x:Key="IconUpArrow"
+                Glyph="{x:Static f:FluentUI.chevron_up_20_regular}"
+                FontFamily="{x:Static f:FluentUI.FontFamily}"
+                Color="{AppThemeBinding Light={StaticResource DarkOnLightBackground}, Dark={StaticResource LightOnDarkBackground}}"
+                Size="{StaticResource IconSize}" />
+
+        <FontImageSource x:Key="IconImport"
+                Glyph="{x:Static f:FluentUI.arrow_download_20_regular}"
+                FontFamily="{x:Static f:FluentUI.FontFamily}"
+                Color="{AppThemeBinding Light={StaticResource DarkOnLightBackground}, Dark={StaticResource LightOnDarkBackground}}"
+                Size="{StaticResource IconSize}" />
+
     <Style TargetType="Label">
         <Setter Property="TextColor"
                 Value="{AppThemeBinding Light={StaticResource DarkOnLightBackground}, Dark={StaticResource LightOnDarkBackground}}" />
