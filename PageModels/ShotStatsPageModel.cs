@@ -373,6 +373,9 @@ namespace StatsTrackerV2.PageModels
             TeamScoreMarkers.Clear();
 
             List<MatchEvent> matchEvents = Match.MatchEvents.ToList();
+
+            MatchEvent? halfEndEvent = matchEvents.Find(x => x.HalfIndex == 1 && x.Type == EventType.HalfEnd);
+
             matchEvents = matchEvents.FindAll(me =>
             {
                 if (me.TeamName != SelectedTeam)
@@ -398,10 +401,24 @@ namespace StatsTrackerV2.PageModels
                     continue;
                 }
 
-                if (shotEvent.HalfIndex == 2)
-                    continue;
+                double elapsedSeconds = 0;
 
-                double elapsedSeconds = TimeSpan.FromMilliseconds(matchEvent.Time).TotalSeconds;
+                if (shotEvent.HalfIndex == 1)
+                {
+                    elapsedSeconds = TimeSpan.FromMilliseconds(matchEvent.Time).TotalSeconds;
+                }
+                else
+                {
+                    if (halfEndEvent != null)
+                    {
+                        elapsedSeconds = TimeSpan.FromMilliseconds(halfEndEvent.Time).TotalSeconds + TimeSpan.FromMilliseconds(matchEvent.Time).TotalSeconds;
+                    }
+                    else
+                    {
+                        // No half end event, assume 30 minute half.
+                        elapsedSeconds = TimeSpan.FromMinutes(30).TotalSeconds + TimeSpan.FromMilliseconds(matchEvent.Time).TotalSeconds;
+                    }
+                }
 
                 switch(shotEvent.ResultType)
                 {

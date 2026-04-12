@@ -19,7 +19,10 @@ public partial class ShotStatsPage : ContentPage
         if (e.Position is double seconds)
         {
             var ts = TimeSpan.FromSeconds(seconds);
-            e.Label = $"{ts.Minutes:D2}:{ts.Seconds:D2}";
+
+			int minutes = (ts.Hours * 60) + ts.Minutes;
+
+            e.Label = $"{minutes:D2}:{ts.Seconds:D2}";
         }
     }
 }
