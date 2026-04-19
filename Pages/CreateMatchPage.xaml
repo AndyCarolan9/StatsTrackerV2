@@ -24,17 +24,17 @@
         RowDefinitions="Auto,*"
         ColumnDefinitions="*,*,300">
 
-        <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Spacing="10">
+        <Border Grid.Row="0" Grid.Column="0" HorizontalOptions="Start">
             <Picker Title="Home Team" 
                     ItemsSource="{Binding TeamNames}" 
                     SelectedItem="{Binding SelectedHomeTeam}" />
-        </HorizontalStackLayout>
+        </Border>
 
-        <HorizontalStackLayout Grid.Row="0" Grid.Column="1" Spacing="10" HorizontalOptions="End">
+        <Border Grid.Row="0" Grid.Column="1" HorizontalOptions="End">
             <Picker Title="Away Team" 
                     ItemsSource="{Binding TeamNames}" 
                     SelectedItem="{Binding SelectedAwayTeam}"/>
-        </HorizontalStackLayout>
+        </Border>
 
         <Grid ColumnDefinitions="*,*"
               RowDefinitions="75, *"

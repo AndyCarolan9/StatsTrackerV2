@@ -50,7 +50,7 @@
         </VerticalStackLayout>
 
         <VerticalStackLayout Padding="{StaticResource LayoutPadding}" Spacing="{StaticResource LayoutSpacing}" Grid.Column="1" Grid.RowSpan="2">
-            <Label Text="Players" TextColor="White" FontSize="Header"/>
+            <Label Text="Players" Style="{StaticResource Title}"/>
             <CollectionView ItemsSource="{Binding Players}" MinimumWidthRequest="400" MaximumHeightRequest="775" VerticalScrollBarVisibility="Always">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="x:String">

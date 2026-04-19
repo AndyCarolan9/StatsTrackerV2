@@ -189,10 +189,17 @@
         <Setter Property="HorizontalTextAlignment" Value="Center" />
     </Style>
 
-    <Style TargetType="Picker">
+    <Style TargetType="Label" x:Key="Title">
         <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+        <Setter Property="FontSize" Value="Header" />
+        <Setter Property="HorizontalOptions" Value="Start" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+    </Style>
+
+    <Style TargetType="Picker">
+        <Setter Property="TextColor" Value="{StaticResource White}" />
         <Setter Property="TitleColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray200}}" />
-        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="BackgroundColor" Value="{StaticResource Gray500}" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="{OnIdiom 18, Desktop=24}" />
         <Setter Property="MinimumHeightRequest" Value="44"/>
@@ -410,7 +417,7 @@
 
     <Style TargetType="Shell" ApplyToDerivedTypes="True">
         <Setter Property="Shell.BackgroundColor" Value="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}" />
-        <Setter Property="Shell.ForegroundColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource SecondaryDarkText}}" />
+        <Setter Property="Shell.ForegroundColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource SecondaryDarkText}}" />
         <Setter Property="Shell.TitleColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource SecondaryDarkText}}" />
         <Setter Property="Shell.DisabledColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
         <Setter Property="Shell.UnselectedColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray200}}" />
