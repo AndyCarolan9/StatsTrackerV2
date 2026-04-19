@@ -89,8 +89,8 @@ namespace StatsTrackerV2.Models
         #region Methods
         public void SetStartingTeam(string[] startingTeam)
         {
-            CurrentTeam = startingTeam;
-            StartingTeam = startingTeam;
+            CurrentTeam = (string[])startingTeam.Clone();
+            StartingTeam = (string[])startingTeam.Clone();
         }
 
         /// <summary>
