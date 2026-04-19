@@ -41,6 +41,20 @@ public partial class PitchDisplay : ContentView
         set => SetValue(AwayTeamTextProperty, value);
     }
 
+	public static readonly BindableProperty LocationPointProperty =
+		BindableProperty.Create(
+			nameof(LocationPoint),
+			typeof(PointF?),
+			typeof(PitchDisplay),
+			null,
+			BindingMode.TwoWay);
+
+	public PointF? LocationPoint
+	{
+		get => (PointF?)GetValue(LocationPointProperty);
+		set => SetValue(LocationPointProperty, value);
+	}
+
     public PitchDisplay()
 	{
 		InitializeComponent();
@@ -65,4 +79,30 @@ public partial class PitchDisplay : ContentView
 	{
 		drawingView.Invalidate(); 
 	}
+
+    private void TapGestureRecognizer_Tapped(object sender, TappedEventArgs e)
+    {
+		if(LocationPoint == null)
+		{
+			return;
+		}
+
+		BoxView? boxView = sender as BoxView;
+		if (boxView == null)
+		{
+			return;
+		}
+
+		Point? point = e.GetPosition(boxView);
+		if (point == null)
+		{
+			return;
+		}
+
+		float x = (float)point.Value.X / (float)boxView.Width;
+		float y = (float)point.Value.Y / (float)boxView.Height;
+
+		LocationPoint = new PointF(x, y);
+		drawingView.Invalidate();
+    }
 }

@@ -9,9 +9,20 @@
                HorizontalOptions="Center"
                VerticalOptions="Center"/>
 
-        <GraphicsView x:Name="drawingView" Grid.Column="1"
-                      HorizontalOptions="Center"
-                      VerticalOptions="Center"/>
+        <Grid Grid.Column="1"
+              HorizontalOptions="Center"
+              VerticalOptions="Center">
+            <GraphicsView x:Name="drawingView"
+                          HorizontalOptions="Center"
+                          VerticalOptions="Center"/>
+
+            <BoxView x:Name="TapSurface"
+                     BackgroundColor="Transparent">
+                <BoxView.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                </BoxView.GestureRecognizers>
+            </BoxView>
+        </Grid>
 
         <AbsoluteLayout Grid.Column="0">
             <Label x:Name="homeTeamLabel"

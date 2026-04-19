@@ -18,7 +18,8 @@
         <controls:PitchDisplay x:Name="pitchDisplay" Grid.Row="0" Grid.Column="0"
                                StatisticDrawer="{Binding DotDrawable}"
                                HomeTeamText="{Binding Match.HomeTeam.TeamName}"
-                               AwayTeamText="{Binding Match.AwayTeam.TeamName}"/>
+                               AwayTeamText="{Binding Match.AwayTeam.TeamName}"
+                               LocationPoint="{Binding Location}"/>
 
         <Grid Padding="12"
               ColumnSpacing="12"
