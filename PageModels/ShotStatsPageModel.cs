@@ -79,6 +79,15 @@ namespace StatsTrackerV2.PageModels
         [ObservableProperty]
         private SolidColorBrush _teamBrush;
 
+        [ObservableProperty]
+        private double _midPoint = 1800;
+
+        [ObservableProperty]
+        private bool _isMidPointVisble = false;
+
+        [ObservableProperty]
+        private string _midPointText = "";
+
         public ShotStatsPageModel(Match match)
         {
             Match = match;
@@ -371,10 +380,16 @@ namespace StatsTrackerV2.PageModels
         private void CalculateTeamScoreMarkers()
         {
             TeamScoreMarkers.Clear();
+            MidPointText = string.Empty;
 
             List<MatchEvent> matchEvents = Match.MatchEvents.ToList();
 
             MatchEvent? halfEndEvent = matchEvents.Find(x => x.HalfIndex == 1 && x.Type == EventType.HalfEnd);
+            if (halfEndEvent != null)
+            {
+                IsMidPointVisble = true;
+                MidPoint = TimeSpan.FromMilliseconds(halfEndEvent.Time).TotalSeconds;
+            }
 
             matchEvents = matchEvents.FindAll(me =>
             {
@@ -409,14 +424,19 @@ namespace StatsTrackerV2.PageModels
                 }
                 else
                 {
-                    if (halfEndEvent != null)
+                    if (IsMidPointVisble)
                     {
-                        elapsedSeconds = TimeSpan.FromMilliseconds(halfEndEvent.Time).TotalSeconds + TimeSpan.FromMilliseconds(matchEvent.Time).TotalSeconds;
+                        elapsedSeconds = MidPoint + TimeSpan.FromMilliseconds(matchEvent.Time).TotalSeconds;
                     }
                     else
                     {
                         // No half end event, assume 30 minute half.
                         elapsedSeconds = TimeSpan.FromMinutes(30).TotalSeconds + TimeSpan.FromMilliseconds(matchEvent.Time).TotalSeconds;
+                    }
+
+                    if(String.IsNullOrEmpty(MidPointText))
+                    {
+                        MidPointText = "HT - " + totalScore.ToString();
                     }
                 }
 
