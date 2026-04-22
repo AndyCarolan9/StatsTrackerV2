@@ -196,6 +196,15 @@
         <Setter Property="HorizontalTextAlignment" Value="Center" />
     </Style>
 
+    <Style TargetType="Label" x:Key="PageTitle">
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource PrimaryDark}}" />
+        <Setter Property="FontSize" Value="Large" />
+        <Setter Property="HorizontalOptions" Value="Start" />
+        <Setter Property="HorizontalTextAlignment" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center"/>
+        <Setter Property="VerticalTextAlignment" Value="Center"/>
+    </Style>
+
     <Style TargetType="Picker">
         <Setter Property="TextColor" Value="{StaticResource White}" />
         <Setter Property="TitleColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Gray200}}" />

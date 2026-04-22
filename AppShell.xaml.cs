@@ -60,5 +60,11 @@ namespace StatsTrackerV2
         {
             Application.Current!.UserAppTheme = e.NewIndex == 0 ? AppTheme.Light : AppTheme.Dark;
         }
+
+        protected override void OnNavigated(ShellNavigatedEventArgs args)
+        {
+            base.OnNavigated(args);
+            pageTitle.Text = Current.CurrentPage.Title;
+        }
     }
 }
