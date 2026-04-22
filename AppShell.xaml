@@ -26,8 +26,8 @@
                                SegmentHeight="40">
                 <sf:SfSegmentedControl.ItemsSource>
                     <x:Array Type="{x:Type sf:SfSegmentItem}">
-                        <sf:SfSegmentItem ImageSource="{StaticResource IconLight}" />
-                        <sf:SfSegmentItem ImageSource="{StaticResource IconDark}" />
+                        <sf:SfSegmentItem ImageSource="{StaticResource IconLight}" SelectedSegmentBackground="{StaticResource PrimaryDark}" />
+                        <sf:SfSegmentItem ImageSource="{StaticResource IconDark}" SelectedSegmentBackground="{StaticResource PrimaryDark}"/>
                     </x:Array>
                 </sf:SfSegmentedControl.ItemsSource>
             </sf:SfSegmentedControl>
