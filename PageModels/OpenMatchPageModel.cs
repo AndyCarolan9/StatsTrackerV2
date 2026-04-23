@@ -55,13 +55,9 @@ namespace StatsTrackerV2.PageModels
 
                     string fileName = pathComponents.Last();
 
-                    string[] fileComponents = fileName.Split(".");
-                    if(fileComponents.Length != 2)
-                    {
-                        continue;
-                    }
+                    string fileWithoutType = fileName.Replace(".json", "");
 
-                    string[] matchDetails = fileComponents[0].Split("_");
+                    string[] matchDetails = fileWithoutType.Split("_");
                     if (matchDetails.Length < 5)
                     {
                         continue;
@@ -89,7 +85,7 @@ namespace StatsTrackerV2.PageModels
                         date = new DateTime(year, Int32.Parse(matchDetails[3]), Int32.Parse(matchDetails[2]));
                     }
 
-                    Matches.Add(new FileEntry(fileName, file, date));
+                    Matches.Add(new FileEntry(fileName, file, date, displayName));
                 }
 
                 Matches = Matches.OrderByDescending(file => file.FileDate).ToObservableCollection();

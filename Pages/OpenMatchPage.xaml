@@ -31,9 +31,9 @@
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:FileEntry">
-                    <Border SemanticProperties.Description="{Binding FileName, StringFormat='{0}'}">
+                    <Border>
                         <VerticalStackLayout Padding="10">
-                            <Label Text="{Binding FileName}" FontSize="24" />
+                            <Label Text="{Binding DisplayName}" FontSize="24" />
                         </VerticalStackLayout>
                     </Border>
                 </DataTemplate>
