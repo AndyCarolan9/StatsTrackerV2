@@ -37,24 +37,6 @@
 
     <TabBar>
         <ShellContent
-            Title="Dashboard"
-            Icon="{StaticResource IconDashboard}"
-            ContentTemplate="{DataTemplate pages:MainPage}"
-            Route="main" />
-
-        <ShellContent
-            Title="Projects"
-            Icon="{StaticResource IconProjects}"
-            ContentTemplate="{DataTemplate pages:ProjectListPage}"
-            Route="projects" />
-
-        <ShellContent
-            Title="Manage Meta"
-            Icon="{StaticResource IconMeta}"
-            ContentTemplate="{DataTemplate pages:ManageMetaPage}"
-            Route="manage" />
-
-        <ShellContent
             Title="Match Page"
             Icon="{StaticResource IconClean}"
             ContentTemplate="{DataTemplate pages:MatchPage}"
