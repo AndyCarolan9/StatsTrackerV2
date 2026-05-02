@@ -151,6 +151,36 @@
                 Color="{StaticResource LightOnDarkBackground}"
                 Size="{StaticResource IconSize}" />
 
+        <FontImageSource x:Key="IconLeftArrow"
+            Glyph="{x:Static f:FluentUI.arrow_circle_left_20_regular}"
+            FontFamily="{x:Static f:FluentUI.FontFamily}"
+            Color="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+            Size="{StaticResource IconSize}" />
+
+        <FontImageSource x:Key="IconRightArrow"
+            Glyph="{x:Static f:FluentUI.arrow_circle_right_24_regular}"
+            FontFamily="{x:Static f:FluentUI.FontFamily}"
+            Color="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray600}}"
+            Size="{StaticResource IconSize}" />
+
+        <FontImageSource x:Key="IconLeftArrowSelected"
+            Glyph="{x:Static f:FluentUI.arrow_circle_left_20_regular}"
+            FontFamily="{x:Static f:FluentUI.FontFamily}"
+            Color="{AppThemeBinding Light={StaticResource DarkOnLightBackground}, Dark={StaticResource LightOnDarkBackground}}"
+            Size="{StaticResource IconSize}" />
+
+        <FontImageSource x:Key="IconRightArrowSelected"
+            Glyph="{x:Static f:FluentUI.arrow_circle_right_24_regular}"
+            FontFamily="{x:Static f:FluentUI.FontFamily}"
+            Color="{AppThemeBinding Light={StaticResource DarkOnLightBackground}, Dark={StaticResource LightOnDarkBackground}}"
+            Size="{StaticResource IconSize}" />
+
+        <FontImageSource x:Key="IconArrowBiDirectional"
+            Glyph="{x:Static f:FluentUI.arrow_bidirectional_left_right_20_regular}"
+            FontFamily="{x:Static f:FluentUI.FontFamily}"
+            Color="{StaticResource LightOnDarkBackground}"
+            Size="{StaticResource IconSize}" />
+
     <Style TargetType="Label">
         <Setter Property="TextColor"
                 Value="{AppThemeBinding Light={StaticResource DarkOnLightBackground}, Dark={StaticResource LightOnDarkBackground}}" />

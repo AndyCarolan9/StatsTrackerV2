@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using StatsTrackerV2.Data.Arguments;
 using StatsTrackerV2.Models;
 using System.Collections.ObjectModel;
 
@@ -10,12 +11,6 @@ namespace StatsTrackerV2.PageModels
         private Match _match;
 
         private List<Team> _teams;
-
-        private Team? _homeTeam;
-
-        private Team? _awayTeam;
-
-        private const int MaxStartingPlayers = 15;
 
         private string _selectedHomeTeam;
         public string SelectedHomeTeam
@@ -31,7 +26,6 @@ namespace StatsTrackerV2.PageModels
                 }
             }
         }
-
 
         private string _selectedAwayTeam;
         public string SelectedAwayTeam
@@ -54,13 +48,29 @@ namespace StatsTrackerV2.PageModels
         [ObservableProperty]
         private ObservableCollection<string> _teamNames = [];
 
-        public ObservableCollection<Player> HomeAvailablePlayers { get; }
+        [ObservableProperty]
+        private ObservableCollection<string> _homePlayers;
 
-        public ObservableCollection<Player> HomeStartingTeam { get; }
+        [ObservableProperty]
+        private ObservableCollection<PlayerPositionSelect> _homePositions;
 
-        public ObservableCollection<Player> AwayAvailablePlayers { get; }
+        [ObservableProperty]
+        private Team? _homeSelectedTeam;
 
-        public ObservableCollection<Player> AwayStartingTeam { get; }
+        [ObservableProperty]
+        private ObservableCollection<string> _awayPlayers;
+
+        [ObservableProperty]
+        private ObservableCollection<PlayerPositionSelect> _awayPositions;
+
+        [ObservableProperty]
+        private Team? _awaySelectedTeam;
+
+        [ObservableProperty]
+        private bool _showHomeTeam = true;
+
+        [ObservableProperty]
+        private bool _showAwayTeam = false;
 
         public CreateMatchPageModel(Match match)
         {
@@ -69,126 +79,45 @@ namespace StatsTrackerV2.PageModels
             _selectedHomeTeam = string.Empty;
             _selectedAwayTeam = string.Empty;
 
-            HomeAvailablePlayers = new();
-            HomeStartingTeam = new();
-            AwayAvailablePlayers = new();
-            AwayStartingTeam = new();
-        }
-
-        public void MoveToHomeStartingTeam(Player player)
-        {
-            if (HomeStartingTeam.Count >= MaxStartingPlayers)
-                return;
-
-            if (HomeStartingTeam.Contains(player))
-                return;
-
-            if (!HomeAvailablePlayers.Contains(player))
-                return;
-
-            int Index = HomeStartingTeam.Count + 1;
-            player.Index = Index.ToString();
-
-            HomeAvailablePlayers.Remove(player);
-            HomeStartingTeam.Add(player);
-        }
-
-        public void ReorderHomeStartingTeam(Player dragged, Player target)
-        {
-            if (dragged == target)
-                return;
-
-            int oldIndex = HomeStartingTeam.IndexOf(dragged);
-            int newIndex = HomeStartingTeam.IndexOf(target);
-
-            dragged.Index = (newIndex + 1).ToString();
-            target.Index = (oldIndex + 1).ToString();
-
-            if (oldIndex < 0 || newIndex < 0)
-                return;
-
-            HomeStartingTeam.Move(oldIndex, newIndex);
-        }
-
-        public void MoveToHomeAvailablePlayers(Player player)
-        {
-            if (_homeTeam == null)
-                return;
-
-            if (HomeAvailablePlayers.Contains(player))
-                return;
-
-            if (!_homeTeam.TeamSheet.Contains(player.Name))
-                return;
-
-            player.Index = string.Empty;
-            HomeStartingTeam.Remove(player);
-
-            for (int i = 0; i < HomeStartingTeam.Count; i++)
+            HomePlayers = new();
+            HomePositions = new ObservableCollection<PlayerPositionSelect>
             {
-                int pos = i + 1;
-                HomeStartingTeam[i].Index = pos.ToString();
-            }
+                new PlayerPositionSelect(1, 1, 0),
+                new PlayerPositionSelect(2, 2, 1),
+                new PlayerPositionSelect(3, 1, 1),
+                new PlayerPositionSelect(4, 0, 1),
+                new PlayerPositionSelect(5, 2, 2),
+                new PlayerPositionSelect(6, 1, 2),
+                new PlayerPositionSelect(7, 0, 2),
+                new PlayerPositionSelect(8, 0, 3),
+                new PlayerPositionSelect(9, 2, 3),
+                new PlayerPositionSelect(10, 2, 4),
+                new PlayerPositionSelect(11, 1, 4),
+                new PlayerPositionSelect(12, 0, 4),
+                new PlayerPositionSelect(13, 2, 5),
+                new PlayerPositionSelect(14, 1, 5),
+                new PlayerPositionSelect(15, 0, 5),
+            };
 
-            HomeAvailablePlayers.Add(player);
-        }
-
-        public void MoveToAwayStartingTeam(Player player)
-        {
-            if (AwayStartingTeam.Count >= MaxStartingPlayers)
-                return;
-
-            if (AwayStartingTeam.Contains(player))
-                return;
-
-            if (!AwayAvailablePlayers.Contains(player))
-                return;
-
-            int Index = AwayStartingTeam.Count + 1;
-            player.Index = Index.ToString();
-
-            AwayAvailablePlayers.Remove(player);
-            AwayStartingTeam.Add(player);
-        }
-
-        public void ReorderAwayStartingTeam(Player dragged, Player target)
-        {
-            if (dragged == target)
-                return;
-
-            int oldIndex = AwayStartingTeam.IndexOf(dragged);
-            int newIndex = AwayStartingTeam.IndexOf(target);
-
-            dragged.Index = (newIndex + 1).ToString();
-            target.Index = (oldIndex + 1).ToString();
-
-            if (oldIndex < 0 || newIndex < 0)
-                return;
-
-            AwayStartingTeam.Move(oldIndex, newIndex);
-        }
-
-        public void MoveToAwayAvailablePlayers(Player player)
-        {
-            if (_awayTeam == null)
-                return;
-
-            if (AwayAvailablePlayers.Contains(player))
-                return;
-
-            if(!_awayTeam.TeamSheet.Contains(player.Name))
-                return;
-
-            player.Index = string.Empty;
-            AwayStartingTeam.Remove(player);
-
-            for (int i = 0; i < AwayStartingTeam.Count; i++)
+            AwayPlayers = new();
+            AwayPositions = new ObservableCollection<PlayerPositionSelect>
             {
-                int pos = i + 1;
-                AwayStartingTeam[i].Index = pos.ToString();
-            }
-
-            AwayAvailablePlayers.Add(player);
+                new PlayerPositionSelect(1, 1, 5),
+                new PlayerPositionSelect(2, 0, 4),
+                new PlayerPositionSelect(3, 1, 4),
+                new PlayerPositionSelect(4, 2, 4),
+                new PlayerPositionSelect(5, 0, 3),
+                new PlayerPositionSelect(6, 1, 3),
+                new PlayerPositionSelect(7, 2, 3),
+                new PlayerPositionSelect(8, 2, 2),
+                new PlayerPositionSelect(9, 0, 2),
+                new PlayerPositionSelect(10, 0, 1),
+                new PlayerPositionSelect(11, 1, 1),
+                new PlayerPositionSelect(12, 2, 1),
+                new PlayerPositionSelect(13, 0, 0),
+                new PlayerPositionSelect(14, 1, 0),
+                new PlayerPositionSelect(15, 2, 0),
+            };
         }
 
         [RelayCommand]
@@ -215,10 +144,22 @@ namespace StatsTrackerV2.PageModels
             await Shell.Current.GoToAsync($"teamList?teamName={selectedTeam.TeamName}");
         }
 
+        [RelayCommand]
+        private async Task ClearPosition(PlayerPositionSelect playerPositionSelect)
+        {
+            playerPositionSelect.SelectedPlayer = "";
+        }
+
+        [RelayCommand]
+        private async Task ChangeVisibleTeam()
+        {
+            ShowHomeTeam = !ShowHomeTeam;
+            ShowAwayTeam = !ShowAwayTeam;
+        }
+
         private void OnSelectedHomeTeamChanged()
         {
-            HomeAvailablePlayers.Clear();
-            HomeStartingTeam.Clear();
+            HomePlayers.Clear();
 
             Team? selectedTeam = _teams.Find(team => team.TeamName.Equals(SelectedHomeTeam));
             if (selectedTeam == null)
@@ -226,18 +167,17 @@ namespace StatsTrackerV2.PageModels
                 return;
             }
 
-            _homeTeam = selectedTeam;
+            HomeSelectedTeam = selectedTeam;
 
             foreach (string player in selectedTeam.TeamSheet)
             {
-                HomeAvailablePlayers.Add(new Player { Name = player });
+                HomePlayers.Add(player);
             }
         }
 
         private void OnSelectedAwayTeamChanged()
         {
-            AwayAvailablePlayers.Clear();
-            AwayStartingTeam.Clear();
+            AwayPlayers.Clear();
 
             Team? selectedTeam = _teams.Find(team => team.TeamName.Equals(SelectedAwayTeam));
             if (selectedTeam == null)
@@ -245,45 +185,49 @@ namespace StatsTrackerV2.PageModels
                 return;
             }
 
-            _awayTeam = selectedTeam;
+            AwaySelectedTeam = selectedTeam;
 
             foreach (string player in selectedTeam.TeamSheet)
             {
-                AwayAvailablePlayers.Add(new Player { Name = player });
+                AwayPlayers.Add(player);
             }
         }
 
         [RelayCommand]
         private async Task ConfirmClicked()
         {
-            if(_homeTeam == null || _awayTeam == null) { return; }
+            if(HomeSelectedTeam == null || AwaySelectedTeam == null) { return; }
 
-            _homeTeam.SetStartingTeam(GetStartingTeam(HomeStartingTeam));
-            _awayTeam.SetStartingTeam(GetStartingTeam(AwayStartingTeam));
-            _match.HydrateObject(new Match(_homeTeam, _awayTeam));
+            HomeSelectedTeam.SetStartingTeam(GetHomeStartingTeam());
+            AwaySelectedTeam.SetStartingTeam(GetAwayStartingTeam());
+            _match.HydrateObject(new Match(HomeSelectedTeam, AwaySelectedTeam));
             _match.StartAutoSave();
 
             await Shell.Current.GoToAsync("..");
         }
 
-        private string[] GetStartingTeam(ObservableCollection<Player> team)
+        private string[] GetHomeStartingTeam()
         {
-            string[] players = new string[15];
+            List<string> startingTeam = new List<string>();
 
-            for (int i = 0; i < 15; i++)
+            foreach (PlayerPositionSelect p in HomePositions)
             {
-                if (i < team.Count)
-                {
-                    players[i] = team[i].Name;
-                }
-                else
-                {
-                    players[i] = (i + 1).ToString();
-                }
-
+                startingTeam.Add(p.SelectedPlayer);
             }
 
-            return players;
+            return startingTeam.ToArray();
+        }
+
+        private string[] GetAwayStartingTeam()
+        {
+            List<string> startingTeam = new List<string>();
+
+            foreach (PlayerPositionSelect p in AwayPositions)
+            {
+                startingTeam.Add(p.SelectedPlayer);
+            }
+
+            return startingTeam.ToArray();
         }
 
         [RelayCommand]
@@ -304,12 +248,10 @@ namespace StatsTrackerV2.PageModels
         {
             await JSONHelper.ImportTeamsJSON(_teams);
 
-            _homeTeam = null;
-            _awayTeam = null;
-            HomeAvailablePlayers.Clear();
-            HomeStartingTeam.Clear();
-            AwayAvailablePlayers.Clear();
-            AwayStartingTeam.Clear();
+            HomeSelectedTeam = null;
+            HomePlayers.Clear();
+            AwaySelectedTeam = null;
+            AwayPlayers.Clear();
             LoadTeams();
         }
 

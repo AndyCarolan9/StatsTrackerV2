@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="StatsTrackerV2.Pages.Controls.PlayerSelectionItem"
+             x:Name="Root">
+    <Grid RowDefinitions="*, Auto, Auto"
+          ColumnDefinitions="*"
+          Padding="30">
+        <Image Source="footballshirt.png"
+               HeightRequest="75"
+               WidthRequest="100" Grid.Row="0" Grid.Column="0">
+            <Image.Behaviors>
+                <toolkit:IconTintColorBehavior TintColor="{Binding Source={x:Reference Root}, Path=JerseyColor}"/>
+            </Image.Behaviors>
+        </Image>
+        <Image Source="footballshirttransparent.png"
+               HeightRequest="75"
+               WidthRequest="100" Grid.Row="0" Grid.Column="0">
+        </Image>
+        <Label Text="{Binding Source={x:Reference Root}, Path=JerseyNumber}" 
+               FontSize="Large" TextColor="{Binding Source={x:Reference Root}, Path=TextColor}" 
+               Grid.Row="0" Grid.Column="0" 
+               HorizontalOptions="Center" VerticalOptions="Center"/>
+        <Picker Grid.Row="1" Grid.Column="0" Style="{StaticResource PlayerPicker}"
+                ItemsSource="{Binding Source={x:Reference Root}, Path=PlayersList}"
+                SelectedItem="{Binding Source={x:Reference Root}, Path=SelectedPlayer}"/>
+        <Button Grid.Row="2" Grid.Column="0" Text="Clear" Style="{StaticResource ClearPlayerBtn}"
+                Command="{Binding Source={x:Reference Root}, Path=ClearCommand}"
+                CommandParameter="{Binding Source={x:Reference Root}, Path=ClearCommandParameter}"/>
+    </Grid>
+</ContentView>
