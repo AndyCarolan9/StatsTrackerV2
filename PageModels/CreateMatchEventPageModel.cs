@@ -180,9 +180,6 @@ namespace StatsTrackerV2.PageModels
                 if (SelectedActionType == string.Empty)
                     return;
 
-                if (SelectedPlayer.Name == string.Empty)
-                    return;
-
                 bool wasActionParsed = Enum.TryParse(SelectedActionType, out ActionType actionType);
 
                 bool wasResultParsed = Enum.TryParse(SelectedResultType.Replace(" ", ""), out ShotResultType result);
@@ -226,12 +223,6 @@ namespace StatsTrackerV2.PageModels
                 bool wasResultParsed = Enum.TryParse(SelectedResultType.Replace(" ", ""), out KickOutResultType result);
                 if (!wasResultParsed)
                     return;
-
-                if(result.IsKickOutWon())
-                {
-                    if (SelectedPlayer.Name == string.Empty)
-                        return;
-                }
 
                 KickOutEventArgs kickOutEventArgs = new KickOutEventArgs();
                 kickOutEventArgs.Location = Location;
