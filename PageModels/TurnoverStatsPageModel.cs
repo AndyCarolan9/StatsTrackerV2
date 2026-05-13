@@ -112,6 +112,17 @@ namespace StatsTrackerV2.PageModels
                 OnPropertyChanged();
             }
         } = true;
+
+        public bool ShowBreakingBall
+        {
+            get;
+            set
+            {
+                field = value;
+                FilterDrawnEvents();
+                OnPropertyChanged();
+            }
+        } = true;
         #endregion
 
         [ObservableProperty]
@@ -143,14 +154,18 @@ namespace StatsTrackerV2.PageModels
             TeamStats.Add(new TurnoverMatchStatistic(EventType.TurnoverLost, TurnoverType.Tackle, "Lost in tackle", 0, 0));
             TeamStats.Add(new TurnoverMatchStatistic(EventType.TurnoverWon, TurnoverType.Free, "Won by a free", 0, 0));
             TeamStats.Add(new TurnoverMatchStatistic(EventType.TurnoverLost, TurnoverType.Free, "Lost by a free", 0, 0));
+            TeamStats.Add(new TurnoverMatchStatistic(EventType.TurnoverWon, TurnoverType.BreakingBall, "Won by breaking ball", 0, 0));
+            TeamStats.Add(new TurnoverMatchStatistic(EventType.TurnoverLost, TurnoverType.BreakingBall, "Lost by breaking ball", 0, 0));
 
             WonEventScores.Add(new TurnoverEventScore(TurnoverType.Intercept));
             WonEventScores.Add(new TurnoverEventScore(TurnoverType.Tackle));
             WonEventScores.Add(new TurnoverEventScore(TurnoverType.Free));
+            WonEventScores.Add(new TurnoverEventScore(TurnoverType.BreakingBall));
 
             LostEventScores.Add(new TurnoverEventScore(EventType.TurnoverLost, TurnoverType.Intercept));
             LostEventScores.Add(new TurnoverEventScore(EventType.TurnoverLost, TurnoverType.Tackle));
             LostEventScores.Add(new TurnoverEventScore(EventType.TurnoverLost, TurnoverType.Free));
+            LostEventScores.Add(new TurnoverEventScore(EventType.TurnoverLost, TurnoverType.BreakingBall));
         }
 
         [RelayCommand]
@@ -397,6 +412,8 @@ namespace StatsTrackerV2.PageModels
                     return ShowFree;
                 case TurnoverType.Tackle:
                     return ShowTackle;
+                case TurnoverType.BreakingBall:
+                    return ShowBreakingBall;
                 default:
                     return false;
             }

@@ -5,6 +5,15 @@
         Default,
         Intercept,
         Free,
-        Tackle
+        Tackle,
+        BreakingBall
+    }
+
+    static class TurnoverTypeExtensions
+    {
+        public static string GetDisplayString(this TurnoverType type)
+        {
+            return string.Concat(type.ToString().Select(x => Char.IsUpper(x) ? " " + x : x.ToString())).TrimStart(' ');
+        }
     }
 }

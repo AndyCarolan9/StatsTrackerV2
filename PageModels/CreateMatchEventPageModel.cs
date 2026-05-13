@@ -159,7 +159,7 @@ namespace StatsTrackerV2.PageModels
                         continue;
                     }
 
-                    ResultTypes.Add(turnoverType.ToString());
+                    ResultTypes.Add(turnoverType.GetDisplayString());
                 }
             }
 

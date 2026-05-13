@@ -8,19 +8,19 @@
             : base(eventType, firstHalfGoals, firstHalfPoints, secondHalfGoals, secondHalfPoints)
         {
             TurnoverType = turnoverType;
-            Title = turnoverType.ToString();
+            Title = turnoverType.GetDisplayString();
         }
 
         public TurnoverEventScore(EventType eventType, TurnoverType turnoverType) : base(eventType, 0, 0, 0, 0)
         {
             TurnoverType = turnoverType;
-            Title = turnoverType.ToString();
+            Title = turnoverType.GetDisplayString();
         }
 
         public TurnoverEventScore(TurnoverType turnoverType) : base(EventType.TurnoverWon, 0, 0, 0, 0)
         {
             TurnoverType = turnoverType; 
-            Title = turnoverType.ToString();
+            Title = turnoverType.GetDisplayString();
         }
     }
 }

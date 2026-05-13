@@ -81,6 +81,11 @@
                             <CheckBox IsChecked="{Binding ShowFree}"/>
                             <Label Text="Frees" VerticalOptions="Center" ToolTipProperties.Text="Show turnovers that were the result of a free"/>
                         </HorizontalStackLayout>
+
+                        <HorizontalStackLayout>
+                            <CheckBox IsChecked="{Binding ShowBreakingBall}"/>
+                            <Label Text="Breaking Ball" VerticalOptions="Center" ToolTipProperties.Text="Show turnovers that were the result of a breaking ball"/>
+                        </HorizontalStackLayout>
                     </VerticalStackLayout>
                 </Border>
 
