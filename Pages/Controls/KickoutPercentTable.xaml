@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:StatsTrackerV2.Models"
+             x:Class="StatsTrackerV2.Pages.Controls.KickoutPercentTable">
+    <Border>
+        <CollectionView x:Name="dataGrid">
+            <CollectionView.Header>
+                <Grid ColumnDefinitions="150,100,100,100"
+                      ColumnSpacing="2">
+                    <Border Stroke="Black"
+                        StrokeThickness="3"
+                        StrokeShape="Rectangle"
+                        Padding="10"
+                        WidthRequest="150"
+                        Grid.Column="0">
+                        <Label x:Name="column1" Text="Kickout Distance" FontAttributes="Bold"/>
+                    </Border>
+
+                    <Border Stroke="Black"
+                        StrokeThickness="3"
+                        StrokeShape="Rectangle"
+                        Padding="10"
+                        WidthRequest="100"
+                        Grid.Column="1">
+                        <Label x:Name="column2" Text="# Kickouts Won" Grid.Column="1" FontAttributes="Bold"/>
+                    </Border>
+
+                    <Border Stroke="Black"
+                        StrokeThickness="3"
+                        StrokeShape="Rectangle"
+                        Padding="10"
+                        WidthRequest="100"
+                        Grid.Column="2">
+                        <Label x:Name="column3" Text="# Kickouts" Grid.Column="2" FontAttributes="Bold"/>
+                    </Border>
+
+                    <Border Stroke="Black"
+                        StrokeThickness="3"
+                        StrokeShape="Rectangle"
+                        Padding="10"
+                        WidthRequest="100"
+                        Grid.Column="3">
+                        <Label x:Name="column4" Text="%" Grid.Column="2" FontAttributes="Bold"/>
+                    </Border>
+                </Grid>
+            </CollectionView.Header>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:KickoutDistanceData">
+                    <Grid ColumnDefinitions="150,100,100,100"
+                          ColumnSpacing="2">
+                        <Border Stroke="Black"
+                            StrokeThickness="3"
+                            StrokeShape="Rectangle"
+                            Padding="10"
+                            WidthRequest="150">
+                            <Label Text="{Binding KickoutDistance}" />
+                        </Border>
+
+                        <Border Stroke="Black"
+                            StrokeThickness="3"
+                            StrokeShape="Rectangle"
+                            Padding="10"
+                            WidthRequest="100"
+                            Grid.Column="1">
+                            <Label Text="{Binding TotalWon}" />
+                        </Border>
+
+                        <Border Stroke="Black"
+                            StrokeThickness="3"
+                            StrokeShape="Rectangle"
+                            Padding="10"
+                            WidthRequest="100"
+                            Grid.Column="2">
+                            <Label Text="{Binding TotalKickouts}" />
+                        </Border>
+
+                        <Border Stroke="Black"
+                            StrokeThickness="3"
+                            StrokeShape="Rectangle"
+                            Padding="10"
+                            WidthRequest="100"
+                            Grid.Column="3">
+                            <Label Text="{Binding Percentage}" />
+                        </Border>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Border>
+</ContentView>

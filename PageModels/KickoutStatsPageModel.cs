@@ -46,6 +46,9 @@ namespace StatsTrackerV2.PageModels
         [ObservableProperty]
         private ObservableCollection<EventScore> _eventScores = [];
 
+        [ObservableProperty]
+        private ObservableCollection<KickoutDistanceData> _kickoutDistanceDatas = [];
+
         #region Filter values
         public bool Show1stHalfEvents
         {
@@ -160,6 +163,10 @@ namespace StatsTrackerV2.PageModels
             KickoutResultColors.Add(new KickoutResultColor(KickOutResultType.Lost, Colors.Red));
             KickoutResultColors.Add(new KickoutResultColor(KickOutResultType.LostMark, Colors.DarkRed));
             KickoutResultColors.Add(new KickoutResultColor(KickOutResultType.LostBreak, Colors.IndianRed));
+
+            KickoutDistanceDatas.Add(new KickoutDistanceData(KickoutDistance.Short));
+            KickoutDistanceDatas.Add(new KickoutDistanceData(KickoutDistance.Medium));
+            KickoutDistanceDatas.Add(new KickoutDistanceData(KickoutDistance.Long));
         }
 
         [RelayCommand]
@@ -182,6 +189,11 @@ namespace StatsTrackerV2.PageModels
             _kickoutEvents.Clear();
             MatchEvent[] matchEvents = Match.GetMatchEventsOfType(EventType.KickOut).Where(me => me.TeamName == SelectedTeam).ToArray();
 
+            foreach (KickoutDistanceData item in KickoutDistanceDatas)
+            {
+                item.Reset();
+            }
+
             foreach (MatchEvent matchEvent in matchEvents)
             {
                 KickOutEvent? kickOutEvent = matchEvent as KickOutEvent;
@@ -202,6 +214,7 @@ namespace StatsTrackerV2.PageModels
             FilterDrawnEvents();
             FillGraph();
             CalculateScoresFromEvent();
+            UpdateKickoutDistances();
         }
 
         private Color GetColorForResultType(KickOutEvent kickOutEvent)
@@ -389,6 +402,43 @@ namespace StatsTrackerV2.PageModels
             foreach(EventScore eventScore in EventScores)
             {
                 eventScore.UpdateScoreValues(shouldReset);
+            }
+        }
+
+        private void UpdateKickoutDistances()
+        {
+            foreach(KickOutEvent kickOutEvent in _kickoutEvents.Keys)
+            {
+                // Calculate distance from end line
+                // < 45 m short, < 55 medium, rest long
+                KickoutDistance distanceType;
+                float distance = 145 * kickOutEvent.Location.X;
+
+                if(distance < 45)
+                {
+                    distanceType = KickoutDistance.Short;
+                }
+                else if(distance < 65)
+                {
+                    distanceType = KickoutDistance.Medium;
+                }
+                else
+                {
+                    distanceType = KickoutDistance.Long;
+                }
+
+                KickoutDistanceData? data = KickoutDistanceDatas.FirstOrDefault(x => x.distance == distanceType);
+                if (data != null)
+                {
+                    data.TotalKickouts += 1;
+
+                    if(kickOutEvent.ResultType.IsKickOutWon())
+                    {
+                        data.TotalWon += 1;
+                    }
+
+                    data.CalculatePercent();
+                }
             }
         }
     }

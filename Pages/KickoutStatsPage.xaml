@@ -123,15 +123,17 @@
                 </chart:SfCartesianChart>
             </Border>
 
-            <HorizontalStackLayout Grid.Column="0" Grid.Row="3">
+            <HorizontalStackLayout Grid.Column="0" Grid.Row="3" Spacing="10">
                 <Border>
                     <VerticalStackLayout Spacing="12">
                         <Label Text="Scored/Conceded From Kickouts" FontSize="Title"/>
                         <controls:DataGrid Items="{Binding EventScores}"/>
                     </VerticalStackLayout>
                 </Border>
+
+                <controls:KickoutPercentTable Items="{Binding KickoutDistanceDatas}"/>
             </HorizontalStackLayout>
-            
+
         </Grid>
     </ScrollView>
     
