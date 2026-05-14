@@ -97,16 +97,6 @@ public partial class PlayerSelectionItem : ContentView
         OnPropertyChanged(nameof(TextColor));
     }
 
-    private bool IsColorDark(Color color)
-    {
-        double rBrightness = color.Red * 0.299;
-        double gBrightness = color.Green * 0.587;
-        double bBrighness = color.Blue * 0.114;
-
-        double brightness = rBrightness + gBrightness + bBrighness;
-        return brightness < 0.5;
-    }
-
 	private static void OnJerseyColorChanged(BindableObject bindable, object oldValue, object newValue)
 	{
         var control = (PlayerSelectionItem)bindable;
@@ -117,7 +107,7 @@ public partial class PlayerSelectionItem : ContentView
 
 	private void UpdateTextColor(Color newJerseyColor)
 	{
-        if (IsColorDark(newJerseyColor))
+        if (ColorsHelper.IsColorDark(newJerseyColor))
         {
             TextColor = Colors.White;
         }
