@@ -233,11 +233,13 @@ namespace StatsTrackerV2.PageModels
         protected override void FilterDrawnEvents()
         {
             DotDrawable.Statistics.Clear();
+            int index = 1;
             foreach (var item in _kickoutEvents)
             {
                 if(CanShowEvent(item.Key))
                 {
-                    DotDrawable.Statistics.Add(new DrawableStatistic(item.Key.Location, item.Value, item.Key.HalfIndex == 1));
+                    DotDrawable.Statistics.Add(new DrawableStatistic(index, item.Key.Location, item.Value, item.Key.HalfIndex == 1));
+                    index++;
                 }
             }
             KickoutEventsUpdated?.Invoke(this, new EventArgs());

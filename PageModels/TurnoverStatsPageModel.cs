@@ -214,6 +214,7 @@ namespace StatsTrackerV2.PageModels
         {
             DotDrawable.Statistics.Clear();
 
+            int index = 1;
             foreach(TurnoverEvent turnover in _turnoverEvents)
             {
                 if(CanShowEvent(turnover))
@@ -223,7 +224,8 @@ namespace StatsTrackerV2.PageModels
                     EventResultColor? resultColor = TurnoverResultColors.FirstOrDefault(x => x.Type == type);
                     if (resultColor != null)
                     {
-                        DotDrawable.Statistics.Add(new DrawableStatistic(turnover.Location, resultColor.Color, turnover.HalfIndex == 1));
+                        DotDrawable.Statistics.Add(new DrawableStatistic(index, turnover.Location, resultColor.Color, turnover.HalfIndex == 1));
+                        index++;
                     }
                 }
             }

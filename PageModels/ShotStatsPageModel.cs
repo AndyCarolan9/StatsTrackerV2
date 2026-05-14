@@ -280,6 +280,7 @@ namespace StatsTrackerV2.PageModels
         {
             DotDrawable.Statistics.Clear();
 
+            int index = 1;
             foreach(ShotEvent shotEvent in _shotEvents)
             {
                 if(CanShowEvent(shotEvent))
@@ -297,7 +298,8 @@ namespace StatsTrackerV2.PageModels
 
                     if (resultColor != null)
                     {
-                        DotDrawable.Statistics.Add(new DrawableStatistic(shotEvent.Location, resultColor.Color, shotEvent.HalfIndex == 1));
+                        DotDrawable.Statistics.Add(new DrawableStatistic(index, shotEvent.Location, resultColor.Color, shotEvent.HalfIndex == 1));
+                        index++;
                     }
                 }
             }

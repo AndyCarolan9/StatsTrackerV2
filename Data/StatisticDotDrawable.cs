@@ -16,15 +16,28 @@
 
                 canvas.FillColor = stat.Color;
 
-                if(stat.IsFirstHalf)
+                if (ColorsHelper.IsColorDark(stat.Color))
                 {
-                    canvas.FillCircle(x, y, 6);
-                    canvas.DrawCircle(x, y, 6);
+                    canvas.FontColor = Colors.White;
                 }
                 else
                 {
-                    canvas.FillRectangle(x - 6, y - 6, 12, 12);
-                    canvas.DrawRectangle(x - 6, y - 6, 12, 12);
+                    canvas.FontColor = Colors.Black;
+                }
+
+                canvas.FontSize = 10;
+
+                if(stat.IsFirstHalf)
+                {
+                    canvas.FillCircle(x, y, 8);
+                    canvas.DrawString(stat.Index.ToString(), x - 6, y - 8, 12, 12, HorizontalAlignment.Center, VerticalAlignment.Top);
+                    canvas.DrawCircle(x, y, 8);
+                }
+                else
+                {
+                    canvas.FillRectangle(x - 7, y - 7, 14, 14);
+                    canvas.DrawString(stat.Index.ToString(), x - 6, y - 8, 12, 12, HorizontalAlignment.Center, VerticalAlignment.Top);
+                    canvas.DrawRectangle(x - 7, y - 7, 14, 14);
                 }
                     
             }
