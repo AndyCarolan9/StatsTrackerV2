@@ -543,7 +543,8 @@ namespace StatsTrackerV2.Models
                 if (previousEvent.Type.IsTurnoverEvent() 
                     || previousEvent.Type == EventType.KickOut 
                     || previousEvent.Type == EventType.FreeConceded
-                    || previousEvent.Type == EventType.ThrowInWon)
+                    || previousEvent.Type == EventType.ThrowInWon
+                    || previousEvent.Type.IsShotEvent())
                 {
                     return previousEvent;
                 }
