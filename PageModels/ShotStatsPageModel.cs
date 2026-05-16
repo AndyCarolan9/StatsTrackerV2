@@ -151,7 +151,11 @@ namespace StatsTrackerV2.PageModels
                 }
 
                 EventType type = originEvent.Type;
-                if (type.IsTurnoverEvent())
+                if(shotEvent.ActionType == ActionType.Free || shotEvent.ActionType == ActionType.Penalty)
+                {
+                    type = EventType.FreeConceded;
+                }
+                else if (type.IsTurnoverEvent())
                 {
                     type = EventType.TurnoverWon;
                 }
