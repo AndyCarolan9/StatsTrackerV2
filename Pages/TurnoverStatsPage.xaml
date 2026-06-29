@@ -9,7 +9,7 @@
              x:Class="StatsTrackerV2.Pages.TurnoverStatsPage"
              x:DataType="pageModels:TurnoverStatsPageModel"
              x:Name="TurnoverStats"
-             Title="TurnoverStatsPage">
+             Title="Turnover Statistics">
 
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior

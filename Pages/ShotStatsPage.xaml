@@ -9,7 +9,7 @@
              x:Class="StatsTrackerV2.Pages.ShotStatsPage"
              x:DataType="pageModels:ShotStatsPageModel"
              x:Name="ShotStats"
-             Title="ShotStatsPage">
+             Title="Shooting Statistics">
 
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior
