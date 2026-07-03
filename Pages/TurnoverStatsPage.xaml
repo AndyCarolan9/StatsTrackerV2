@@ -42,7 +42,9 @@
             <controls:PitchDisplay x:Name="pitchDisplay" Grid.Row="1" Grid.Column="0"
                                    StatisticDrawer="{Binding DotDrawable}"
                                    HomeTeamText="{Binding Match.HomeTeam.TeamName}"
-                                   AwayTeamText="{Binding Match.AwayTeam.TeamName}"/>
+                                   AwayTeamText="{Binding Match.AwayTeam.TeamName}"
+                                   Items="{Binding TurnoverResultColors}"
+                                   ShowLegend="True"/>
 
             <VerticalStackLayout Grid.Column="1" Grid.Row="1" Spacing="10">
                 <Border>
@@ -88,14 +90,10 @@
                         </HorizontalStackLayout>
                     </VerticalStackLayout>
                 </Border>
-
-                <Border>
-                    <controls:LocationMapLegend Items="{Binding TurnoverResultColors}"/>
-                </Border>
             </VerticalStackLayout>
 
             <Border Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2">
-                <chart:SfCartesianChart x:Name="KickoutChart" IsTransposed="false" EnableSideBySideSeriesPlacement="True">
+                <chart:SfCartesianChart x:Name="turnoverChart" IsTransposed="false" EnableSideBySideSeriesPlacement="True">
                     <chart:SfCartesianChart.Legend>
                         <chart:ChartLegend IsVisible="True" LabelStyle="{StaticResource DefaultLegendLabelStyle}"/>
                     </chart:SfCartesianChart.Legend>
@@ -127,14 +125,14 @@
                 <Border>
                     <VerticalStackLayout Spacing="12">
                         <Label Text="Scored From Turnovers" FontSize="Title"/>
-                        <controls:DataGrid Items="{Binding WonEventScores}"/>
+                        <controls:DataGrid x:Name="scoredGrid" Items="{Binding WonEventScores}"/>
                     </VerticalStackLayout>
                 </Border>
 
                 <Border>
                     <VerticalStackLayout Spacing="12">
                         <Label Text="Conceded From Turnovers" FontSize="Title"/>
-                        <controls:DataGrid Items="{Binding LostEventScores}"/>
+                        <controls:DataGrid x:Name="concededGrid" Items="{Binding LostEventScores}"/>
                     </VerticalStackLayout>
                 </Border>
             </HorizontalStackLayout>

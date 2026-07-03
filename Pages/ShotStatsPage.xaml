@@ -43,7 +43,9 @@
             <controls:PitchDisplay x:Name="pitchDisplay" Grid.Row="1" Grid.Column="0"
                                    StatisticDrawer="{Binding DotDrawable}"
                                    HomeTeamText="{Binding Match.HomeTeam.TeamName}"
-                                   AwayTeamText="{Binding Match.AwayTeam.TeamName}"/>
+                                   AwayTeamText="{Binding Match.AwayTeam.TeamName}"
+                                   Items="{Binding ShotResultColors}"
+                                   ShowLegend="True"/>
 
             <VerticalStackLayout Grid.Column="1" Grid.Row="1" Spacing="10">
                 <Border>
@@ -58,10 +60,6 @@
                             <Label Text="2nd Half" VerticalOptions="Center" ToolTipProperties.Text="Show turnover events from the 2nd half"/>
                         </HorizontalStackLayout>
                     </VerticalStackLayout>
-                </Border>
-
-                <Border>
-                    <controls:LocationMapLegend Items="{Binding ShotResultColors}"/>
                 </Border>
             </VerticalStackLayout>
 

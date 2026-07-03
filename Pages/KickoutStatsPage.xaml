@@ -42,7 +42,9 @@
             <controls:PitchDisplay x:Name="pitchDisplay" Grid.Row="1" Grid.Column="0"
                                    StatisticDrawer="{Binding DotDrawable}"
                                    HomeTeamText="{Binding Match.HomeTeam.TeamName}"
-                                   AwayTeamText="{Binding Match.AwayTeam.TeamName}" />
+                                   AwayTeamText="{Binding Match.AwayTeam.TeamName}" 
+                                   Items="{Binding KickoutResultColors}"
+                                   ShowLegend="True"/>
 
             <VerticalStackLayout Grid.Column="1" Grid.Row="1" Spacing="10">
                 <Border>
@@ -87,10 +89,6 @@
                             <Label Text="Lost Break" VerticalOptions="Center" ToolTipProperties.Text="Show Kickout events which were lost from a breaking ball"/>
                         </HorizontalStackLayout>
                     </VerticalStackLayout>
-                </Border>
-
-                <Border>
-                    <controls:LocationMapLegend Items="{Binding KickoutResultColors}"/>
                 </Border>
             </VerticalStackLayout>
 

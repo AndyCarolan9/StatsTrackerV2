@@ -1,4 +1,5 @@
-using CommunityToolkit.Maui.Views;
+using StatsTrackerV2.Models.ResultColors;
+using System.Collections.ObjectModel;
 
 namespace StatsTrackerV2.Pages.Controls;
 
@@ -55,6 +56,31 @@ public partial class PitchDisplay : ContentView
 		set => SetValue(LocationPointProperty, value);
 	}
 
+    public static readonly BindableProperty ItemsProperty =
+            BindableProperty.Create(
+                nameof(Items),
+                typeof(ObservableCollection<EventResultColor>),
+                typeof(PitchDisplay));
+
+    public ObservableCollection<EventResultColor> Items
+    {
+        get => (ObservableCollection<EventResultColor>)GetValue(ItemsProperty);
+        set => SetValue(ItemsProperty, value);
+    }
+
+	public static readonly BindableProperty ShowLegendProperty =
+		BindableProperty.Create(
+			nameof(ShowLegend),
+			typeof(bool),
+			typeof(PitchDisplay),
+			false);
+
+	public bool ShowLegend
+	{
+		get => (bool)GetValue(ShowLegendProperty);
+		set => SetValue(ShowLegendProperty, value);
+	}
+
     public PitchDisplay()
 	{
 		InitializeComponent();
@@ -67,6 +93,10 @@ public partial class PitchDisplay : ContentView
 
         awayTeamLabel.BindingContext = this;
         awayTeamLabel.SetBinding(Label.TextProperty, new Binding(nameof(AwayTeamText), source: this));
+
+		legend.BindingContext = this;
+		legend.SetBinding(LocationMapLegend.ItemsProperty, new Binding(nameof(Items), source: this));
+		legendBorder.SetBinding(Border.IsVisibleProperty, new Binding(nameof(ShowLegend), source: this));
 
         MainImage.SizeChanged += (s, e) =>
         {
