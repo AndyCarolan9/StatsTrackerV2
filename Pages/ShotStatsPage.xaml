@@ -96,14 +96,14 @@
                 <Border>
                     <VerticalStackLayout Spacing="12">
                         <Label Text="Scored from events" FontSize="Title"/>
-                        <controls:DataGrid Items="{Binding EventScores}"/>
+                        <controls:DataGrid x:Name="eventScoresChart" Items="{Binding EventScores}"/>
                     </VerticalStackLayout>
                 </Border>
 
                 <Border>
                     <VerticalStackLayout Spacing="12">
                         <Label Text="Scorers List" FontSize="Title"/>
-                        <controls:PlayerScoreDataGrid Items="{Binding PlayerScores}"/>
+                        <controls:PlayerScoreDataGrid x:Name="scorersList" Items="{Binding PlayerScores}"/>
                     </VerticalStackLayout>
                 </Border>
             </HorizontalStackLayout>

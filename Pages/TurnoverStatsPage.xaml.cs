@@ -1,6 +1,11 @@
+#if ANDROID
+using Android.Content;
+using Android.Provider;
+#endif
+
 namespace StatsTrackerV2.Pages;
 
-public partial class TurnoverStatsPage : ContentPage
+public partial class TurnoverStatsPage : ContentPage, IStatsPage
 {
 	public TurnoverStatsPage(TurnoverStatsPageModel model)
 	{
@@ -13,4 +18,30 @@ public partial class TurnoverStatsPage : ContentPage
 	{
 		pitchDisplay.InvalidateDrawing();
 	}
+
+    public async void ExportPageData()
+    {
+		TurnoverStatsPageModel? model = BindingContext as TurnoverStatsPageModel;
+		if(model == null)
+		{
+			await AppShell.DisplayMessage("Failed to export Turnover Data.");
+			return;
+		}
+
+		string selectedTeam = model.SelectedTeam.Replace(" ", "_");
+		string opponent = model.Teams.First(x => !x.Equals(model.SelectedTeam)).Replace(" ", "_");
+		string chartfileName = selectedTeam + "_Turnover_Chart_V_" + opponent;
+		turnoverChart.SaveAsImage(chartfileName);
+
+		string scoredDGFileName = selectedTeam + "_Scored_From_Turnovers_V_" + opponent;
+		scoredGrid.ExportControl(scoredDGFileName);
+
+		string concededDGFileName = selectedTeam + "_Conceded_From_Turnovers_V_" + opponent;
+		concededGrid.ExportControl(concededDGFileName);
+
+		string pitchDisplayFileName = selectedTeam + "_Turnover_Pitch_Display_V_" + opponent;
+		pitchDisplay.ExportControl(pitchDisplayFileName);
+
+        await AppShell.DisplayMessage("Turnover Data Exported");
+    }	
 }

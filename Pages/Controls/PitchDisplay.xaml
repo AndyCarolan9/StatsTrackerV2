@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:StatsTrackerV2.Pages.Controls"
              x:Class="StatsTrackerV2.Pages.Controls.PitchDisplay">
-    <Grid ColumnDefinitions="50, *, 50, Auto">
+    <Grid ColumnDefinitions="50, *, 50, Auto" x:Name="baseGrid">
         <Image x:Name="MainImage" Grid.Column="1"
                Source="inputfieldhorizontalnewrules.png"
                Aspect="AspectFit"

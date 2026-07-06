@@ -11,6 +11,18 @@ namespace StatsTrackerV2
             InitializeComponent();
             var currentTheme = Application.Current!.RequestedTheme;
             ThemeSegmentedControl.SelectedIndex = currentTheme == AppTheme.Light ? 0 : 1;
+            ExportButton.Pressed += ExportButton_Pressed;
+        }
+
+        private void ExportButton_Pressed(object? sender, EventArgs e)
+        {
+            IStatsPage? statsPage = Shell.Current?.CurrentPage as IStatsPage;
+            if (statsPage == null)
+            {
+                return;
+            }
+
+            statsPage.ExportPageData();
         }
 
         public static async Task DisplayMessage(string message)

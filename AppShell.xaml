@@ -9,7 +9,7 @@
     Title="Faisnéis Peile">
 
     <Shell.TitleView>
-        <Grid ColumnDefinitions="Auto,* ,Auto" VerticalOptions="Center">
+        <Grid ColumnDefinitions="Auto,*,Auto, Auto" VerticalOptions="Center">
 
             <!-- Logo -->
             <Image Source="{AppThemeBinding Light=applogodark.png, Dark=applogo.png}"
@@ -19,8 +19,12 @@
             <!-- Spacer -->
             <Label x:Name="pageTitle" Grid.Column="1" Style="{StaticResource PageTitle}"/>
 
+            <HorizontalStackLayout Grid.Column="2">
+                <Button x:Name="ExportButton" Text="Export Current Page Data" />
+            </HorizontalStackLayout>
+
             <!-- Theme toggle -->
-            <sf:SfSegmentedControl x:Name="ThemeSegmentedControl" Grid.Column="2"
+            <sf:SfSegmentedControl x:Name="ThemeSegmentedControl" Grid.Column="3"
                                SelectionChanged="SfSegmentedControl_SelectionChanged"
                                SegmentWidth="40"
                                SegmentHeight="40">

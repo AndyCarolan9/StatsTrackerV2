@@ -125,11 +125,11 @@
                 <Border>
                     <VerticalStackLayout Spacing="12">
                         <Label Text="Scored/Conceded From Kickouts" FontSize="Title"/>
-                        <controls:DataGrid Items="{Binding EventScores}"/>
+                        <controls:DataGrid x:Name="kickoutDataGrid" Items="{Binding EventScores}"/>
                     </VerticalStackLayout>
                 </Border>
 
-                <controls:KickoutPercentTable Items="{Binding KickoutDistanceDatas}"/>
+                <controls:KickoutPercentTable x:Name="kickoutDistanceTable" Items="{Binding KickoutDistanceDatas}"/>
             </HorizontalStackLayout>
 
         </Grid>
