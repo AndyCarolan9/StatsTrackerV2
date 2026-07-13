@@ -6,6 +6,7 @@
     xmlns:sf="clr-namespace:Syncfusion.Maui.Toolkit.SegmentedControl;assembly=Syncfusion.Maui.Toolkit"
     xmlns:pages="clr-namespace:StatsTrackerV2.Pages"
     Shell.FlyoutBehavior="Disabled"
+    x:Name="ShellPage"
     Title="Faisnéis Peile">
 
     <Shell.TitleView>
@@ -19,7 +20,7 @@
             <!-- Spacer -->
             <Label x:Name="pageTitle" Grid.Column="1" Style="{StaticResource PageTitle}"/>
 
-            <HorizontalStackLayout Grid.Column="2">
+            <HorizontalStackLayout Grid.Column="2" IsVisible="{Binding CanDataExport,Source={x:Reference ShellPage}}">
                 <Button x:Name="ExportButton" Text="Export Current Page Data" />
             </HorizontalStackLayout>
 

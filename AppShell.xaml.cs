@@ -6,12 +6,34 @@ namespace StatsTrackerV2
 {
     public partial class AppShell : Shell
     {
+        private bool _canDataExport = false;
+        public bool CanDataExport
+        {
+            get => _canDataExport;
+            set
+            {
+                if(_canDataExport != value)
+                {
+                    _canDataExport = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public AppShell()
         {
             InitializeComponent();
             var currentTheme = Application.Current!.RequestedTheme;
             ThemeSegmentedControl.SelectedIndex = currentTheme == AppTheme.Light ? 0 : 1;
             ExportButton.Pressed += ExportButton_Pressed;
+
+            Application.Current.PageAppearing += OnPageChanged;
+        }
+
+        private void OnPageChanged(object? sender, Page e)
+        {
+            IStatsPage? currentPage = Shell.Current.CurrentPage as IStatsPage;
+            CanDataExport = currentPage != null;
         }
 
         private void ExportButton_Pressed(object? sender, EventArgs e)
