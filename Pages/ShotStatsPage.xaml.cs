@@ -49,6 +49,9 @@ public partial class ShotStatsPage : ContentPage, IStatsPage
         string scorersListFileName = selectedTeam + "_Scorers_List_V_" + opponent;
         scorersList.ExportControl(scorersListFileName);
 
+        string pitchFileName = selectedTeam + "_Shooting_Pitch_Display_V_" + opponent;
+        pitchDisplay.ExportControl(pitchFileName);
+
         await AppShell.DisplayMessage("Shooting Data Exported");
     }
 }

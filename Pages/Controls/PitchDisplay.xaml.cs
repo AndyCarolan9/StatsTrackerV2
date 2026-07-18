@@ -150,34 +150,34 @@ public partial class PitchDisplay : ContentView, IStatsControl
 			fileName = string.Concat(fileName, ".png");
 
 #if WINDOWS
-		var path = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-		var file = Path.Combine(path, fileName);
+			var path = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+			var file = Path.Combine(path, fileName);
 
-		await using var fileStream = File.Create(file);
-		await stream.CopyToAsync(fileStream);
+			await using var fileStream = File.Create(file);
+			await stream.CopyToAsync(fileStream);
 
 #elif ANDROID
-		var resolver = Android.App.Application.Context.ContentResolver;
+			var resolver = Android.App.Application.Context.ContentResolver;
 
-		var values = new ContentValues();
-		values.Put(MediaStore.IMediaColumns.DisplayName, fileName);
-		values.Put(MediaStore.IMediaColumns.MimeType, "image/png");
-		values.Put(
-		    MediaStore.IMediaColumns.RelativePath,
-		    $"{Android.OS.Environment.DirectoryPictures}/YourApp");
+			var values = new ContentValues();
+			values.Put(MediaStore.IMediaColumns.DisplayName, fileName);
+			values.Put(MediaStore.IMediaColumns.MimeType, "image/png");
+			values.Put(
+			    MediaStore.IMediaColumns.RelativePath,
+			    $"{Android.OS.Environment.DirectoryPictures}/YourApp");
 
-		var uri = resolver.Insert(
-		    MediaStore.Images.Media.ExternalContentUri,
-		    values);
+			var uri = resolver.Insert(
+			    MediaStore.Images.Media.ExternalContentUri,
+			    values);
 
-		if (uri != null)
-		{
-		    await using var output = resolver.OpenOutputStream(uri);
-		    if (output != null)
-		    {
-		        await stream.CopyToAsync(output);
-		    }
-		}
+			if (uri != null)
+			{
+			    await using var output = resolver.OpenOutputStream(uri);
+			    if (output != null)
+			    {
+			        await stream.CopyToAsync(output);
+			    }
+			}
 	#endif
         }
     }

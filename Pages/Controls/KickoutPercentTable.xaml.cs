@@ -1,3 +1,8 @@
+#if ANDROID
+using Android.Content;
+using Android.Provider;
+#endif
+
 using SkiaSharp;
 using StatsTrackerV2.Models;
 using System.Collections.ObjectModel;
@@ -25,7 +30,7 @@ public partial class KickoutPercentTable : ContentView, IStatsControl
 		dataGrid.SetBinding(CollectionView.ItemsSourceProperty, new Binding(nameof(Items), source: this));
 	}
 
-    public void ExportControl(string fileName)
+    public async void ExportControl(string fileName)
     {
         var rows = Items.ToArray();
         const int rowHeight = 50;
@@ -91,26 +96,38 @@ public partial class KickoutPercentTable : ContentView, IStatsControl
         using var image = SKImage.FromBitmap(bitmap);
         using var data = image.Encode(SKEncodedImageFormat.Png, 100);
 
-        string path;
         fileName = string.Concat(fileName, ".png");
 
 #if WINDOWS
-            path = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-    
+		var path = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+		var file = Path.Combine(path, fileName);
+
+		await using var fileStream = File.OpenWrite(file);
+		data.SaveTo(fileStream);
+
 #elif ANDROID
-        var dir = Android.App.Application.Context
-            .GetExternalFilesDir(Android.OS.Environment.DirectoryPictures);
+        var resolver = Android.App.Application.Context.ContentResolver;
 
-        path = dir?.AbsolutePath ?? "";
+        var values = new ContentValues();
+        values.Put(MediaStore.IMediaColumns.DisplayName, fileName);
+        values.Put(MediaStore.IMediaColumns.MimeType, "image/png");
+        values.Put(
+            MediaStore.IMediaColumns.RelativePath,
+            $"{Android.OS.Environment.DirectoryPictures}/YourApp");
 
-#else
-            path = "";
+        var uri = resolver.Insert(
+            MediaStore.Images.Media.ExternalContentUri,
+            values);
+
+        if (uri != null)
+        {
+            await using var output = resolver.OpenOutputStream(uri);
+            if (output != null)
+            {
+                data.SaveTo(output);
+            }
+        }
 #endif
-
-        var file = Path.Combine(path, fileName);
-
-        using var stream = File.OpenWrite(file);
-        data.SaveTo(stream);
     }
 
     private void DrawRow(SKCanvas canvas, string[] values, float y, SKPaint fill, SKPaint border, SKPaint text)

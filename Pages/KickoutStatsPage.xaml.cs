@@ -25,6 +25,10 @@ public partial class KickoutStatsPage : ContentPage, IStatsPage
 
         string selectedTeam = model.SelectedTeam.Replace(" ", "_");
         string opponent = model.Teams.First(x => !x.Equals(model.SelectedTeam)).Replace(" ", "_");
+
+        string pitchFileName = selectedTeam + "_Kickout_Pitch_Display_V_" + opponent;
+        pitchDisplay.ExportControl(pitchFileName);
+
         string chartfileName = selectedTeam + "_Kickout_Chart_V_" + opponent;
         KickoutChart.SaveAsImage(chartfileName);
 
