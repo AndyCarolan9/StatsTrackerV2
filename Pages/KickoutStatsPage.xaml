@@ -92,8 +92,8 @@
                 </Border>
             </VerticalStackLayout>
 
-            <Border Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2">
-                <chart:SfCartesianChart x:Name="KickoutChart">
+            <Border Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" x:Name="KickoutChart">
+                <chart:SfCartesianChart>
                     <chart:SfCartesianChart.Legend>
                         <chart:ChartLegend IsVisible="True" LabelStyle="{StaticResource DefaultLegendLabelStyle}"/>
                     </chart:SfCartesianChart.Legend>

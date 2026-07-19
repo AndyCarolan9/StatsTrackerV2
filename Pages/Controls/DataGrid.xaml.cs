@@ -1,8 +1,3 @@
-#if ANDROID
-using Android.Content;
-using Android.Provider;
-#endif
-
 using SkiaSharp;
 using StatsTrackerV2.Models.EventScores;
 using System.Collections.ObjectModel;
@@ -94,40 +89,10 @@ namespace StatsTrackerV2.Pages.Controls
             }
 
             using var image = SKImage.FromBitmap(bitmap);
-            using var data = image.Encode(SKEncodedImageFormat.Png, 100);
-
-            fileName = string.Concat(fileName, ".png");
-
-#if WINDOWS
-		    var path = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-		    var file = Path.Combine(path, fileName);
-
-		    await using var fileStream = File.OpenWrite(file);
-		    data.SaveTo(fileStream);
-
-#elif ANDROID
-            var resolver = Android.App.Application.Context.ContentResolver;
-
-            var values = new ContentValues();
-            values.Put(MediaStore.IMediaColumns.DisplayName, fileName);
-            values.Put(MediaStore.IMediaColumns.MimeType, "image/png");
-            values.Put(
-                MediaStore.IMediaColumns.RelativePath,
-                $"{Android.OS.Environment.DirectoryPictures}/YourApp");
-
-            var uri = resolver.Insert(
-                MediaStore.Images.Media.ExternalContentUri,
-                values);
-
-            if (uri != null)
+            if(image != null)
             {
-                await using var output = resolver.OpenOutputStream(uri);
-                if (output != null)
-                {
-                    data.SaveTo(output);
-                }
+                ExportHelper.ExportImage(fileName, image);
             }
-#endif
         }
 
         private void DrawRow(SKCanvas canvas, string[] values, float y, SKPaint fill, SKPaint border, SKPaint text)

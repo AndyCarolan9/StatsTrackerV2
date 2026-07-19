@@ -30,8 +30,12 @@ public partial class TurnoverStatsPage : ContentPage, IStatsPage
 
 		string selectedTeam = model.SelectedTeam.Replace(" ", "_");
 		string opponent = model.Teams.First(x => !x.Equals(model.SelectedTeam)).Replace(" ", "_");
-		string chartfileName = selectedTeam + "_Turnover_Chart_V_" + opponent;
-		turnoverChart.SaveAsImage(chartfileName);
+		string chartFileName = selectedTeam + "_Turnover_Chart_V_" + opponent;
+		var image = await turnoverChart.CaptureAsync();
+		if (image != null)
+		{
+			ExportHelper.ExportImage(chartFileName, image);
+		}
 
 		string scoredDGFileName = selectedTeam + "_Scored_From_Turnovers_V_" + opponent;
 		scoredGrid.ExportControl(scoredDGFileName);

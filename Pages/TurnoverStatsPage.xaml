@@ -92,8 +92,8 @@
                 </Border>
             </VerticalStackLayout>
 
-            <Border Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2">
-                <chart:SfCartesianChart x:Name="turnoverChart" IsTransposed="false" EnableSideBySideSeriesPlacement="True">
+            <Border x:Name="turnoverChart" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2">
+                <chart:SfCartesianChart IsTransposed="false" EnableSideBySideSeriesPlacement="True">
                     <chart:SfCartesianChart.Legend>
                         <chart:ChartLegend IsVisible="True" LabelStyle="{StaticResource DefaultLegendLabelStyle}"/>
                     </chart:SfCartesianChart.Legend>

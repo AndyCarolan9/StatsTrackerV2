@@ -63,8 +63,8 @@
                 </Border>
             </VerticalStackLayout>
 
-            <Border Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2">
-                <chart:SfCartesianChart x:Name="shotChart" IsTransposed="false" EnableSideBySideSeriesPlacement="True">
+            <Border x:Name="shotChart" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2">
+                <chart:SfCartesianChart IsTransposed="false" EnableSideBySideSeriesPlacement="True">
                     <chart:SfCartesianChart.Legend>
                         <chart:ChartLegend IsVisible="True" LabelStyle="{StaticResource DefaultLegendLabelStyle}"/>
                     </chart:SfCartesianChart.Legend>
@@ -108,8 +108,8 @@
                 </Border>
             </HorizontalStackLayout>
 
-            <Border Grid.Column="0" Grid.Row="4" Grid.RowSpan="2">
-                <chart:SfCartesianChart x:Name="scoreTimeline" IsTransposed="False">
+            <Border x:Name="scoreTimeline" Grid.Column="0" Grid.Row="4" Grid.RowSpan="2">
+                <chart:SfCartesianChart IsTransposed="False">
                     <chart:SfCartesianChart.Legend>
                         <chart:ChartLegend IsVisible="True" LabelStyle="{StaticResource DefaultLegendLabelStyle}"/>
                     </chart:SfCartesianChart.Legend>

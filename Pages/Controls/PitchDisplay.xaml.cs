@@ -1,8 +1,3 @@
-#if ANDROID
-using Android.Content;
-using Android.Provider;
-#endif
-
 using StatsTrackerV2.Models.ResultColors;
 using System.Collections.ObjectModel;
 
@@ -146,39 +141,7 @@ public partial class PitchDisplay : ContentView, IStatsControl
         var pitchImage = await baseGrid.CaptureAsync();
         if (pitchImage != null)
         {
-            using var stream = await pitchImage.OpenReadAsync();
-			fileName = string.Concat(fileName, ".png");
-
-#if WINDOWS
-			var path = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-			var file = Path.Combine(path, fileName);
-
-			await using var fileStream = File.Create(file);
-			await stream.CopyToAsync(fileStream);
-
-#elif ANDROID
-			var resolver = Android.App.Application.Context.ContentResolver;
-
-			var values = new ContentValues();
-			values.Put(MediaStore.IMediaColumns.DisplayName, fileName);
-			values.Put(MediaStore.IMediaColumns.MimeType, "image/png");
-			values.Put(
-			    MediaStore.IMediaColumns.RelativePath,
-			    $"{Android.OS.Environment.DirectoryPictures}/YourApp");
-
-			var uri = resolver.Insert(
-			    MediaStore.Images.Media.ExternalContentUri,
-			    values);
-
-			if (uri != null)
-			{
-			    await using var output = resolver.OpenOutputStream(uri);
-			    if (output != null)
-			    {
-			        await stream.CopyToAsync(output);
-			    }
-			}
-	#endif
+           ExportHelper.ExportImage(fileName, pitchImage);
         }
     }
 }

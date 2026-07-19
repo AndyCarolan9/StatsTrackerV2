@@ -3,46 +3,48 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:StatsTrackerV2.Pages.Controls"
              x:Class="StatsTrackerV2.Pages.Controls.PitchDisplay">
-    <Grid ColumnDefinitions="50, *, 50, Auto" x:Name="baseGrid">
-        <Image x:Name="MainImage" Grid.Column="1"
-               Source="inputfieldhorizontalnewrules.png"
-               Aspect="AspectFit"
-               HorizontalOptions="Center"
-               VerticalOptions="Center"/>
+    <Border x:Name="baseGrid">
+        <Grid ColumnDefinitions="50, *, 50, Auto">
+            <Image x:Name="MainImage" Grid.Column="1"
+           Source="inputfieldhorizontalnewrules.png"
+           Aspect="AspectFit"
+           HorizontalOptions="Center"
+           VerticalOptions="Center"/>
 
-        <Grid Grid.Column="1"
-              HorizontalOptions="Center"
-              VerticalOptions="Center">
-            <GraphicsView x:Name="drawingView"
-                          HorizontalOptions="Center"
-                          VerticalOptions="Center"/>
+            <Grid Grid.Column="1"
+          HorizontalOptions="Center"
+          VerticalOptions="Center">
+                <GraphicsView x:Name="drawingView"
+                      HorizontalOptions="Center"
+                      VerticalOptions="Center"/>
 
-            <BoxView x:Name="TapSurface"
-                     BackgroundColor="Transparent">
-                <BoxView.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
-                </BoxView.GestureRecognizers>
-            </BoxView>
-        </Grid>
+                <BoxView x:Name="TapSurface"
+                 BackgroundColor="Transparent">
+                    <BoxView.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped" />
+                    </BoxView.GestureRecognizers>
+                </BoxView>
+            </Grid>
 
-        <AbsoluteLayout Grid.Column="0">
-            <Label x:Name="homeTeamLabel"
-                   FontAttributes="Bold"
-                   FontSize="Large" Rotation="-90"
-                   AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1"
-                   AbsoluteLayout.LayoutFlags="PositionProportional"/>
-        </AbsoluteLayout>
-
-        <AbsoluteLayout Grid.Column="2">
-            <Label x:Name="awayTeamLabel" Grid.Column="2"
+            <AbsoluteLayout Grid.Column="0">
+                <Label x:Name="homeTeamLabel"
                FontAttributes="Bold"
-               FontSize="Large" Rotation="90"
+               FontSize="Large" Rotation="-90"
                AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1"
                AbsoluteLayout.LayoutFlags="PositionProportional"/>
-        </AbsoluteLayout>
+            </AbsoluteLayout>
 
-        <Border x:Name="legendBorder" Grid.Column="3">
-            <controls:LocationMapLegend x:Name="legend"/>
-        </Border>
-    </Grid>
+            <AbsoluteLayout Grid.Column="2">
+                <Label x:Name="awayTeamLabel" Grid.Column="2"
+           FontAttributes="Bold"
+           FontSize="Large" Rotation="90"
+           AbsoluteLayout.LayoutBounds="0.5,0.5,-1,-1"
+           AbsoluteLayout.LayoutFlags="PositionProportional"/>
+            </AbsoluteLayout>
+
+            <Border x:Name="legendBorder" Grid.Column="3">
+                <controls:LocationMapLegend x:Name="legend"/>
+            </Border>
+        </Grid>
+    </Border>
 </ContentView>

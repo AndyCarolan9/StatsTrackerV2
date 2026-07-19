@@ -37,14 +37,22 @@ public partial class ShotStatsPage : ContentPage, IStatsPage
 
         string selectedTeam = model.SelectedTeam.Replace(" ", "_");
         string opponent = model.Teams.First(x => !x.Equals(model.SelectedTeam)).Replace(" ", "_");
-        string chartfileName = selectedTeam + "_Scoring_Chart_V_" + opponent;
-        shotChart.SaveAsImage(chartfileName);
+        string chartFileName = selectedTeam + "_Scoring_Chart_V_" + opponent;
+        var chartImage = await shotChart.CaptureAsync();
+        if (chartImage != null)
+        {
+            ExportHelper.ExportImage(chartFileName, chartImage);
+        }
 
         string eventScoresFileName = selectedTeam + "_Scored_From_Events_V_" + opponent;
         eventScoresChart.ExportControl(eventScoresFileName);
 
         string lineChartFileName = selectedTeam + "_Score_Progress_Chart_V_" + opponent;
-        scoreTimeline.SaveAsImage(lineChartFileName);
+        var timelineImage = await scoreTimeline.CaptureAsync();
+        if (timelineImage != null)
+        {
+            ExportHelper.ExportImage(lineChartFileName, timelineImage);
+        }
 
         string scorersListFileName = selectedTeam + "_Scorers_List_V_" + opponent;
         scorersList.ExportControl(scorersListFileName);

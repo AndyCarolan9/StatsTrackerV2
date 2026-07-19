@@ -29,8 +29,12 @@ public partial class KickoutStatsPage : ContentPage, IStatsPage
         string pitchFileName = selectedTeam + "_Kickout_Pitch_Display_V_" + opponent;
         pitchDisplay.ExportControl(pitchFileName);
 
-        string chartfileName = selectedTeam + "_Kickout_Chart_V_" + opponent;
-        KickoutChart.SaveAsImage(chartfileName);
+        string chartFileName = selectedTeam + "_Kickout_Chart_V_" + opponent;
+        var image = await KickoutChart.CaptureAsync();
+        if (image != null)
+        {
+            ExportHelper.ExportImage(chartFileName, image);
+        }
 
         string dataGridFileName = selectedTeam + "_Scored_&_Conceded_From_Kickouts_V_" + opponent;
         kickoutDataGrid.ExportControl(dataGridFileName);
