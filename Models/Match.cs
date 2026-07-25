@@ -60,7 +60,7 @@ namespace StatsTrackerV2.Models
         [JsonIgnore]
         public bool HideThrowInButton => !IsThrowInEventCompleted;
 
-        private System.Timers.Timer _autoSaveTimer;
+        private System.Timers.Timer? _autoSaveTimer;
 
         private string _fileName = string.Empty;
         #endregion
@@ -136,6 +136,20 @@ namespace StatsTrackerV2.Models
 
         public void HydrateObject(Match match, string fileName = "")
         {
+            if(IsMatchHydrated)
+            {
+                // Match is already hydrated and being changed.
+                // Save any changes to match and the change.
+                _matchTimer.Stop();
+                _isPlayStarted = false;
+                SaveMatch(this, new ElapsedEventArgs(DateTime.Now));
+                if(_autoSaveTimer != null)
+                {
+                    _autoSaveTimer.Stop();
+                }
+                
+            }
+
             AppVersion = match.AppVersion;
             MatchName = match.MatchName;
             MatchEvents = match.MatchEvents;

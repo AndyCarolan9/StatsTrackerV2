@@ -20,8 +20,10 @@
             <!-- Spacer -->
             <Label x:Name="pageTitle" Grid.Column="1" Style="{StaticResource PageTitle}"/>
 
-            <HorizontalStackLayout Grid.Column="2" IsVisible="{Binding CanDataExport,Source={x:Reference ShellPage}}">
-                <Button x:Name="ExportButton" Text="Export Current Page Data" />
+            <HorizontalStackLayout Grid.Column="2" Spacing="10">
+                <Button x:Name="OpenMatchButton" Text="Open Match" IsVisible="{Binding CanOpenCreateMatch,Source={x:Reference ShellPage}}"/>
+                <Button x:Name="CreateMatchButton" Text="Create Match" IsVisible="{Binding CanOpenCreateMatch,Source={x:Reference ShellPage}}"/>
+                <Button x:Name="ExportButton" Text="Export Current Page Data" IsVisible="{Binding CanDataExport,Source={x:Reference ShellPage}}"/>
             </HorizontalStackLayout>
 
             <!-- Theme toggle -->

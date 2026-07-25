@@ -20,23 +20,50 @@ namespace StatsTrackerV2
             }
         }
 
+        private bool _canOpenCreateMatch = true;
+        public bool CanOpenCreateMatch
+        {
+            get => _canOpenCreateMatch;
+            set
+            {
+                if(_canOpenCreateMatch != value)
+                {
+                    _canOpenCreateMatch = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public AppShell()
         {
             InitializeComponent();
             var currentTheme = Application.Current!.RequestedTheme;
             ThemeSegmentedControl.SelectedIndex = currentTheme == AppTheme.Light ? 0 : 1;
-            ExportButton.Pressed += ExportButton_Pressed;
+            ExportButton.Pressed += ExportButtonPressed;
+            CreateMatchButton.Pressed += CreateMatchButtonPressed;
+            OpenMatchButton.Pressed += OpenMatchButtonPressed;
 
             Application.Current.PageAppearing += OnPageChanged;
         }
 
         private void OnPageChanged(object? sender, Page e)
         {
-            IStatsPage? currentPage = Shell.Current.CurrentPage as IStatsPage;
-            CanDataExport = currentPage != null;
+            Page currentPage = Shell.Current.CurrentPage;
+
+            IStatsPage? statsPage = currentPage as IStatsPage;
+            CanDataExport = statsPage != null;
+
+            if (currentPage is OpenMatchPage || currentPage is CreateMatchPage)
+            {
+                CanOpenCreateMatch = false;
+            }
+            else
+            {
+                CanOpenCreateMatch = true;
+            }
         }
 
-        private void ExportButton_Pressed(object? sender, EventArgs e)
+        private void ExportButtonPressed(object? sender, EventArgs e)
         {
             IStatsPage? statsPage = Shell.Current?.CurrentPage as IStatsPage;
             if (statsPage == null)
@@ -45,6 +72,16 @@ namespace StatsTrackerV2
             }
 
             statsPage.ExportPageData();
+        }
+
+        private async void CreateMatchButtonPressed(object? sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync($"createMatch");
+        }
+
+        private async void OpenMatchButtonPressed(object? sender, EventArgs e)
+        {
+            await Shell.Current.GoToAsync($"openMatch");
         }
 
         public static async Task DisplayMessage(string message)
