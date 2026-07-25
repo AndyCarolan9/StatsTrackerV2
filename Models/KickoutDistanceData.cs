@@ -25,10 +25,10 @@ namespace StatsTrackerV2.Models
         [ObservableProperty]
         private double _percentage = 0;
 
-        public KickoutDistanceData(KickoutDistance kickoutDistance)
+        public KickoutDistanceData(KickoutDistance kickoutDistance, string distancePredicateString)
         {
             distance = kickoutDistance;
-            KickoutDistance = distance.ToString();
+            KickoutDistance = distance.ToString() + " " + distancePredicateString.Trim();
         }
 
         public void Reset()

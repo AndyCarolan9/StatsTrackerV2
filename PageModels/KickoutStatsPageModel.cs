@@ -164,9 +164,9 @@ namespace StatsTrackerV2.PageModels
             KickoutResultColors.Add(new KickoutResultColor(KickOutResultType.LostMark, Colors.DarkRed));
             KickoutResultColors.Add(new KickoutResultColor(KickOutResultType.LostBreak, Colors.IndianRed));
 
-            KickoutDistanceDatas.Add(new KickoutDistanceData(KickoutDistance.Short));
-            KickoutDistanceDatas.Add(new KickoutDistanceData(KickoutDistance.Medium));
-            KickoutDistanceDatas.Add(new KickoutDistanceData(KickoutDistance.Long));
+            KickoutDistanceDatas.Add(new KickoutDistanceData(KickoutDistance.Short, "(< 45m)"));
+            KickoutDistanceDatas.Add(new KickoutDistanceData(KickoutDistance.Medium, "(45m-65m)"));
+            KickoutDistanceDatas.Add(new KickoutDistanceData(KickoutDistance.Long, "(> 65m)"));
         }
 
         [RelayCommand]
@@ -415,6 +415,12 @@ namespace StatsTrackerV2.PageModels
                 // < 45 m short, < 55 medium, rest long
                 KickoutDistance distanceType;
                 float distance = 145 * kickOutEvent.Location.X;
+
+                if (SelectedTeam == Match.AwayTeam.TeamName)
+                {
+                    // Team is Away, calculate from other end line.
+                    distance = 145 - distance;
+                }
 
                 if(distance < 45)
                 {
