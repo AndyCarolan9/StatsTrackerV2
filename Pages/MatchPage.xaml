@@ -22,7 +22,7 @@
     <Grid Padding="12"
       ColumnSpacing="12"
       RowSpacing="12"
-      RowDefinitions="Auto,3*,6*"
+      RowDefinitions="Auto,3*,4*"
       ColumnDefinitions="2*,2*,1*">
 
         <VerticalStackLayout Grid.Row="0" Grid.Column="0" IsVisible="{Binding Match.IsMatchHydrated}" HorizontalOptions="Center" Spacing="10">
