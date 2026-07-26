@@ -22,7 +22,7 @@
         ColumnSpacing="12"
         RowSpacing="12"
         RowDefinitions="Auto,*"
-        ColumnDefinitions="*,*,300">
+        ColumnDefinitions="2*,2*,0.5*">
 
         <Border Grid.Row="0" Grid.Column="0" HorizontalOptions="Start">
             <Picker Title="Home Team" 
@@ -88,28 +88,24 @@
             </Grid>
         </Grid>
 
-        <ScrollView Grid.Row="1" Grid.Column="2">
-            <VerticalStackLayout Spacing="8">
-                <Button Text="Add Team" Command="{Binding AddTeamCommand}"/>
-                <HorizontalStackLayout Spacing="8">
-                    <Picker Title="Team to Edit" 
-                            ItemsSource="{Binding TeamNames}" 
-                            SelectedItem="{Binding TeamToEdit}"
-                            MinimumWidthRequest="175"
-                            MaximumWidthRequest="175"/>
-                    <Button Text="Edit Team" Command="{Binding EditTeamCommand}"/>
-                </HorizontalStackLayout>
-                <Button Text="Confirm" BackgroundColor="ForestGreen" Command="{Binding ConfirmClickedCommand}"/>
-            </VerticalStackLayout>
-        </ScrollView>
+        <VerticalStackLayout Spacing="8" Grid.Row="1" Grid.Column="2">
+            <Button Text="Add Team" Command="{Binding AddTeamCommand}"/>
+            <Picker Title="Team to Edit" 
+                    ItemsSource="{Binding TeamNames}" 
+                    SelectedItem="{Binding TeamToEdit}"
+                    MinimumWidthRequest="175"
+                    MaximumWidthRequest="175"/>
+            <Button Text="Edit Team" Command="{Binding EditTeamCommand}"/>
+            <Button Text="Confirm" BackgroundColor="ForestGreen" Command="{Binding ConfirmClickedCommand}"/>
+        </VerticalStackLayout>
 
         <controls:FlyoutButton Grid.Row="1" 
-                               Grid.Column="2" 
-                               VerticalOptions="End" 
-                               MainBtnImage="{StaticResource IconUpArrow}"
-                               Option1Image="{StaticResource IconExport}"
-                               Option1Command="{Binding ExportTeamsJSONCommand}"
-                               Option2Image="{StaticResource IconImport}"
-                               Option2Command="{Binding ImportTeamsJSONCommand}"/>
+                           Grid.Column="2" 
+                           VerticalOptions="End" 
+                           MainBtnImage="{StaticResource IconUpArrow}"
+                           Option1Image="{StaticResource IconExport}"
+                           Option1Command="{Binding ExportTeamsJSONCommand}"
+                           Option2Image="{StaticResource IconImport}"
+                           Option2Command="{Binding ImportTeamsJSONCommand}"/>
     </Grid>
 </ContentPage>

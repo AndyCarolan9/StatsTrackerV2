@@ -12,7 +12,7 @@
           ColumnSpacing="12"
           ColumnDefinitions="*, *, *"
           RowSpacing="12"
-          RowDefinitions="50, *, 50">
+          RowDefinitions="Auto, *, Auto">
 
         <Label Text="Current Team" FontAttributes="Bold" FontSize="Medium" Grid.Column="0" Grid.Row="0"/>
         <CollectionView x:Name="CurrentTeam"

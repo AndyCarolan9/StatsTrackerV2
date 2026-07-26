@@ -12,7 +12,7 @@
     <Grid Padding="12"
         ColumnSpacing="12"
         RowSpacing="12"
-        RowDefinitions="*, 50"
+        RowDefinitions="*, Auto"
         ColumnDefinitions="2*,*">
 
         <controls:PitchDisplay x:Name="pitchDisplay" Grid.Row="0" Grid.Column="0"
@@ -24,7 +24,7 @@
         <Grid Padding="12"
               ColumnSpacing="12"
               RowSpacing="5"
-              RowDefinitions="50,*,50,*"
+              RowDefinitions="Auto,*,Auto,*"
               ColumnDefinitions="*,*"
               Grid.Row="0"
               Grid.Column="1"
