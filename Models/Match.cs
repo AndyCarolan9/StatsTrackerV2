@@ -321,7 +321,7 @@ namespace StatsTrackerV2.Models
 
         public bool IsMatchPlaying()
         {
-            return _isPlayStarted;
+            return _isPlayStarted && _matchTimer.IsRunning;
         }
         #endregion
 
