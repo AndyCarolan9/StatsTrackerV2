@@ -30,7 +30,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
             <Picker Title="SelectedTeam"
@@ -108,8 +108,8 @@
                 </Border>
             </HorizontalStackLayout>
 
-            <Border x:Name="scoreTimeline" Grid.Column="0" Grid.Row="4" Grid.RowSpan="2">
-                <chart:SfCartesianChart IsTransposed="False">
+            <Border x:Name="scoreTimeline" Grid.Column="0" Grid.Row="4">
+                <chart:SfCartesianChart IsTransposed="False" MinimumHeightRequest="400">
                     <chart:SfCartesianChart.Legend>
                         <chart:ChartLegend IsVisible="True" LabelStyle="{StaticResource DefaultLegendLabelStyle}"/>
                     </chart:SfCartesianChart.Legend>
@@ -138,16 +138,28 @@
                         </chart:VerticalLineAnnotation>
                     </chart:SfCartesianChart.Annotations>
 
-                    <chart:LineSeries ItemsSource="{Binding TeamScoreMarkers}"
+                    <chart:LineSeries ItemsSource="{Binding HomeTeamScoreMarkers}"
                                       XBindingPath="ElapsedSeconds"
                                       XAxisName="Time"
                                       YBindingPath="Score"
                                       YAxisName="Score"
-                                      Label="{Binding SelectedTeam}"
+                                      Label="{Binding HomeTeamLabel}"
                                       ShowMarkers="True"
                                       StrokeWidth="4"
                                       ShowDataLabels="True"
-                                      Fill="{Binding TeamBrush}">
+                                      Fill="{Binding HomeTeamBrush}">
+                    </chart:LineSeries>
+
+                    <chart:LineSeries ItemsSource="{Binding AwayTeamScoreMarkers}"
+                                      XBindingPath="ElapsedSeconds"
+                                      XAxisName="Time"
+                                      YBindingPath="Score"
+                                      YAxisName="Score"
+                                      Label="{Binding AwayTeamLabel}"
+                                      ShowMarkers="True"
+                                      StrokeWidth="4"
+                                      ShowDataLabels="True"
+                                      Fill="{Binding AwayTeamBrush}">
                     </chart:LineSeries>
                 </chart:SfCartesianChart>
             </Border>

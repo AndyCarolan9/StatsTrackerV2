@@ -74,10 +74,22 @@ namespace StatsTrackerV2.PageModels
         private ObservableCollection<PlayerScore> _playerScores = [];
 
         [ObservableProperty]
-        private ObservableCollection<ScoreMarker> _teamScoreMarkers = [];
+        private ObservableCollection<ScoreMarker> _homeTeamScoreMarkers = [];
 
         [ObservableProperty]
-        private SolidColorBrush _teamBrush;
+        private SolidColorBrush _homeTeamBrush;
+
+        [ObservableProperty]
+        private string _homeTeamLabel;
+
+        [ObservableProperty]
+        private ObservableCollection<ScoreMarker> _awayTeamScoreMarkers = [];
+
+        [ObservableProperty]
+        private SolidColorBrush _awayTeamBrush;
+
+        [ObservableProperty]
+        private string _awayTeamLabel;
 
         [ObservableProperty]
         private double _midPoint = 1800;
@@ -316,9 +328,6 @@ namespace StatsTrackerV2.PageModels
             UpdateEventScores(true);
             _shotEvents.Clear();
 
-            Color selectedTeamColor = Match.HomeTeam.TeamName == SelectedTeam ? Match.HomeTeam.TeamColor : Match.AwayTeam.TeamColor;
-            TeamBrush = new SolidColorBrush(selectedTeamColor);
-
             MatchEvent[] matchEvents = Match.GetMatchEventsOfType<ShotEvent>().Where(me => me.TeamName == SelectedTeam).ToArray();
 
             foreach (MatchEvent matchEvent in matchEvents)
@@ -385,8 +394,15 @@ namespace StatsTrackerV2.PageModels
 
         private void CalculateTeamScoreMarkers()
         {
-            TeamScoreMarkers.Clear();
+            HomeTeamScoreMarkers.Clear();
+            AwayTeamScoreMarkers.Clear();
             MidPointText = string.Empty;
+
+            HomeTeamBrush = new SolidColorBrush(Match.HomeTeam.TeamColor);
+            HomeTeamLabel = Match.HomeTeam.TeamName;
+
+            AwayTeamBrush = new SolidColorBrush(Match.AwayTeam.TeamColor);
+            AwayTeamLabel = Match.AwayTeam.TeamName;
 
             List<MatchEvent> matchEvents = Match.MatchEvents.ToList();
 
@@ -399,11 +415,6 @@ namespace StatsTrackerV2.PageModels
 
             matchEvents = matchEvents.FindAll(me =>
             {
-                if (me.TeamName != SelectedTeam)
-                {
-                    return false;
-                }
-
                 ShotEvent? shotEvent = me as ShotEvent;
                 if (shotEvent == null)
                 {
@@ -413,7 +424,8 @@ namespace StatsTrackerV2.PageModels
                 return shotEvent.ResultType.IsScore();
             });
 
-            int totalScore = 0;
+            int homeTotalScore = 0;
+            int awayTotalScore = 0;
             foreach (MatchEvent matchEvent in matchEvents)
             {
                 ShotEvent? shotEvent = matchEvent as ShotEvent;
@@ -442,27 +454,50 @@ namespace StatsTrackerV2.PageModels
 
                     if(String.IsNullOrEmpty(MidPointText))
                     {
-                        MidPointText = "HT - " + totalScore.ToString();
+                        string homeAbv = string.Concat(Match.HomeTeam.TeamName.Where(c => char.IsUpper(c)));
+                        string awayAbv = string.Concat(Match.AwayTeam.TeamName.Where(c => char.IsUpper(c)));
+                        MidPointText = "HT - " + homeAbv + ": " + homeTotalScore.ToString() + " - " + awayAbv + ": " + awayTotalScore.ToString();
                     }
                 }
 
-                switch(shotEvent.ResultType)
+                if(shotEvent.TeamName == Match.HomeTeam.TeamName)
                 {
-                    case ShotResultType.Point:
-                        totalScore += 1;
-                        break;
-                    case ShotResultType.DoublePoint:
-                        totalScore += 2;
-                        break;
-                    case ShotResultType.Goal:
-                        totalScore += 3;
-                        break;
-                    default:
-                        break;
+                    switch (shotEvent.ResultType)
+                    {
+                        case ShotResultType.Point:
+                            homeTotalScore += 1;
+                            break;
+                        case ShotResultType.DoublePoint:
+                            homeTotalScore += 2;
+                            break;
+                        case ShotResultType.Goal:
+                            homeTotalScore += 3;
+                            break;
+                        default:
+                            break;
+                    }
+
+                    HomeTeamScoreMarkers.Add(new ScoreMarker(elapsedSeconds, homeTotalScore));
                 }
+                else
+                {
+                    switch (shotEvent.ResultType)
+                    {
+                        case ShotResultType.Point:
+                            awayTotalScore += 1;
+                            break;
+                        case ShotResultType.DoublePoint:
+                            awayTotalScore += 2;
+                            break;
+                        case ShotResultType.Goal:
+                            awayTotalScore += 3;
+                            break;
+                        default:
+                            break;
+                    }
 
-
-                TeamScoreMarkers.Add(new ScoreMarker(elapsedSeconds, totalScore));
+                    AwayTeamScoreMarkers.Add(new ScoreMarker(elapsedSeconds, awayTotalScore));
+                }
             }
         }
     }
