@@ -4,17 +4,24 @@
              x:Class="StatsTrackerV2.Pages.Controls.TacticalBoard"
              x:Name="Root">
 
-    <Grid x:Name="BoardGrid" BackgroundColor="Black">
+    <Grid x:Name="BoardGrid"
+      BackgroundColor="Black">
+
+        <Grid.GestureRecognizers>
+            <TapGestureRecognizer
+            Tapped="BoardGrid_Tapped" />
+        </Grid.GestureRecognizers>
+
         <Image
-            x:Name="PitchImage"
-            Aspect="AspectFit"
-            Source="inputfieldhorizontalnewrules.png"/>
+        Source="inputfieldhorizontalnewrules.png"
+        Aspect="AspectFit"
+        InputTransparent="True" />
 
         <GraphicsView
-            x:Name="DrawingView"
-            Drawable="{Binding _drawable, Source={x:Reference Root}}"
-            InputTransparent="True"/>
+        x:Name="DrawingView"
+        InputTransparent="True"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill"/>
 
-        <AbsoluteLayout x:Name="PlayerLayer"/>
     </Grid>
 </ContentView>
