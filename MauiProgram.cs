@@ -44,6 +44,7 @@ namespace StatsTrackerV2
             builder.Services.AddSingleton<KickoutStatsPageModel>();
             builder.Services.AddSingleton<TurnoverStatsPageModel>();
             builder.Services.AddSingleton<ShotStatsPageModel>();
+            builder.Services.AddSingleton<TacticBoardPageModel>();
 
             builder.Services.AddTransientWithShellRoute<OpenMatchPage, OpenMatchPageModel>("openMatch");
             builder.Services.AddTransientWithShellRoute<CreateMatchPage, CreateMatchPageModel>("createMatch");

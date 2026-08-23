@@ -66,6 +66,12 @@
             Icon="{StaticResource IconCrest}"
             ContentTemplate="{DataTemplate pages:ShotStatsPage}"
             Route="Shooting"/>
+
+        <ShellContent
+            Title="Tactics Board"
+            Icon="{StaticResource IconDashboard}"
+            ContentTemplate="{DataTemplate pages:TacticBoardPage}"
+            Route="Tactics"/>
     </TabBar>
 
 </Shell>
