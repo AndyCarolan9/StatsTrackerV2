@@ -9,19 +9,24 @@
 
         <Grid.GestureRecognizers>
             <TapGestureRecognizer
-            Tapped="BoardGrid_Tapped" />
+                Tapped="BoardGrid_Tapped" />
         </Grid.GestureRecognizers>
 
         <Image
-        Source="inputfieldhorizontalnewrules.png"
-        Aspect="AspectFit"
-        InputTransparent="True" />
+            x:Name="PitchImage"
+            Source="inputfieldhorizontalnewrules.png"
+            Aspect="AspectFit"
+            InputTransparent="True" />
 
         <GraphicsView
-        x:Name="DrawingView"
-        InputTransparent="True"
+            x:Name="DrawingView"
+            InputTransparent="True"
             HorizontalOptions="Fill"
             VerticalOptions="Fill"/>
+
+        <!-- Player layer -->
+        <AbsoluteLayout
+            x:Name="PlayerLayer" />
 
     </Grid>
 </ContentView>

@@ -7,5 +7,11 @@
              x:Class="StatsTrackerV2.Pages.TacticBoardPage"
              Title="TacticBoardPage">
 
-    <controls:TacticalBoard/>
+    <Grid ColumnDefinitions="*, Auto">
+        <controls:TacticalBoard Grid.Column="0" TacticalPlayers="{Binding TacticalPlayers}"/>
+        <Border Grid.Column="1">
+            <Button Text="Starting Layout" Command="{Binding PopulateStartingLayoutCommand}"/>
+        </Border>
+    </Grid>
+    
 </ContentPage>

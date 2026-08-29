@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="StatsTrackerV2.Pages.Controls.PlayerMarker"
+    x:Name="Root"
+    WidthRequest="40"
+    HeightRequest="40">
+
+    <ContentView.GestureRecognizers>
+        <PanGestureRecognizer PanUpdated="PanGestureRecognizer_PanUpdated"/>
+    </ContentView.GestureRecognizers>
+
+    <Grid>
+        <Ellipse
+            Fill="{Binding MarkerColor, Source={x:Reference Root}}"
+            Stroke="White"
+            StrokeThickness="2" />
+
+        <Label
+            Text="{Binding PlayerNumber, Source={x:Reference Root}}"
+            TextColor="White"
+            FontSize="14"
+            FontAttributes="Bold"
+            HorizontalOptions="Center"
+            VerticalOptions="Center" />
+    </Grid>
+
+</ContentView>
