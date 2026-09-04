@@ -111,6 +111,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Pages\Controls\ToolOption.xaml.cs">
+	    <DependentUpon>ToolOption.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Pages\OpenMatchPage.xaml.cs">
 	    <DependentUpon>OpenMatchPage.xaml</DependentUpon>
 	  </Compile>
@@ -148,6 +151,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\Controls\TacticalBoard.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Controls\ToolOption.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\CreateMatchEventPage.xaml">

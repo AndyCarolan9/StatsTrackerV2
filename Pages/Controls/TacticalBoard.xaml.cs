@@ -21,7 +21,35 @@ public partial class TacticalBoard : ContentView
 		set => SetValue(TacticalPlayersProperty, value);
 	}
 
-	private readonly TacticalDrawable _drawable = new TacticalDrawable();
+    public static readonly BindableProperty IsMoveActiveProperty =
+        BindableProperty.Create(
+            nameof(IsMoveActive),
+            typeof(bool),
+            typeof(TacticalBoard),
+            false);
+
+    public bool IsMoveActive
+    {
+        get => (bool)GetValue(IsMoveActiveProperty);
+        set => SetValue(IsMoveActiveProperty, value);
+    }
+
+    public static readonly BindableProperty SelectedToolProperty =
+        BindableProperty.Create(
+            nameof(SelectedTool),
+            typeof(string),
+            typeof(TacticalBoard),
+            string.Empty,
+            BindingMode.TwoWay,
+            propertyChanged: OnSelectedToolChanged);
+
+    public string SelectedTool
+    {
+        get => (string)GetValue(SelectedToolProperty);
+        set => SetValue(SelectedToolProperty, value);
+    }
+
+    private readonly TacticalDrawable _drawable = new TacticalDrawable();
 
 	private PointF? _startPoint = null;
 
@@ -32,8 +60,19 @@ public partial class TacticalBoard : ContentView
         DrawingView.Drawable = _drawable;
     }
 
+    private static void OnSelectedToolChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        var board = (TacticalBoard)bindable;
+        board.IsMoveActive = board.SelectedTool == "Move";
+    }
+
     private void BoardGrid_Tapped(object sender, TappedEventArgs e)
     {
+        if(SelectedTool != "Draw")
+        {
+            return;
+        }
+
 		Point? position = e.GetPosition(BoardGrid);
 		if(position == null)
 		{
@@ -87,6 +126,8 @@ public partial class TacticalBoard : ContentView
                 PlayerNumber = player.Number.ToString(),
                 MarkerColor = player.IsHomeMarker ? Colors.Green : Colors.Red
             };
+
+            marker.SetBinding(PlayerMarker.InputActiveProperty, new Binding(nameof(IsMoveActive), source: this));
 
             PlayerLayer.Children.Add(marker);
 

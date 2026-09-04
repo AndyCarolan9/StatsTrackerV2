@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="StatsTrackerV2.Pages.Controls.ToolOption"
+             x:Name="Root">
+    <Border
+        x:Name="ToolBorder"
+        WidthRequest="42"
+        HeightRequest="42"
+        Padding="0"
+        StrokeThickness="1"
+        StrokeShape="RoundRectangle 4">
+
+        <Image
+            Source="{Binding Icon, Source={x:Reference Root}}"
+            WidthRequest="24"
+            HeightRequest="24"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"/>
+
+        <Border.GestureRecognizers>
+            <TapGestureRecognizer Tapped="OnTapped"/>
+        </Border.GestureRecognizers>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup Name="SelectionStates">
+                <VisualState Name="Normal">
+                    <VisualState.Setters>
+                        <Setter
+                            Property="Stroke"
+                            Value="{StaticResource Gray500}" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState Name="Selected">
+                    <VisualState.Setters>
+                        <Setter
+                            Property="Stroke"
+                            Value="{AppThemeBinding Light={StaticResource Tertiary}, Dark={StaticResource Primary}}" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+    </Border>
+</ContentView>

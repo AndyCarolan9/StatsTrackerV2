@@ -8,9 +8,18 @@
              Title="TacticBoardPage">
 
     <Grid ColumnDefinitions="*, Auto">
-        <controls:TacticalBoard Grid.Column="0" TacticalPlayers="{Binding TacticalPlayers}"/>
+        <controls:TacticalBoard Grid.Column="0" TacticalPlayers="{Binding TacticalPlayers}" SelectedTool="{Binding SelectedTool}"/>
         <Border Grid.Column="1">
-            <Button Text="Starting Layout" Command="{Binding PopulateStartingLayoutCommand}"/>
+            <VerticalStackLayout Spacing="10">
+                <controls:ToolSelector SelectedTool="{Binding SelectedTool}">
+                    <controls:ToolOption Value="Select" Icon="{StaticResource IconCursor}"/>
+                    <controls:ToolOption Value="Move" Icon="{StaticResource IconMove}"/>
+                    <controls:ToolOption Value="Draw" Icon="{StaticResource IconDraw}"/>
+                    <controls:ToolOption Value="Arrow" Icon="{StaticResource IconArrow}"/>
+                </controls:ToolSelector>
+                <Button Text="Starting Layout" Command="{Binding PopulateStartingLayoutCommand}"/>
+            </VerticalStackLayout>
+            
         </Border>
     </Grid>
     

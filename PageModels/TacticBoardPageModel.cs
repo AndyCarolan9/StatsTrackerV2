@@ -9,6 +9,9 @@ namespace StatsTrackerV2.PageModels
     {
         public ObservableCollection<TacticalPlayerMarker> TacticalPlayers { get; }
 
+        [ObservableProperty]
+        public partial string SelectedTool { get; set; } = "Select";
+
         public TacticBoardPageModel()
         {
             TacticalPlayers = new ObservableCollection<TacticalPlayerMarker>();

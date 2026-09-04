@@ -28,6 +28,19 @@ public partial class PlayerMarker : ContentView
         set => SetValue(MarkerColorProperty, value);
     }
 
+    public static readonly BindableProperty InputActiveProperty =
+        BindableProperty.Create(
+            nameof(InputActive),
+            typeof(bool),
+            typeof(PlayerMarker),
+            false);
+
+    public bool InputActive
+    {
+        get => (bool)GetValue(InputActiveProperty);
+        set => SetValue(InputActiveProperty, value);
+    }
+
     private double _startTranslationX;
     private double _startTranslationY;
 
@@ -38,6 +51,9 @@ public partial class PlayerMarker : ContentView
 
     private void PanGestureRecognizer_PanUpdated(object sender, PanUpdatedEventArgs e)
     {
+        if (!InputActive)
+            return;
+
         switch (e.StatusType)
         {
             case GestureStatus.Started:

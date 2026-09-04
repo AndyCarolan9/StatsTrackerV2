@@ -8,8 +8,7 @@
       BackgroundColor="Black">
 
         <Grid.GestureRecognizers>
-            <TapGestureRecognizer
-                Tapped="BoardGrid_Tapped" />
+            <TapGestureRecognizer Tapped="BoardGrid_Tapped"/>
         </Grid.GestureRecognizers>
 
         <Image
