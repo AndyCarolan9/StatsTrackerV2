@@ -8,7 +8,9 @@
       BackgroundColor="Black">
 
         <Grid.GestureRecognizers>
-            <TapGestureRecognizer Tapped="BoardGrid_Tapped"/>
+            <PointerGestureRecognizer PointerPressed="PointerGestureRecognizer_PointerPressed"
+                                      PointerMoved="PointerGestureRecognizer_PointerMoved"
+                                      PointerReleased="PointerGestureRecognizer_PointerReleased"/>
         </Grid.GestureRecognizers>
 
         <Image

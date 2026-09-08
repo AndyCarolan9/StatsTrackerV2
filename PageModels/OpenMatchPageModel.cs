@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using StatsTrackerV2.Models;
+using StatsTrackerV2.Data.Constants;
 using System.Collections.ObjectModel;
 
 namespace StatsTrackerV2.PageModels
@@ -24,7 +25,7 @@ namespace StatsTrackerV2.PageModels
         [RelayCommand]
         private async Task Appearing()
         {
-           string directory = Constants.MatchesFolderPath;
+           string directory = JSONConstants.MatchesFolderPath;
             try
             {
                 foreach (string file in Directory.EnumerateFiles(directory))

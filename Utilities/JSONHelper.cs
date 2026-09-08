@@ -1,4 +1,5 @@
 ﻿using StatsTrackerV2.Models;
+using StatsTrackerV2.Data.Constants;
 using System.Text.Json;
 
 namespace StatsTrackerV2.Utilities
@@ -108,10 +109,10 @@ namespace StatsTrackerV2.Utilities
             try
             {
                 // Ensure destination folder exists
-                Directory.CreateDirectory(Constants.MatchesFolderPath);
+                Directory.CreateDirectory(JSONConstants.MatchesFolderPath);
 
                 string fileName = result.FileName ?? $"match_{Guid.NewGuid()}.json";
-                string destinationPath = Path.Combine(Constants.MatchesFolderPath, fileName);
+                string destinationPath = Path.Combine(JSONConstants.MatchesFolderPath, fileName);
 
                 if (File.Exists(destinationPath))
                 {
@@ -177,7 +178,7 @@ namespace StatsTrackerV2.Utilities
                     }
                 }
 
-                SaveToJsonFile(Constants.TeamsJSONPath, ExistingTeams);
+                SaveToJsonFile(JSONConstants.TeamsJSONPath, ExistingTeams);
             }
             catch (Exception ex)
             {

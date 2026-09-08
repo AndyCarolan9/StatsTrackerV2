@@ -1,4 +1,6 @@
 using Microsoft.Maui.Layouts;
+using StatsTrackerV2.Data.Constants;
+using StatsTrackerV2.Data.DrawItems;
 using StatsTrackerV2.Models;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -51,7 +53,7 @@ public partial class TacticalBoard : ContentView
 
     private readonly TacticalDrawable _drawable = new TacticalDrawable();
 
-	private PointF? _startPoint = null;
+    private DrawItem? _drawItem = null;
 
 	public TacticalBoard()
 	{
@@ -63,35 +65,7 @@ public partial class TacticalBoard : ContentView
     private static void OnSelectedToolChanged(BindableObject bindable, object oldValue, object newValue)
     {
         var board = (TacticalBoard)bindable;
-        board.IsMoveActive = board.SelectedTool == "Move";
-    }
-
-    private void BoardGrid_Tapped(object sender, TappedEventArgs e)
-    {
-        if(SelectedTool != "Draw")
-        {
-            return;
-        }
-
-		Point? position = e.GetPosition(BoardGrid);
-		if(position == null)
-		{
-			return;
-		}
-
-		float x = (float)position.Value.X / (float)BoardGrid.Width;
-		float y = (float)position.Value.Y / (float)BoardGrid.Height;
-
-		if(_startPoint == null)
-		{
-			_startPoint = new PointF(x, y);
-			return;
-		}
-
-		DrawLine newLine = new DrawLine((PointF)_startPoint, new PointF(x, y));
-		_drawable.Lines.Add(newLine);
-		_startPoint = null;
-		DrawingView.Invalidate();
+        board.IsMoveActive = board.SelectedTool == TacticBoardConstants.MoveToolName;
     }
 
     private static void OnItemsChanged(BindableObject bindable, object oldValue, object newValue)
@@ -175,5 +149,52 @@ public partial class TacticalBoard : ContentView
         double y = (containerHeight - displayedHeight) / 2;
 
         return new Rect(x, y, displayedWidth, displayedHeight);
+    }
+
+    private void PointerGestureRecognizer_PointerPressed(object sender, PointerEventArgs e)
+    {
+        Point position = CalculateMousePositionAsPercent(e);
+
+        switch(SelectedTool)
+        {
+            case TacticBoardConstants.DrawLineToolName:
+                _drawItem = new DrawLine(Colors.AliceBlue, position, position);
+                break;
+            case TacticBoardConstants.DrawArrowToolName:
+                _drawItem = new DrawArrow(Colors.AliceBlue, position, position);
+                break;
+        }
+        
+        if(_drawItem != null)
+            _drawable.DrawItems.Add(_drawItem);
+    }
+
+    private void PointerGestureRecognizer_PointerMoved(object sender, PointerEventArgs e)
+    {
+        DrawLine? line = _drawItem as DrawLine;
+        if (line != null)
+        {
+            line.End = CalculateMousePositionAsPercent(e);
+            DrawingView.Invalidate();
+        }
+    }
+
+    private void PointerGestureRecognizer_PointerReleased(object sender, PointerEventArgs e)
+    {
+        _drawItem = null;
+    }
+
+    private PointF CalculateMousePositionAsPercent(PointerEventArgs e)
+    {
+        Point? position = e.GetPosition(BoardGrid);
+        if (position == null)
+        {
+            return new PointF();
+        }
+
+        float x = (float)position.Value.X / (float)BoardGrid.Width;
+        float y = (float)position.Value.Y / (float)BoardGrid.Height;
+
+        return new PointF(x, y);
     }
 }

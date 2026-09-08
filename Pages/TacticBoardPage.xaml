@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pageModels="clr-namespace:StatsTrackerV2.PageModels"
              xmlns:controls="clr-namespace:StatsTrackerV2.Pages.Controls"
+             xmlns:constants="clr-namespace:StatsTrackerV2.Data.Constants"
              x:DataType="pageModels:TacticBoardPageModel"
              x:Class="StatsTrackerV2.Pages.TacticBoardPage"
              Title="TacticBoardPage">
@@ -12,14 +13,13 @@
         <Border Grid.Column="1">
             <VerticalStackLayout Spacing="10">
                 <controls:ToolSelector SelectedTool="{Binding SelectedTool}">
-                    <controls:ToolOption Value="Select" Icon="{StaticResource IconCursor}"/>
-                    <controls:ToolOption Value="Move" Icon="{StaticResource IconMove}"/>
-                    <controls:ToolOption Value="Draw" Icon="{StaticResource IconDraw}"/>
-                    <controls:ToolOption Value="Arrow" Icon="{StaticResource IconArrow}"/>
+                    <controls:ToolOption Value="{x:Static constants:TacticBoardConstants.SelectToolName}" Icon="{StaticResource IconCursor}"/>
+                    <controls:ToolOption Value="{x:Static constants:TacticBoardConstants.MoveToolName}" Icon="{StaticResource IconMove}"/>
+                    <controls:ToolOption Value="{x:Static constants:TacticBoardConstants.DrawLineToolName}" Icon="{StaticResource IconDraw}"/>
+                    <controls:ToolOption Value="{x:Static constants:TacticBoardConstants.DrawArrowToolName}" Icon="{StaticResource IconArrow}"/>
                 </controls:ToolSelector>
                 <Button Text="Starting Layout" Command="{Binding PopulateStartingLayoutCommand}"/>
             </VerticalStackLayout>
-            
         </Border>
     </Grid>
     

@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using StatsTrackerV2.Models;
+using StatsTrackerV2.Data.Constants;
 using StatsTrackerV2.Models.MatchStatistics;
 using System.Collections.ObjectModel;
 
@@ -262,7 +263,7 @@ namespace StatsTrackerV2.PageModels
                 new ShareFileRequest
                 {
                     Title = "Share Match JSON",
-                    File = new ShareFile(Path.Combine(Constants.MatchesFolderPath, fileName))
+                    File = new ShareFile(Path.Combine(JSONConstants.MatchesFolderPath, fileName))
                 });
         }
 

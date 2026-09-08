@@ -1,6 +1,6 @@
-namespace StatsTrackerV2.Data
+namespace StatsTrackerV2.Data.Constants
 {
-    public static class Constants
+    public static class JSONConstants
     {
         public const string DatabaseFilename = "AppSQLite.db3";
 

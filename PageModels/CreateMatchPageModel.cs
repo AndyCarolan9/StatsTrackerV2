@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using StatsTrackerV2.Data.Arguments;
 using StatsTrackerV2.Models;
+using StatsTrackerV2.Data.Constants;
 using System.Collections.ObjectModel;
 
 namespace StatsTrackerV2.PageModels
@@ -233,12 +233,12 @@ namespace StatsTrackerV2.PageModels
         [RelayCommand]
         private async Task ExportTeamsJSON()
         {
-            if(File.Exists(Constants.TeamsJSONPath))
+            if(File.Exists(JSONConstants.TeamsJSONPath))
             {
                 await Share.RequestAsync(new ShareFileRequest
                 {
                     Title = "Share Teams JSON",
-                    File = new ShareFile(Constants.TeamsJSONPath)
+                    File = new ShareFile(JSONConstants.TeamsJSONPath)
                 });
             }
         }
@@ -260,7 +260,7 @@ namespace StatsTrackerV2.PageModels
             _teams.Clear();
             TeamNames.Clear();
 
-            Team[]? teams = JSONHelper.LoadFromJsonFile<Team[]>(Constants.TeamsJSONPath);
+            Team[]? teams = JSONHelper.LoadFromJsonFile<Team[]>(JSONConstants.TeamsJSONPath);
             if (teams == null)
             {
                 return;

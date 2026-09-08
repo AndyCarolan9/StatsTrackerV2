@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using StatsTrackerV2.Models;
+using StatsTrackerV2.Data.Constants;
 using System.Collections.ObjectModel;
 
 namespace StatsTrackerV2.PageModels
@@ -58,7 +59,7 @@ namespace StatsTrackerV2.PageModels
                 Colors.Brown,
             };
 
-            Team[]? teams = JSONHelper.LoadFromJsonFile<Team[]>(Constants.TeamsJSONPath);
+            Team[]? teams = JSONHelper.LoadFromJsonFile<Team[]>(JSONConstants.TeamsJSONPath);
             if (teams == null)
             {
                 _teams = new List<Team>();
@@ -131,7 +132,7 @@ namespace StatsTrackerV2.PageModels
                 _teams.Add(team);
             }
 
-            JSONHelper.SaveToJsonFile(Constants.TeamsJSONPath, _teams);
+            JSONHelper.SaveToJsonFile(JSONConstants.TeamsJSONPath, _teams);
             await Shell.Current.GoToAsync("..");
         }
 

@@ -1,6 +1,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using StatsTrackerV2.Data.Arguments;
 using System.Collections.ObjectModel;
+using StatsTrackerV2.Data.Constants;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 using System.Timers;
@@ -186,7 +187,7 @@ namespace StatsTrackerV2.Models
                 return;
             }
 
-            JSONHelper.SaveToJsonFile(Path.Combine(Constants.MatchesFolderPath, _fileName), this);
+            JSONHelper.SaveToJsonFile(Path.Combine(JSONConstants.MatchesFolderPath, _fileName), this);
         }
 
         public Dictionary<string, long> GetBlackCardedPlayers()
