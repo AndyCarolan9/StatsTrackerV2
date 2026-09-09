@@ -12,6 +12,9 @@ namespace StatsTrackerV2.PageModels
         [ObservableProperty]
         public partial string SelectedTool { get; set; } = "Select";
 
+        [ObservableProperty]
+        public partial Color SelectedDrawingColor { get; set; } = Colors.White;
+
         public TacticBoardPageModel()
         {
             TacticalPlayers = new ObservableCollection<TacticalPlayerMarker>();

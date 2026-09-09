@@ -117,12 +117,21 @@
 	  <Compile Update="Pages\OpenMatchPage.xaml.cs">
 	    <DependentUpon>OpenMatchPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Pages\Popups\ColorPickerPopup.xaml.cs">
+	    <DependentUpon>ColorPickerPopup.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Pages\TeamListPage.xaml.cs">
 	    <DependentUpon>TeamListPage.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Pages\Controls\ColorPicker.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Controls\ColorPickerButton.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\Controls\DataGrid.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -169,6 +178,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\OpenMatchPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Popups\ColorPickerPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\ShotStatsPage.xaml">

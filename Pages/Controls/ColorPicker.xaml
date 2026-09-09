@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<ContentView
+    x:Name="Root"
+    x:Class="StatsTrackerV2.Pages.Controls.ColorPicker"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <Border
+        Padding="12"
+        BackgroundColor="{AppThemeBinding Light='#F2F2F2', Dark='#292929'}"
+        StrokeThickness="1"
+        Stroke="{AppThemeBinding Light='#CCCCCC', Dark='#444444'}">
+
+        <Grid
+            RowDefinitions="*,Auto,Auto,Auto"
+            ColumnDefinitions="*,Auto"
+            RowSpacing="10"
+            ColumnSpacing="10">
+
+            <!-- Main saturation / brightness picker -->
+            <GraphicsView
+                x:Name="ColorField"
+                Grid.Row="0"
+                Grid.Column="0"
+                HeightRequest="75"
+                Drawable="{Binding ColorFieldDrawable, Source={x:Reference Root}}"
+                StartInteraction="ColorField_StartInteraction"
+                DragInteraction="ColorField_DragInteraction"
+                EndInteraction="ColorField_EndInteraction" />
+
+            <!-- Hue picker -->
+            <GraphicsView
+                x:Name="HueField"
+                Grid.Row="0"
+                Grid.Column="1"
+                WidthRequest="28"
+                HeightRequest="75"
+                Drawable="{Binding HueDrawable, Source={x:Reference Root}}"
+                StartInteraction="Hue_StartInteraction"
+                DragInteraction="Hue_DragInteraction"
+                EndInteraction="Hue_EndInteraction" />
+
+            <!-- Alpha picker -->
+            <GraphicsView
+                x:Name="AlphaField"
+                Grid.Row="1"
+                Grid.ColumnSpan="2"
+                HeightRequest="22"
+                Drawable="{Binding AlphaDrawable, Source={x:Reference Root}}"
+                StartInteraction="Alpha_StartInteraction"
+                DragInteraction="Alpha_DragInteraction"
+                EndInteraction="Alpha_EndInteraction" />
+
+            <!-- Colour previews -->
+            <Grid
+                Grid.Row="2"
+                Grid.ColumnSpan="2"
+                ColumnDefinitions="Auto,Auto,*,Auto"
+                ColumnSpacing="8">
+
+                <Label
+                    Grid.Column="0"
+                    Text="Previous"
+                    VerticalOptions="Center"
+                    FontSize="12" />
+
+                <Border
+                    Grid.Column="1"
+                    WidthRequest="100"
+                    HeightRequest="100"
+                    StrokeThickness="1"
+                    Stroke="{AppThemeBinding Light='#AAAAAA', Dark='#555555'}">
+
+                    <BoxView
+                        x:Name="PreviousColorBox"
+                        Color="{Binding PreviousColor, Source={x:Reference Root}}" />
+                </Border>
+
+                <Label
+                    Grid.Column="2"
+                    Text="Current"
+                    VerticalOptions="Center"
+                    HorizontalOptions="End"
+                    FontSize="12" />
+
+                <Border
+                    Grid.Column="3"
+                    WidthRequest="100"
+                    HeightRequest="100"
+                    StrokeThickness="1"
+                    Stroke="{AppThemeBinding Light='#AAAAAA', Dark='#555555'}">
+
+                    <BoxView
+                        x:Name="CurrentColorBox"
+                        Color="{Binding Color, Source={x:Reference Root}}" />
+                </Border>
+
+            </Grid>
+
+            <!-- Hex input -->
+            <Grid
+                Grid.Row="3"
+                Grid.ColumnSpan="2"
+                ColumnDefinitions="Auto,*,Auto"
+                ColumnSpacing="8">
+
+                <Label
+                    Text="#"
+                    FontSize="16"
+                    VerticalOptions="Center" />
+
+                <Entry
+                    x:Name="HexEntry"
+                    Grid.Column="1"
+                    Text="{Binding HexValue, Source={x:Reference Root}}"
+                    MaxLength="8"
+                    FontSize="14"
+                    HorizontalOptions="Fill"
+                    VerticalOptions="Center"
+                    ReturnType="Done"
+                    Completed="HexEntry_Completed" />
+
+                <Button
+                    Grid.Column="2"
+                    Text="Reset"
+                    Padding="12,4"
+                    Clicked="Reset_Clicked" />
+
+            </Grid>
+
+        </Grid>
+    </Border>
+
+    <!-- Give the control a name so bindings can reference it -->
+    <ContentView.Resources>
+    </ContentView.Resources>
+
+</ContentView>

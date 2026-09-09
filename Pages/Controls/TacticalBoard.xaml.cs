@@ -51,6 +51,18 @@ public partial class TacticalBoard : ContentView
         set => SetValue(SelectedToolProperty, value);
     }
 
+    public static readonly BindableProperty SelectedDrawColorProperty =
+        BindableProperty.Create(
+            nameof(SelectedDrawColor),
+            typeof(Color),
+            typeof(TacticalBoard));
+
+    public Color SelectedDrawColor
+    {
+        get => (Color)GetValue(SelectedDrawColorProperty);
+        set => SetValue(SelectedDrawColorProperty, value);
+    }
+
     private readonly TacticalDrawable _drawable = new TacticalDrawable();
 
     private DrawItem? _drawItem = null;
@@ -158,10 +170,10 @@ public partial class TacticalBoard : ContentView
         switch(SelectedTool)
         {
             case TacticBoardConstants.DrawLineToolName:
-                _drawItem = new DrawLine(Colors.AliceBlue, position, position);
+                _drawItem = new DrawLine(SelectedDrawColor, position, position);
                 break;
             case TacticBoardConstants.DrawArrowToolName:
-                _drawItem = new DrawArrow(Colors.AliceBlue, position, position);
+                _drawItem = new DrawArrow(SelectedDrawColor, position, position);
                 break;
         }
         

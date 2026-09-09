@@ -9,7 +9,10 @@
              Title="TacticBoardPage">
 
     <Grid ColumnDefinitions="*, Auto">
-        <controls:TacticalBoard Grid.Column="0" TacticalPlayers="{Binding TacticalPlayers}" SelectedTool="{Binding SelectedTool}"/>
+        <controls:TacticalBoard Grid.Column="0" 
+                                TacticalPlayers="{Binding TacticalPlayers}" 
+                                SelectedTool="{Binding SelectedTool}"
+                                SelectedDrawColor="{Binding SelectedDrawingColor}"/>
         <Border Grid.Column="1">
             <VerticalStackLayout Spacing="10">
                 <controls:ToolSelector SelectedTool="{Binding SelectedTool}">
@@ -18,6 +21,8 @@
                     <controls:ToolOption Value="{x:Static constants:TacticBoardConstants.DrawLineToolName}" Icon="{StaticResource IconDraw}"/>
                     <controls:ToolOption Value="{x:Static constants:TacticBoardConstants.DrawArrowToolName}" Icon="{StaticResource IconArrow}"/>
                 </controls:ToolSelector>
+                <Label Text="Draw Color"/>
+                <controls:ColorPickerButton SelectedColor="{Binding SelectedDrawingColor}"/>
                 <Button Text="Starting Layout" Command="{Binding PopulateStartingLayoutCommand}"/>
             </VerticalStackLayout>
         </Border>
