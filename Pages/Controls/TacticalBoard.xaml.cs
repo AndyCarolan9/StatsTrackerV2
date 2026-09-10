@@ -67,7 +67,10 @@ public partial class TacticalBoard : ContentView
         BindableProperty.Create(
             nameof(HomeColor),
             typeof(Color),
-            typeof(TacticalBoard));
+            typeof(TacticalBoard),
+            Colors.White,
+            BindingMode.OneWay,
+            propertyChanged: OnHomeColorChanged);
 
     public Color HomeColor
     {
@@ -79,7 +82,10 @@ public partial class TacticalBoard : ContentView
         BindableProperty.Create(
             nameof(AwayColor),
             typeof(Color),
-            typeof(TacticalBoard));
+            typeof(TacticalBoard),
+            Colors.Black,
+            BindingMode.OneWay,
+            propertyChanged: OnAwayColorChanged);
 
     public Color AwayColor
     {
@@ -100,8 +106,75 @@ public partial class TacticalBoard : ContentView
 
     private static void OnSelectedToolChanged(BindableObject bindable, object oldValue, object newValue)
     {
-        var board = (TacticalBoard)bindable;
+        TacticalBoard? board = (TacticalBoard)bindable;
+        if(board is null)
+        {
+            return;
+        }
+
         board.IsMoveActive = board.SelectedTool == TacticBoardConstants.MoveToolName;
+    }
+
+    private static void OnHomeColorChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        TacticalBoard? board = (TacticalBoard)bindable;
+        if(board is null)
+        {
+            return;
+        }
+
+        Color? newColor = newValue as Color;
+        if(newColor is null)
+        {
+            return;
+        }
+
+        IList<IView> playerMarkers = board.PlayerLayer.Children;
+
+        foreach (IView playerMarker in playerMarkers)
+        {
+            PlayerMarker? marker = playerMarker as PlayerMarker;
+            if(marker is null)
+            {
+                continue;
+            }
+
+            if(marker.IsHomeMarker)
+            {
+                marker.MarkerColor = newColor;
+            }
+        }
+    }
+
+    private static void OnAwayColorChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        TacticalBoard? board = (TacticalBoard)bindable;
+        if (board is null)
+        {
+            return;
+        }
+
+        Color? newColor = newValue as Color;
+        if (newColor is null)
+        {
+            return;
+        }
+
+        IList<IView> playerMarkers = board.PlayerLayer.Children;
+
+        foreach (IView playerMarker in playerMarkers)
+        {
+            PlayerMarker? marker = playerMarker as PlayerMarker;
+            if (marker is null)
+            {
+                continue;
+            }
+
+            if (!marker.IsHomeMarker)
+            {
+                marker.MarkerColor = newColor;
+            }
+        }
     }
 
     private static void OnItemsChanged(BindableObject bindable, object oldValue, object newValue)
@@ -134,7 +207,8 @@ public partial class TacticalBoard : ContentView
             var marker = new PlayerMarker
             {
                 PlayerNumber = player.Number.ToString(),
-                MarkerColor = player.IsHomeMarker ? HomeColor : AwayColor
+                MarkerColor = player.IsHomeMarker ? HomeColor : AwayColor,
+                IsHomeMarker = player.IsHomeMarker,
             };
 
             marker.SetBinding(PlayerMarker.InputActiveProperty, new Binding(nameof(IsMoveActive), source: this));

@@ -20,7 +20,9 @@ public partial class PlayerMarker : ContentView
             nameof(MarkerColor),
             typeof(Color),
             typeof(PlayerMarker),
-            Colors.Red);
+            Colors.Red,
+            BindingMode.OneWay,
+            propertyChanged: OnColorChanged);
 
     public Color MarkerColor
     {
@@ -41,6 +43,10 @@ public partial class PlayerMarker : ContentView
         set => SetValue(InputActiveProperty, value);
     }
 
+    public Color LabelColor { get; set; } = Colors.White;
+
+    public bool IsHomeMarker { get; set; } = true;
+
     private double _startTranslationX;
     private double _startTranslationY;
 
@@ -48,6 +54,17 @@ public partial class PlayerMarker : ContentView
 	{
 		InitializeComponent();
 	}
+
+    private static void OnColorChanged(BindableObject bindable, object oldValue, object newValue)
+    {
+        PlayerMarker? playerMarker = bindable as PlayerMarker;
+        if (playerMarker == null)
+        {
+            return;
+        }
+
+        playerMarker.Label.TextColor = ColorsHelper.IsColorDark(playerMarker.MarkerColor) ? Colors.White : Colors.Black;
+    }
 
     private void PanGestureRecognizer_PanUpdated(object sender, PanUpdatedEventArgs e)
     {

@@ -18,8 +18,8 @@
             StrokeThickness="2" />
 
         <Label
+            x:Name="Label"
             Text="{Binding PlayerNumber, Source={x:Reference Root}}"
-            TextColor="White"
             FontSize="14"
             FontAttributes="Bold"
             HorizontalOptions="Center"
