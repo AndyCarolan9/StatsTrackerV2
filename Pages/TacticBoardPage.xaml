@@ -12,7 +12,9 @@
         <controls:TacticalBoard Grid.Column="0" 
                                 TacticalPlayers="{Binding TacticalPlayers}" 
                                 SelectedTool="{Binding SelectedTool}"
-                                SelectedDrawColor="{Binding SelectedDrawingColor}"/>
+                                SelectedDrawColor="{Binding SelectedDrawingColor}"
+                                HomeColor="{Binding SelectedHomeColor}"
+                                AwayColor="{Binding SelectedAwayColor}"/>
         <Border Grid.Column="1">
             <VerticalStackLayout Spacing="10">
                 <controls:ToolSelector SelectedTool="{Binding SelectedTool}">
@@ -23,6 +25,10 @@
                 </controls:ToolSelector>
                 <Label Text="Draw Color"/>
                 <controls:ColorPickerButton SelectedColor="{Binding SelectedDrawingColor}"/>
+                <Label Text="Home Team Color"/>
+                <controls:ColorPickerButton SelectedColor="{Binding SelectedHomeColor}"/>
+                <Label Text="Away Team Color"/>
+                <controls:ColorPickerButton SelectedColor="{Binding SelectedAwayColor}"/>
                 <Button Text="Starting Layout" Command="{Binding PopulateStartingLayoutCommand}"/>
             </VerticalStackLayout>
         </Border>

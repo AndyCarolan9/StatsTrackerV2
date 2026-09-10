@@ -15,6 +15,12 @@ namespace StatsTrackerV2.PageModels
         [ObservableProperty]
         public partial Color SelectedDrawingColor { get; set; } = Colors.White;
 
+        [ObservableProperty]
+        public partial Color SelectedHomeColor { get; set; } = Colors.DarkGreen;
+
+        [ObservableProperty]
+        public partial Color SelectedAwayColor { get; set; } = Colors.Blue;
+
         public TacticBoardPageModel()
         {
             TacticalPlayers = new ObservableCollection<TacticalPlayerMarker>();

@@ -63,6 +63,30 @@ public partial class TacticalBoard : ContentView
         set => SetValue(SelectedDrawColorProperty, value);
     }
 
+    public static readonly BindableProperty HomeColorProperty =
+        BindableProperty.Create(
+            nameof(HomeColor),
+            typeof(Color),
+            typeof(TacticalBoard));
+
+    public Color HomeColor
+    {
+        get => (Color)GetValue(HomeColorProperty);
+        set => SetValue(HomeColorProperty, value);
+    }
+
+    public static readonly BindableProperty AwayColorProperty =
+        BindableProperty.Create(
+            nameof(AwayColor),
+            typeof(Color),
+            typeof(TacticalBoard));
+
+    public Color AwayColor
+    {
+        get => (Color)GetValue(AwayColorProperty);
+        set => SetValue(AwayColorProperty, value);
+    }
+
     private readonly TacticalDrawable _drawable = new TacticalDrawable();
 
     private DrawItem? _drawItem = null;
@@ -110,7 +134,7 @@ public partial class TacticalBoard : ContentView
             var marker = new PlayerMarker
             {
                 PlayerNumber = player.Number.ToString(),
-                MarkerColor = player.IsHomeMarker ? Colors.Green : Colors.Red
+                MarkerColor = player.IsHomeMarker ? HomeColor : AwayColor
             };
 
             marker.SetBinding(PlayerMarker.InputActiveProperty, new Binding(nameof(IsMoveActive), source: this));
