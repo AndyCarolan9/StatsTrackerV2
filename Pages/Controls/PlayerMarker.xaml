@@ -2,10 +2,15 @@
 <ContentView
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Class="StatsTrackerV2.Pages.Controls.PlayerMarker"
     x:Name="Root"
     WidthRequest="40"
     HeightRequest="40">
+
+    <ContentView.Resources>
+        <toolkit:InvertedBoolConverter x:Key="InvertBoolConverter"/>
+    </ContentView.Resources>
 
     <ContentView.GestureRecognizers>
         <PanGestureRecognizer PanUpdated="PanGestureRecognizer_PanUpdated"/>
@@ -13,8 +18,8 @@
 
     <Grid>
         <Ellipse
+            x:Name="BorderStroke"
             Fill="{Binding MarkerColor, Source={x:Reference Root}}"
-            Stroke="White"
             StrokeThickness="2" />
 
         <Label
@@ -23,7 +28,8 @@
             FontSize="14"
             FontAttributes="Bold"
             HorizontalOptions="Center"
-            VerticalOptions="Center" />
+            VerticalOptions="Center"
+            IsVisible="{Binding IsBall, Source={x:Reference Root}, Converter={StaticResource InvertBoolConverter}}"/>
     </Grid>
 
 </ContentView>

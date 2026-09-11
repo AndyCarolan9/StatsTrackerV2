@@ -30,6 +30,19 @@ public partial class PlayerMarker : ContentView
         set => SetValue(MarkerColorProperty, value);
     }
 
+    public static readonly BindableProperty IsBallProperty =
+        BindableProperty.Create(
+            nameof(IsBall),
+            typeof(bool),
+            typeof(PlayerMarker),
+            false);
+
+    public bool IsBall
+    {
+        get => (bool)GetValue(IsBallProperty);
+        set => SetValue(IsBallProperty, value);
+    }
+
     public static readonly BindableProperty InputActiveProperty =
         BindableProperty.Create(
             nameof(InputActive),
@@ -63,7 +76,9 @@ public partial class PlayerMarker : ContentView
             return;
         }
 
-        playerMarker.Label.TextColor = ColorsHelper.IsColorDark(playerMarker.MarkerColor) ? Colors.White : Colors.Black;
+        Color detailColor = ColorsHelper.IsColorDark(playerMarker.MarkerColor) ? Colors.White : Colors.Black;
+        playerMarker.Label.TextColor = detailColor;
+        playerMarker.BorderStroke.Stroke = detailColor;
     }
 
     private void PanGestureRecognizer_PanUpdated(object sender, PanUpdatedEventArgs e)
