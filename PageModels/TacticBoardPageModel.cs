@@ -63,6 +63,8 @@ namespace StatsTrackerV2.PageModels
             TacticalPlayers.Add(new TacticalPlayerMarker(13, 0.15f, 0.13f, false));
             TacticalPlayers.Add(new TacticalPlayerMarker(14, 0.15f, 0.52f, false));
             TacticalPlayers.Add(new TacticalPlayerMarker(15, 0.15f, 0.87f, false));
+
+            TacticalPlayers.Add(new TacticalPlayerMarker(0, 0.5f, 0.5f, true, true));
         }
     }
 }

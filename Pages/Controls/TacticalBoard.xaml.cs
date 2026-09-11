@@ -204,11 +204,18 @@ public partial class TacticalBoard : ContentView
 
 		foreach(var player in TacticalPlayers)
 		{
+            Color markerColor = Colors.White;
+            if(!player.IsBallMarker)
+            {
+                markerColor = player.IsHomeMarker ? HomeColor : AwayColor;
+            }
+
             var marker = new PlayerMarker
             {
                 PlayerNumber = player.Number.ToString(),
-                MarkerColor = player.IsHomeMarker ? HomeColor : AwayColor,
+                MarkerColor = markerColor,
                 IsHomeMarker = player.IsHomeMarker,
+                IsBall = player.IsBallMarker
             };
 
             marker.SetBinding(PlayerMarker.InputActiveProperty, new Binding(nameof(IsMoveActive), source: this));
@@ -222,25 +229,6 @@ public partial class TacticalBoard : ContentView
 
             AbsoluteLayout.SetLayoutFlags(marker, AbsoluteLayoutFlags.None);
         }
-
-        var ballMarker = new PlayerMarker
-        {
-            PlayerNumber = "0",
-            MarkerColor = Colors.White,
-            IsHomeMarker = false,
-            IsBall = true
-        };
-
-        ballMarker.SetBinding(PlayerMarker.InputActiveProperty, new Binding(nameof(IsMoveActive), source: this));
-
-        PlayerLayer.Children.Add(ballMarker);
-
-        double ballX = (0.5f * imageRect.Width) + imageRect.Left;
-        double ballY = (0.5f * imageRect.Height) + imageRect.Top;
-
-        AbsoluteLayout.SetLayoutBounds(ballMarker, new Rect(ballX - 20, ballY - 20, 40, 40));
-
-        AbsoluteLayout.SetLayoutFlags(ballMarker, AbsoluteLayoutFlags.None);
     }
 
     private Rect GetDisplayedImageRect()

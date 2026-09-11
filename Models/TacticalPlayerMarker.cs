@@ -10,14 +10,17 @@
 
         public bool IsHomeMarker { get; set; }
 
+        public bool IsBallMarker { get; set; }
+
         public TacticalPlayerMarker() { }
 
-        public TacticalPlayerMarker(int number, float x, float y, bool isHomeMarker = true)
+        public TacticalPlayerMarker(int number, float x, float y, bool isHomeMarker = true, bool isBallMarker = false)
         {
             Number = number;
             X = x;
             Y = y;
             IsHomeMarker = isHomeMarker;
+            IsBallMarker = isBallMarker;
         }
     }
 }
