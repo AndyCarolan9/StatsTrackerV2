@@ -4,6 +4,7 @@
              xmlns:pageModels="clr-namespace:StatsTrackerV2.PageModels"
              xmlns:controls="clr-namespace:StatsTrackerV2.Pages.Controls"
              xmlns:constants="clr-namespace:StatsTrackerV2.Data.Constants"
+             xmlns:models="clr-namespace:StatsTrackerV2.Models.TacticalLayouts"
              x:DataType="pageModels:TacticBoardPageModel"
              x:Class="StatsTrackerV2.Pages.TacticBoardPage"
              Title="TacticBoardPage">
@@ -30,6 +31,12 @@
                 <Label Text="Away Team Color"/>
                 <controls:ColorPickerButton SelectedColor="{Binding SelectedAwayColor}"/>
                 <Button Text="Starting Layout" Command="{Binding PopulateStartingLayoutCommand}"/>
+                <Picker Title="Select a layout to load" 
+                        ItemsSource="{Binding TacticalLayouts}" 
+                        ItemDisplayBinding="{Binding Name, x:DataType=models:TacticalLayout}"
+                        SelectedItem="{Binding SelectedLayout}"/>
+                <Button Text="Load Layout" Command="{Binding ApplyLayoutCommand}"/>
+                <Button Text="Save Layout" Command="{Binding SaveLayoutCommand}"/>
             </VerticalStackLayout>
         </Border>
     </Grid>

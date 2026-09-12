@@ -10,6 +10,8 @@ namespace StatsTrackerV2.Data.Constants
 
         public const string MatchesFolder = "Matches";
 
+        public const string TacticalLayoutsFilename = "TacticalLayouts.json";
+
         public static string DatabasePath =>
             $"Data Source={Path.Combine(FileSystem.AppDataDirectory, DatabaseFilename)}";
 
@@ -18,5 +20,8 @@ namespace StatsTrackerV2.Data.Constants
 
         public static string MatchesFolderPath =>
             $"{Path.Combine(FileSystem.AppDataDirectory, MatchesFolder)}";
+
+        public static string TacticalLayoutsJSONPath =>
+            $"{Path.Combine(FileSystem.AppDataDirectory, TacticalLayoutsFilename)}";
     }
 }

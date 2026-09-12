@@ -15,6 +15,7 @@ public partial class TacticalBoard : ContentView
 			typeof(ObservableCollection<TacticalPlayerMarker>),
 			typeof(TacticalBoard),
 			default(ObservableCollection<TacticalPlayerMarker>),
+            BindingMode.TwoWay,
 			propertyChanged: OnItemsChanged);
 
 	public ObservableCollection<TacticalPlayerMarker> TacticalPlayers
@@ -219,6 +220,7 @@ public partial class TacticalBoard : ContentView
             };
 
             marker.SetBinding(PlayerMarker.InputActiveProperty, new Binding(nameof(IsMoveActive), source: this));
+            marker.OnMarkerMoved += OnMarkerMoved;
 
             PlayerLayer.Children.Add(marker);
 
@@ -313,5 +315,49 @@ public partial class TacticalBoard : ContentView
         float y = (float)position.Value.Y / (float)BoardGrid.Height;
 
         return new PointF(x, y);
+    }
+
+    private void OnMarkerMoved(object? sender, EventArgs e)
+    {
+        PlayerMarker? marker = sender as PlayerMarker;
+        if(marker == null)
+        {
+            return;
+        }
+
+        int playerNumber = int.Parse(marker.PlayerNumber);
+
+        TacticalPlayerMarker? foundPlayer = TacticalPlayers.FirstOrDefault(player =>
+        {
+            if(player.IsBallMarker && marker.IsBall)
+            {
+                // is ball, return true
+                return true;
+            }
+
+            if (player.Number == playerNumber && player.IsHomeMarker == marker.IsHomeMarker)
+            {
+                return true;
+            }
+
+            return false;
+        });
+
+        if (foundPlayer == null)
+        {
+            return;
+        }
+
+        Rect bounds = AbsoluteLayout.GetLayoutBounds(marker);
+        float xPosition = (float)(bounds.X + marker.TranslationX);
+        float yPosition = (float)(bounds.Y + marker.TranslationY);
+
+        Rect pitchRect = GetDisplayedImageRect();
+
+        float xPercent = (float)(xPosition - 20) / (float)pitchRect.Width;
+        float yPercent = (float)(yPosition - 20) / (float)pitchRect.Height;
+
+        foundPlayer.X = xPercent;
+        foundPlayer.Y = yPercent;
     }
 }

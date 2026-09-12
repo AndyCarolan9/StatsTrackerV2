@@ -63,6 +63,8 @@ public partial class PlayerMarker : ContentView
     private double _startTranslationX;
     private double _startTranslationY;
 
+    public event EventHandler? OnMarkerMoved;
+
     public PlayerMarker()
 	{
 		InitializeComponent();
@@ -99,7 +101,7 @@ public partial class PlayerMarker : ContentView
                 break;
 
             case GestureStatus.Completed:
-                // Add event call here for when player locations will be stored in float values
+                OnMarkerMoved?.Invoke(this, new EventArgs());
                 break;
         }
     }

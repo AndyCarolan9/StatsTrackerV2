@@ -1,13 +1,16 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Core.Extensions;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using StatsTrackerV2.Data.Constants;
 using StatsTrackerV2.Models;
+using StatsTrackerV2.Models.TacticalLayouts;
 using System.Collections.ObjectModel;
 
 namespace StatsTrackerV2.PageModels
 {
     public partial class TacticBoardPageModel : ObservableObject
     {
-        public ObservableCollection<TacticalPlayerMarker> TacticalPlayers { get; }
+        public ObservableCollection<TacticalPlayerMarker> TacticalPlayers { get; set; }
 
         [ObservableProperty]
         public partial string SelectedTool { get; set; } = "Select";
@@ -21,9 +24,17 @@ namespace StatsTrackerV2.PageModels
         [ObservableProperty]
         public partial Color SelectedAwayColor { get; set; } = Colors.Blue;
 
+        [ObservableProperty]
+        public partial List<TacticalLayout> TacticalLayouts { get; set; }
+
+        [ObservableProperty]
+        public partial TacticalLayout? SelectedLayout { get; set; }
+
         public TacticBoardPageModel()
         {
+            TacticalLayouts = [];
             TacticalPlayers = new ObservableCollection<TacticalPlayerMarker>();
+            LoadLayouts();
         }
 
         [RelayCommand]
@@ -65,6 +76,51 @@ namespace StatsTrackerV2.PageModels
             TacticalPlayers.Add(new TacticalPlayerMarker(15, 0.15f, 0.87f, false));
 
             TacticalPlayers.Add(new TacticalPlayerMarker(0, 0.5f, 0.5f, true, true));
+        }
+
+        [RelayCommand]
+        private async Task SaveLayout()
+        {
+            string layoutName = await Shell.Current.DisplayPromptAsync("Save Layout", "Enter the name of the layout");
+            if (string.IsNullOrEmpty(layoutName))
+            {
+                return;
+            }
+
+            if (TacticalLayouts.Find(tacLayout => tacLayout.Name == layoutName) != null)
+            {
+                // Exists already
+                await AppShell.DisplayToastAsync("Cannot save layout as layout already exists");
+                return;
+            }
+
+            TacticalLayouts.Add(new TacticalLayout(layoutName, TacticalPlayers.ToArray()));
+            JSONHelper.SaveToJsonFile(JSONConstants.TacticalLayoutsJSONPath, TacticalLayouts);
+        }
+
+        [RelayCommand]
+        private async Task ApplyLayout()
+        {
+            if (SelectedLayout is null)
+                return;
+
+            TacticalPlayers.Clear();
+            foreach(var marker in SelectedLayout.TacticalMarkers)
+            {
+                TacticalPlayers.Add(marker);
+            }
+        }
+
+        private void LoadLayouts()
+        {
+            List<TacticalLayout>? layouts = JSONHelper.LoadFromJsonFile<List<TacticalLayout>>(JSONConstants.TacticalLayoutsJSONPath);
+            if(layouts == null)
+            {
+                TacticalLayouts = [];
+                return;
+            }
+
+            TacticalLayouts = layouts;
         }
     }
 }
